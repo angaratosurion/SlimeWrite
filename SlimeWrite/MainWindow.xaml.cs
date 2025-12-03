@@ -95,10 +95,7 @@ namespace SlimeWrite
                 "body {\r\n    color:black; }  </style>" +
                 " <body>" +
                 _renderer.Render(md) + "</body>\r\n</html>";
-            //this.Browser.;
-
-            string url = "data:text/html;base64," + Convert.ToBase64String(Encoding.UTF8.GetBytes(html));
-            //  Preview.Source = new Uri(url);
+          
              
 
             
@@ -146,7 +143,10 @@ namespace SlimeWrite
             System.Windows.Forms.SaveFileDialog saveFileDialog =
                 new System.Windows.Forms.SaveFileDialog();
             DialogResult res = saveFileDialog.ShowDialog();
-
+            saveFileDialog.Filter =
+                      "All Files (*.*)|*.*|" +
+                          "Markdown (*.md)|*.md|" +
+                          "SlimeMarkup (*.smd)|*.smd";
             if (res == System.Windows.Forms.DialogResult.OK)
             {
                    File.WriteAllText (saveFileDialog.FileName, Editor.Text);
