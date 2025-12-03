@@ -1,0 +1,48 @@
+﻿<Window x:Class="SlimeWrite.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:wf="clr-namespace:System.Windows.Forms;assembly=System.Windows.Forms"
+        xmlns:wfh="clr-namespace:System.Windows.Forms.Integration;assembly=WindowsFormsIntegration" 
+ 
+        Title="SlimeWrite" Height="600" Width="900" Icon="/Assets/Images/logo.png">
+    <DockPanel>
+
+        <!-- Toolbar -->
+        <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="4">
+            <Button Content="Open Markdown" Click="Open_Clicked" Margin="2"/>
+            <Button Content="Save Markdown" Click="Save_Clicked" Margin="2"/>
+            <Button Content="Close File" Click="Close_Clicked" Margin="2"/>
+            <Button Content="H1" Click="H1_Clicked" Margin="2"/>
+            <Button Content="H2" Click="H2_Clicked" Margin="2"/>
+            <Button Content="Bold" Click="Bold_Clicked" Margin="2"/>
+            <Button Content="Italic" Click="Italic_Clicked" Margin="2"/>
+            <Button Content="Link" Click="Link_Clicked" Margin="2"/>
+            <Button Content="Image" Click="Image_Clicked" Margin="2"/>
+            <Button Content="List" Click="List_Clicked" Margin="2"/>
+            <Button Content="Table" Click="Table_Clicked" Margin="2"/>
+            <Button Content="Blockquote" Click="Quote_Clicked" Margin="2"/>
+        </StackPanel>
+        <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+                <ColumnDefinition Width="5"/>
+                <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+
+        <!-- 🟦 Editor (ScintillaNET host) -->
+        <wfh:WindowsFormsHost x:Name="formsHost" Grid.Column="0"/>
+
+        <!-- 🟩 Preview -->
+        <GridSplitter Grid.Column="1"
+                      Width="5"
+                      HorizontalAlignment="Stretch" />
+
+        <!-- RIGHT: CefSharp HTML preview -->
+
+            <!--<wv2:WebView2 x:Name="Preview" Grid.Column="2" 
+                          CoreWebView2InitializationCompleted="PreviewWebView_Init"  />-->
+            <WebBrowser x:Name="Preview" Grid.Column="2" 
+                 />
+    </Grid>
+    </DockPanel>
+</Window>

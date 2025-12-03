@@ -1,0 +1,45 @@
+﻿<Project Sdk="Microsoft.NET.Sdk">
+
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net9.0-windows</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <UseWPF>true</UseWPF>
+    <Platforms>AnyCPU;x64;x86</Platforms>
+    <Title>Slime Write</Title>
+    <Authors>Angarato Surion</Authors>
+    <Version>0.0.1.0</Version>
+    <ApplicationIcon>Assets\Images\slimewrite_logo.ico</ApplicationIcon>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <None Remove="Assets\logo.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Assets\Images\slimewrite_logo.ico" />
+  </ItemGroup>
+
+  <ItemGroup>
+    
+    <!--<PackageReference Include="Microsoft.Web.WebView2" Version="1.0.3595.46" />-->
+    
+    <PackageReference Include="Scintilla5.NET" Version="6.1.0" />
+    <PackageReference Include="SlimeMarkUp.Core" Version="0.0.9.5" />
+    <PackageReference Include="SlimeMarkUp.Core.Tools" Version="0.0.6" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Reference Include="WindowsFormsIntegration">
+      <HintPath>C:\Program Files\Reference Assemblies\Microsoft\Framework\v3.0\WindowsFormsIntegration.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <Resource Include="Assets\Images\logo.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+  </ItemGroup>
+
+</Project>
