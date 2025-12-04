@@ -6,6 +6,7 @@ using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Forms;
+using System.Windows.Media.Media3D;
 
 namespace SlimeWrite
 {
@@ -180,32 +181,82 @@ namespace SlimeWrite
 
         private void H1_Clicked(object sender, EventArgs e)
         {
-            Editor.Text += "#Heading 1\n";
+            if (Editor.SelectedText != null)
+            {
+                string selectedtext= Editor.SelectedText;
+                Editor.SelectedText.Replace(selectedtext, "#" + selectedtext + "\n");
+            }
+            else
+            {
+                Editor.Text += "#Heading 1\n";
+            }
         }
 
         private void H2_Clicked(object sender, EventArgs e)
         {
-            Editor.Text += "\n## Heading 2\n";
+            if (Editor.SelectedText != null)
+            {
+                string selectedtext = Editor.SelectedText;
+                Editor.SelectedText.Replace(selectedtext, "\n## " + selectedtext + "\n");
+            }
+            else
+            {
+                Editor.Text += "\n## Heading 2\n";
+            }
         }
 
         private void Bold_Clicked(object sender, EventArgs e)
         {
-            Editor.Text += "**bold**";
+            if (Editor.SelectedText != null)
+            {
+                string selectedtext = Editor.SelectedText;
+                Editor.SelectedText.Replace(selectedtext, "**" + selectedtext + "**");
+            }
+            else
+            {
+                Editor.Text += "**bold**";
+            }
         }
 
         private void Italic_Clicked(object sender, EventArgs e)
         {
-            Editor.Text += "*italic*";
+            if (Editor.SelectedText != null)
+            {
+                string selectedtext = Editor.SelectedText;
+                Editor.SelectedText.Replace(selectedtext, "*" + selectedtext + "*");
+            }
+            else
+            {
+                Editor.Text += "*italic*";
+            }
         }
 
         private void Link_Clicked(object sender, EventArgs e)
         {
-            Editor.Text += "[text](url){target=_blank rel=nofollow}";
+            if (Editor.SelectedText != null)
+            {
+                string selectedtext = Editor.SelectedText;
+                Editor.SelectedText.Replace(selectedtext,
+                    "["+selectedtext+"](url){target=_blank rel=nofollow}");
+            }
+            else
+            {
+                Editor.Text += "[text](url){target=_blank rel=nofollow}";
+            }
         }
 
         private void Image_Clicked(object sender, EventArgs e)
         {
-            Editor.Text += "![alt](image.png){width=100 height=200}";
+            if (Editor.SelectedText != null)
+            {
+                string selectedtext = Editor.SelectedText;
+                Editor.SelectedText.Replace(selectedtext, "![" + selectedtext +
+                    "](image.png){ width = 100 height = 200}");
+            }
+            else
+            {
+                Editor.Text += "![alt](image.png){width=100 height=200}";
+            }
         }
 
         private void List_Clicked(object sender, EventArgs e)
@@ -225,12 +276,17 @@ namespace SlimeWrite
 
         private void Quote_Clicked(object sender, EventArgs e)
         {
-            Editor.Text += "\n> quote\n";
+            if (Editor.SelectedText != null)
+            {
+                string selectedtext = Editor.SelectedText;
+                Editor.SelectedText.Replace(selectedtext, "\n>" + selectedtext + "\n");
+            }
+            else
+            {
+                Editor.Text += "\n> quote\n";
+            }
         }
 
-        private void Button_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
+         
     }
 }
