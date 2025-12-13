@@ -9,8 +9,12 @@
     <Platforms>AnyCPU;x64;x86</Platforms>
     <Title>Slime Write</Title>
     <Authors>Angarato Surion</Authors>
-    <Version>0.0.5.0</Version>
+    <Version>0.0.6.0</Version>
     <ApplicationIcon>Assets\Images\slimewrite_logo.ico</ApplicationIcon>
+    <Copyright>Angarato Surion</Copyright>
+    <Description>An Open Source MarkDown Editor</Description>
+    <PackageProjectUrl>https://github.com/angaratosurion/SlimeWrite</PackageProjectUrl>
+    <RepositoryUrl>https://github.com/angaratosurion/SlimeWrite</RepositoryUrl>
   </PropertyGroup>
 
   <ItemGroup>

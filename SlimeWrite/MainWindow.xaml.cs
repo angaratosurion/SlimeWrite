@@ -287,6 +287,10 @@ namespace SlimeWrite
             }
         }
 
-         
+        private void About_Click(object sender, RoutedEventArgs e)
+        {
+            About aboutwindows = new About();
+            aboutwindows.Show();
+        }
     }
 }

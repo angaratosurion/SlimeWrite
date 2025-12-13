@@ -3,7 +3,7 @@
 ; Non-commercial use only
 
 #define MyAppName "SlimeWrite"
-#define MyAppVersion "0.0.5.0"
+#define MyAppVersion "0.0.6.0"
 #define MyAppPublisher "Angarato Surion"
 #define MyAppURL "https://github.com/angaratosurion/SlimeWrite"
 #define MyAppExeName "SlimeWrite.exe"

@@ -21,6 +21,7 @@
             <Button Content="List" Click="List_Clicked" Margin="2"/>
             <Button Content="Table" Click="Table_Clicked" Margin="2"/>
             <Button Content="Blockquote" Click="Quote_Clicked" Margin="2"/>
+            <Button Content="About" Click="About_Click" Margin="2"/>
         </StackPanel>
         <Grid>
         <Grid.ColumnDefinitions>
@@ -37,10 +38,7 @@
                       Width="5"
                       HorizontalAlignment="Stretch" />
 
-        <!-- RIGHT: CefSharp HTML preview -->
-
-            <!--<wv2:WebView2 x:Name="Preview" Grid.Column="2" 
-                          CoreWebView2InitializationCompleted="PreviewWebView_Init"  />-->
+       
             <WebBrowser x:Name="Preview" Grid.Column="2" 
                  />
     </Grid>

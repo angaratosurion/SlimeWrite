@@ -1,0 +1,42 @@
+﻿<Window x:Class="SlimeWrite.About"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        Title="About" SizeToContent="WidthAndHeight" WindowStartupLocation="CenterOwner"
+        ResizeMode="NoResize" MinWidth="420" FontFamily="Segoe UI">
+    <Border Padding="18" CornerRadius="8" Background="#FFF" BorderBrush="#DDD" BorderThickness="1">
+        <StackPanel Orientation="Vertical" Width="520">
+            <StackPanel Orientation="Horizontal" Margin="0 0 0 12" VerticalAlignment="Center">
+                <Image x:Name="LogoImage" Width="64" Height="64" Margin="0 0 12 0" Stretch="Uniform" />
+                <StackPanel Orientation="Vertical" VerticalAlignment="Center">
+                    <TextBlock x:Name="AppNameText" Text="MyApp" FontSize="20" FontWeight="SemiBold" />
+                    <TextBlock x:Name="VersionText" Text="Έκδοση 1.0.0" FontSize="12" Opacity="0.8" />
+                </StackPanel>
+            </StackPanel>
+
+            <TextBlock Name="DescriptionText" TextWrapping="Wrap" Margin="0 0 0 12">
+                Description
+            </TextBlock>
+
+            <StackPanel Orientation="Vertical" Margin="0 0 0 12">
+                <TextBlock>
+                    <Run>Web Site: </Run>
+                    <Hyperlink Click="WebsiteHyperlink_Click">https://github.com/angaratosurion/SlimeWrite</Hyperlink>
+                </TextBlock>
+                <TextBlock Margin="0 6 0 0" Name="CopyRightText">© 2025 .</TextBlock>
+            </StackPanel>
+
+            <Expander Header="Contributors  and License" IsExpanded="False" Margin="0 0 0 12">
+                <StackPanel>
+                    <TextBlock TextWrapping="Wrap" >Contributors: Angarato Surion</TextBlock>
+                    <TextBlock TextWrapping="Wrap" > License: GNU GENERAL PUBLIC LICENSE v3</TextBlock>
+                </StackPanel>
+            </Expander>
+
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                <!--<Button Margin="0 0 8 0" Padding="10,4" Click="CopyInfo_Click">Αντιγραφή Πληροφοριών</Button> -->
+                <Button Padding="10,4" IsDefault="True" 
+                        Click="Close_Click">Close</Button>
+            </StackPanel>
+        </StackPanel>
+    </Border>
+</Window>
