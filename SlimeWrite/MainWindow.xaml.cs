@@ -16,7 +16,7 @@ namespace SlimeWrite
     /// </summary>
     public partial class MainWindow : Window
     {
-        string _markdown;// = "#Καλημέρα";
+        string _markdown = "#Καλημέρα";
         private readonly MarkupParser _parser;
         private readonly HtmlRenderer _renderer;
         private Scintilla Editor;
