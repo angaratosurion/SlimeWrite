@@ -3,6 +3,7 @@ using SlimeMarkUp.Core;
 using SlimeMarkUp.Core.Extensions.SlimeMarkup;
 using System.IO;
 using System.Text;
+using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Forms;
@@ -19,7 +20,6 @@ namespace SlimeWrite
         private readonly MarkupParser _parser;
         private readonly HtmlRenderer _renderer;
         private Scintilla Editor;
-        private bool _webViewReady = false;
         public MainWindow()
         {
             
@@ -85,13 +85,13 @@ namespace SlimeWrite
 
         private void Editor_TextChanged(object? sender, EventArgs e)
         {
-            _markdown = Editor.Text ?? "";
-            UpdatePreview(_markdown);
+            _markdown = Editor.Text;//?? "";
+              UpdatePreview(_markdown);
         }
 
-        private async Task UpdatePreview(string markdown)
+        private void UpdatePreview(string markdown)
         {
-            var md = _parser.Parse(markdown);
+            var md = _parser.Parse(_markdown);
             var html = "<html>\r\n<head>\r\n <meta charset=\"UTF-8\" /></head><style>\r\n                        " +
                 "body {\r\n    color:black; }  </style>" +
                 " <body>" +
@@ -105,11 +105,7 @@ namespace SlimeWrite
 
 
         }
-        private void Editor_TextChanged(object sender, TextChangedEventArgs e)
-        {
-            _markdown = Editor.Text ?? "";
-            UpdatePreview(_markdown);
-        }
+         
 
         // ---------------- Toolbar buttons ---------------- //
         private async void OpenFile(string filename)
@@ -127,13 +123,17 @@ namespace SlimeWrite
 
                 if (res == System.Windows.Forms.DialogResult.OK)
                 {
-                    var file = await File.ReadAllTextAsync(openFileDialog.FileName);
+                    var file = await File.ReadAllTextAsync(openFileDialog.FileName,Encoding.UTF8
+                        ,CancellationToken.None);
+                    Editor.ClearAll();
                     Editor.Text = file;
+                   
                 }
             }
             else
             {
-                var file = await File.ReadAllTextAsync(filename);
+                var file = await File.ReadAllTextAsync(filename, Encoding.UTF8
+                        , CancellationToken.None);
                 Editor.Text = file;
             }
 
@@ -150,7 +150,7 @@ namespace SlimeWrite
                           "SlimeMarkup (*.smd)|*.smd";
             if (res == System.Windows.Forms.DialogResult.OK)
             {
-                   File.WriteAllText (saveFileDialog.FileName, Editor.Text);
+                   File.WriteAllText (saveFileDialog.FileName, Editor.Text, Encoding.UTF8);
                  
             }
 
@@ -194,7 +194,7 @@ namespace SlimeWrite
 
         private void H2_Clicked(object sender, EventArgs e)
         {
-            if (Editor.SelectedText != null)
+            if (Editor.SelectedText != null && Editor.SelectedText == String.Empty)
             {
                 string selectedtext = Editor.SelectedText;
                 Editor.SelectedText.Replace(selectedtext, "\n## " + selectedtext + "\n");
