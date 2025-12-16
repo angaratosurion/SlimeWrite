@@ -16,7 +16,7 @@ namespace SlimeWrite
     /// </summary>
     public partial class MainWindow : Window
     {
-        string _markdown = "#Καλημέρα";
+        string _markdown;// = "#Καλημέρα";
         private readonly MarkupParser _parser;
         private readonly HtmlRenderer _renderer;
         private Scintilla Editor;
@@ -36,7 +36,9 @@ namespace SlimeWrite
                 new BlockquoteExtension(),
                 new InlineStyleExtension(),
                 new LinkExtension(),
-                new IncludeExtension()
+                new IncludeExtension(), 
+                new IncludeCSSExtension()
+                 , new IncludeScriptExtension()
             });
 
             _renderer = new HtmlRenderer();
@@ -60,7 +62,7 @@ namespace SlimeWrite
         private void LoadEditor()
         {
             Editor = new Scintilla();
-
+            
             // Line numbers
             Editor.Margins[0].Width = 40;
 
@@ -86,22 +88,26 @@ namespace SlimeWrite
         private void Editor_TextChanged(object? sender, EventArgs e)
         {
             _markdown = Editor.Text;//?? "";
-              UpdatePreview(_markdown);
+            
+               UpdatePreview(_markdown);
         }
 
         private void UpdatePreview(string markdown)
         {
-            var md = _parser.Parse(_markdown);
+            var md = _parser.Parse(markdown);
             var html = "<html>\r\n<head>\r\n <meta charset=\"UTF-8\" /></head><style>\r\n                        " +
                 "body {\r\n    color:black; }  </style>" +
                 " <body>" +
                 _renderer.Render(md) + "</body>\r\n</html>";
-          
+
+
+
+
              
+                Preview.NavigateToString(html);
+            
 
             
-             
-            Preview.NavigateToString(html);
 
 
         }
@@ -127,6 +133,7 @@ namespace SlimeWrite
                         ,CancellationToken.None);
                     Editor.ClearAll();
                     Editor.Text = file;
+                    
                    
                 }
             }
@@ -136,9 +143,10 @@ namespace SlimeWrite
                         , CancellationToken.None);
                 Editor.Text = file;
             }
+            //UpdatePreview(Editor.Text);
 
         }
-        private async void SaveFile()
+        private   void SaveFile()
         {
 
             System.Windows.Forms.SaveFileDialog saveFileDialog =
@@ -155,11 +163,7 @@ namespace SlimeWrite
             }
 
         }
-        public async Task<string> StreamToStringAsync(Stream stream)
-        {
-            using var reader = new StreamReader(stream);
-            return await reader.ReadToEndAsync();
-        }
+         
         private void Open_Clicked(object sender, EventArgs e)
         {
 
