@@ -1,4 +1,5 @@
-﻿using ScintillaNET;
+﻿using Microsoft.Web.WebView2.Core;
+using ScintillaNET;
 using SlimeMarkUp.Core;
 using SlimeMarkUp.Core.Extensions.SlimeMarkup;
 using System.IO;
@@ -19,13 +20,15 @@ namespace SlimeWrite
         string _markdown = "#Καλημέρα";
         private readonly MarkupParser _parser;
         private readonly HtmlRenderer _renderer;
-        private Scintilla Editor;
+         private Scintilla Editor;
+        CoreWebView2Environment env;
         public MainWindow()
         {
-            
 
+            
             InitializeComponent();
-           // Preview.EnsureCoreWebView2Async();
+            // Preview.EnsureCoreWebView2Async();
+            initilizePreview();
             LoadEditor();
             _parser = new MarkupParser(new List<IBlockMarkupExtension>
             {
@@ -60,64 +63,20 @@ namespace SlimeWrite
 
 
 
-        private void LoadEditor()
-        {
-            Editor = new Scintilla();
-            
-            // Line numbers
-            Editor.Margins[0].Width = 40;
-
-            // Basic styling
-            Editor.StyleResetDefault();
-            //Editor.Styles[Style.Default].Font = "Consolas";
-            //Editor.Styles[Style.Default].Size = 12;
-            Editor.StyleClearAll();
-
-            // Syntax highlighting for C#
-            //Editor.ConfigurationManager.Language = "cs";\
-            //Editor.Font = new System.Drawing.Font("Consolas", 16);
-            Editor.Styles[0].Size = 16;
-
-            // Faster for large files
-            Editor.ScrollWidthTracking = true;
-
-            // Assign to host
-            formsHost.Child = Editor;
-            Editor.TextChanged += Editor_TextChanged;
-        }
-
         private void Editor_TextChanged(object? sender, EventArgs e)
         {
             _markdown = Editor.Text;//?? "";
             
-               UpdatePreview(_markdown);
+               UpdatePreview(Editor.Text);
         }
 
-        private async void UpdatePreview(string markdown)
-        {
-            var md = _parser.Parse(markdown);
-            var html = "<html>\r\n<head>\r\n <meta charset=\"UTF-8\" /></head><style>\r\n                        " +
-                "body {\r\n    color:black; }  </style>" +
-                " <body>" +
-                _renderer.Render(md) + "</body>\r\n</html>";
-
-
-
-           // await Preview.EnsureCoreWebView2Async();
-
-           Preview.NavigateToString (html);
-          
-            
-
-            
-
-
-        }
+      
          
 
         // ---------------- Toolbar buttons ---------------- //
         private async void OpenFile(string filename)
         {
+            //Editor.TextChanged -= Editor_TextChanged;
             if (filename == null)
             {
                 System.Windows.Forms.OpenFileDialog openFileDialog = 
@@ -133,7 +92,7 @@ namespace SlimeWrite
                 {
                     var file = await File.ReadAllTextAsync(openFileDialog.FileName,Encoding.UTF8
                         ,CancellationToken.None);
-                    Editor.ClearAll();
+                     Editor.ClearAll();
                     Editor.Text = file;
                     
                    
@@ -146,6 +105,7 @@ namespace SlimeWrite
                 Editor.Text = file;
             }
             //UpdatePreview(Editor.Text);
+            //Editor.TextChanged += Editor_TextChanged;
 
         }
         private   void SaveFile()
@@ -175,7 +135,7 @@ namespace SlimeWrite
         private void Close_Clicked(object sender, EventArgs e)
         {
 
-             Editor.ClearAll();
+           Editor.ClearAll();
 
         }
         private void Save_Clicked(object sender, EventArgs e)
@@ -310,7 +270,79 @@ namespace SlimeWrite
                 "revisionnumber: \" \" \r\n  language:  \" \"\r\n  " +
                 "contributors:\r\n    - \"contributor1\"\r\n    " +
                 "- \"contributor2\"\r\n  VersionHistory: \"1.0.0\"\r\n---";
-            Editor.Text += props+"\n";
+            Editor.Text += props + "\n";
         }
-    }
+        private void LoadEditor()
+        {
+            Editor = new Scintilla();
+
+            // Line numbers
+            Editor.Margins[0].Width = 40;
+
+            // Basic styling
+            Editor.StyleResetDefault();
+            //Editor.Styles[Style.Default].Font = "Consolas";
+            //Editor.Styles[Style.Default].Size = 12;
+            Editor.StyleClearAll();
+
+            // Syntax highlighting for C#
+            //Editor.ConfigurationManager.Language = "cs";\
+            //Editor.Font = new System.Drawing.Font("Consolas", 16);
+            Editor.Styles[0].Size = 16;
+
+            // Faster for large files
+            Editor.ScrollWidthTracking = true;
+
+            // Assign to host
+            formsHost.Child = Editor;
+            Editor.TextChanged += Editor_TextChanged;
+        }
+      
+        private async void UpdatePreview(string markdown)
+        {
+            var md = _parser.Parse(markdown);
+            if (md != null && markdown !="")
+            {
+
+
+                var html = "<html>\r\n<head>\r\n <meta charset=\"UTF-8\" /></head><style>\r\n                        " +
+                    "body {\r\n    color:black; }  </style>" +
+                    " <body>" +
+                    _renderer.Render(md) + "</body>\r\n</html>";
+
+
+
+                await Preview.EnsureCoreWebView2Async(env);
+
+                //  Preview.NavigateToString(html);
+                NavigateToStringFile(html);
+
+            }
+
+
+
+
+
+        }
+        async void initilizePreview()
+        {
+            env = await CoreWebView2Environment.
+                CreateAsync(userDataFolder:
+                Path.Combine(Path.GetTempPath(), "SlimeWrite"));
+
+            // NOTE: this waits until the first page is navigated - then continues
+            //       executing the next line of code!
+            await Preview.EnsureCoreWebView2Async(env);
+        }
+
+        async void  NavigateToStringFile(string html)
+        {
+
+            var file = Path.Combine(env.UserDataFolder, "output.html");
+            File.WriteAllText(file, html);
+            Preview.Source = new Uri(file);
+        }
+
+
+        }
 }
