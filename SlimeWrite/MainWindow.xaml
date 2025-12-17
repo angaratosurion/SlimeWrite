@@ -21,6 +21,7 @@
             <Button Content="List" Click="List_Clicked" Margin="2"/>
             <Button Content="Table" Click="Table_Clicked" Margin="2"/>
             <Button Content="Blockquote" Click="Quote_Clicked" Margin="2"/>
+            <Button Content="Insert File Properties" Click="InserFilepropps_Click" Margin="2"/>
             <Button Content="About" Click="About_Click" Margin="2"/>
         </StackPanel>
         <Grid>

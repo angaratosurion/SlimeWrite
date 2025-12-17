@@ -185,7 +185,7 @@ namespace SlimeWrite
 
         private void H1_Clicked(object sender, EventArgs e)
         {
-            if (Editor.SelectedText != null)
+            if (Editor.SelectedText != null && Editor.SelectedText != String.Empty)
             {
                 string selectedtext= Editor.SelectedText;
                 Editor.SelectedText.Replace(selectedtext, "#" + selectedtext + "\n");
@@ -198,7 +198,7 @@ namespace SlimeWrite
 
         private void H2_Clicked(object sender, EventArgs e)
         {
-            if (Editor.SelectedText != null && Editor.SelectedText == String.Empty)
+            if (Editor.SelectedText != null && Editor.SelectedText != String.Empty)
             {
                 string selectedtext = Editor.SelectedText;
                 Editor.SelectedText.Replace(selectedtext, "\n## " + selectedtext + "\n");
@@ -211,7 +211,7 @@ namespace SlimeWrite
 
         private void Bold_Clicked(object sender, EventArgs e)
         {
-            if (Editor.SelectedText != null)
+            if (Editor.SelectedText != null && Editor.SelectedText != String.Empty)
             {
                 string selectedtext = Editor.SelectedText;
                 Editor.SelectedText.Replace(selectedtext, "**" + selectedtext + "**");
@@ -224,7 +224,7 @@ namespace SlimeWrite
 
         private void Italic_Clicked(object sender, EventArgs e)
         {
-            if (Editor.SelectedText != null)
+            if (Editor.SelectedText != null && Editor.SelectedText != String.Empty)
             {
                 string selectedtext = Editor.SelectedText;
                 Editor.SelectedText.Replace(selectedtext, "*" + selectedtext + "*");
@@ -237,7 +237,7 @@ namespace SlimeWrite
 
         private void Link_Clicked(object sender, EventArgs e)
         {
-            if (Editor.SelectedText != null)
+            if (Editor.SelectedText != null && Editor.SelectedText != String.Empty)
             {
                 string selectedtext = Editor.SelectedText;
                 Editor.SelectedText.Replace(selectedtext,
@@ -251,7 +251,7 @@ namespace SlimeWrite
 
         private void Image_Clicked(object sender, EventArgs e)
         {
-            if (Editor.SelectedText != null)
+            if (Editor.SelectedText != null && Editor.SelectedText != String.Empty)
             {
                 string selectedtext = Editor.SelectedText;
                 Editor.SelectedText.Replace(selectedtext, "![" + selectedtext +
@@ -295,6 +295,20 @@ namespace SlimeWrite
         {
             About aboutwindows = new About();
             aboutwindows.Show();
+        }
+
+        private void InserFilepropps_Click(object sender, RoutedEventArgs e)
+        {
+            const string props = "---\r\n  filename: \" \" \r\n  " +
+                "title:  \" \"\r\n  author:  \" \"\r\n  " +
+                "subject: \" \" \r\n  Description:\" \" \r\n  " +
+                "Published: dd/mm/yyyy hh:mm:ss\r\n  " +
+                "keywords: \" \" \r\n  comments: \" \" \r\n  " +
+                "company: \" \" \r\n  category: \" \"\r\n  " +
+                "revisionnumber: \" \" \r\n  language:  \" \"\r\n  " +
+                "contributors:\r\n    - \"contributor1\"\r\n    " +
+                "- \"contributor2\"\r\n  VersionHistory: \"1.0.0\"\r\n---";
+            Editor.Text += props+"\n";
         }
     }
 }
