@@ -25,6 +25,7 @@ namespace SlimeWrite
             
 
             InitializeComponent();
+           // Preview.EnsureCoreWebView2Async();
             LoadEditor();
             _parser = new MarkupParser(new List<IBlockMarkupExtension>
             {
@@ -42,7 +43,7 @@ namespace SlimeWrite
             });
 
             _renderer = new HtmlRenderer();
-            //  Preview.EnsureCoreWebView2Async();
+         
 
             Editor.Text = _markdown;
             //UpdatePreview(_markdown);
@@ -92,7 +93,7 @@ namespace SlimeWrite
                UpdatePreview(_markdown);
         }
 
-        private void UpdatePreview(string markdown)
+        private async void UpdatePreview(string markdown)
         {
             var md = _parser.Parse(markdown);
             var html = "<html>\r\n<head>\r\n <meta charset=\"UTF-8\" /></head><style>\r\n                        " +
@@ -102,9 +103,10 @@ namespace SlimeWrite
 
 
 
+           // await Preview.EnsureCoreWebView2Async();
 
-             
-                Preview.NavigateToString(html);
+           Preview.NavigateToString (html);
+          
             
 
             
