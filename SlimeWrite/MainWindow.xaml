@@ -38,8 +38,7 @@
                       HorizontalAlignment="Stretch" />
 
        
-            <!--<WebBrowser x:Name="Preview" Grid.Column="2" 
-                 />-->
+           
             <wpf:WebView2 x:Name="Preview" Grid.Column="2" />
 
         </Grid>
