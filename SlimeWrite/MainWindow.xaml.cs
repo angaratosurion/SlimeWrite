@@ -21,7 +21,7 @@ namespace SlimeWrite
         private readonly MarkupParser _parser;
         private readonly HtmlRenderer _renderer;
          private Scintilla Editor;
-        CoreWebView2Environment env;
+          CoreWebView2Environment env;
         public MainWindow()
         {
 
@@ -147,7 +147,8 @@ namespace SlimeWrite
 
         private void H1_Clicked(object sender, EventArgs e)
         {
-            if (Editor.SelectedText != null && Editor.SelectedText != String.Empty)
+            if (Editor.SelectedText != null 
+                && Editor.SelectedText != String.Empty)
             {
                 string selectedtext= Editor.SelectedText;
                 Editor.SelectedText.Replace(selectedtext, "#" + selectedtext + "\n");
@@ -160,7 +161,8 @@ namespace SlimeWrite
 
         private void H2_Clicked(object sender, EventArgs e)
         {
-            if (Editor.SelectedText != null && Editor.SelectedText != String.Empty)
+            if (Editor.SelectedText != null 
+                && Editor.SelectedText != String.Empty)
             {
                 string selectedtext = Editor.SelectedText;
                 Editor.SelectedText.Replace(selectedtext, "\n## " + selectedtext + "\n");
@@ -173,7 +175,8 @@ namespace SlimeWrite
 
         private void Bold_Clicked(object sender, EventArgs e)
         {
-            if (Editor.SelectedText != null && Editor.SelectedText != String.Empty)
+            if (Editor.SelectedText != null 
+                && Editor.SelectedText != String.Empty)
             {
                 string selectedtext = Editor.SelectedText;
                 Editor.SelectedText.Replace(selectedtext, "**" + selectedtext + "**");
@@ -186,7 +189,8 @@ namespace SlimeWrite
 
         private void Italic_Clicked(object sender, EventArgs e)
         {
-            if (Editor.SelectedText != null && Editor.SelectedText != String.Empty)
+            if (Editor.SelectedText != null 
+                && Editor.SelectedText != String.Empty)
             {
                 string selectedtext = Editor.SelectedText;
                 Editor.SelectedText.Replace(selectedtext, "*" + selectedtext + "*");
@@ -199,7 +203,8 @@ namespace SlimeWrite
 
         private void Link_Clicked(object sender, EventArgs e)
         {
-            if (Editor.SelectedText != null && Editor.SelectedText != String.Empty)
+            if (Editor.SelectedText != null 
+                && Editor.SelectedText != String.Empty)
             {
                 string selectedtext = Editor.SelectedText;
                 Editor.SelectedText.Replace(selectedtext,
@@ -213,7 +218,8 @@ namespace SlimeWrite
 
         private void Image_Clicked(object sender, EventArgs e)
         {
-            if (Editor.SelectedText != null && Editor.SelectedText != String.Empty)
+            if (Editor.SelectedText != null 
+                && Editor.SelectedText != String.Empty)
             {
                 string selectedtext = Editor.SelectedText;
                 Editor.SelectedText.Replace(selectedtext, "![" + selectedtext +
@@ -242,7 +248,8 @@ namespace SlimeWrite
 
         private void Quote_Clicked(object sender, EventArgs e)
         {
-            if (Editor.SelectedText != null)
+            if (Editor.SelectedText != null 
+                && Editor.SelectedText != String.Empty)
             {
                 string selectedtext = Editor.SelectedText;
                 Editor.SelectedText.Replace(selectedtext, "\n>" + selectedtext + "\n");
@@ -333,6 +340,7 @@ namespace SlimeWrite
             // NOTE: this waits until the first page is navigated - then continues
             //       executing the next line of code!
             await Preview.EnsureCoreWebView2Async(env);
+            App.env = env;
         }
 
         async void  NavigateToStringFile(string html)
@@ -341,6 +349,9 @@ namespace SlimeWrite
             var file = Path.Combine(env.UserDataFolder, "output.html");
             File.WriteAllText(file, html);
             Preview.Source = new Uri(file);
+            Preview.CoreWebView2.Navigate(Preview.Source.ToString());
+
+
         }
 
 
