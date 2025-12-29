@@ -2,14 +2,14 @@
 
   <PropertyGroup>
     <OutputType>WinExe</OutputType>
-    <TargetFramework>net9.0-windows</TargetFramework>
+    <TargetFramework>net10.0-windows7.0</TargetFramework>
     <Nullable>enable</Nullable>
     <ImplicitUsings>enable</ImplicitUsings>
     <UseWPF>true</UseWPF>
     <Platforms>AnyCPU;x64;x86</Platforms>
     <Title>Slime Write</Title>
     <Authors>Angarato Surion</Authors>
-    <Version>0.0.9.0</Version>
+    <Version>0.0.9.1</Version>
     <ApplicationIcon>Assets\Images\slimewrite_logo.ico</ApplicationIcon>
     <Copyright>Angarato Surion</Copyright>
     <Description>An Open Source MarkDown Editor</Description>
@@ -32,7 +32,7 @@
     <PackageReference Include="Microsoft.Web.WebView2" Version="1.0.3712-prerelease" />
     
     <PackageReference Include="Scintilla5.NET" Version="6.1.1" />
-    <PackageReference Include="SlimeMarkUp.Core" Version="0.1.5.5" />
+    <PackageReference Include="SlimeMarkUp.Core" Version="0.1.5.9" />
     <PackageReference Include="SlimeMarkUp.Core.Tools" Version="0.0.6" />
   </ItemGroup>
 
