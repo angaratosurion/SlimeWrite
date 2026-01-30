@@ -22,7 +22,7 @@
             <Button Content="Insert File Properties" Click="InserFilepropps_Click" Margin="2"/>
             <Button Content="About" Click="About_Click" Margin="2"/>
         </StackPanel>
-        <Grid>
+        <Grid Name="grid">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="*"/>
                 <ColumnDefinition Width="5"/>
@@ -35,7 +35,7 @@
             <!-- 🟩 Preview -->
         <GridSplitter Grid.Column="1"
                       Width="5"
-                      HorizontalAlignment="Stretch" />
+                      HorizontalAlignment="Stretch" Name="splinter" />
 
        
            

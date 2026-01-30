@@ -2,13 +2,17 @@
 using ScintillaNET;
 using SlimeMarkUp.Core;
 using SlimeMarkUp.Core.Extensions.SlimeMarkup;
+using SlimeWrite.Models;
 using System.IO;
+using System.Security.Principal;
 using System.Text;
+using System.Text.Json;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Forms;
 using System.Windows.Media.Media3D;
+using static ScintillaNET.Style;
 
 namespace SlimeWrite
 {
@@ -22,6 +26,12 @@ namespace SlimeWrite
         private readonly HtmlRenderer _renderer;
          private Scintilla Editor;
           CoreWebView2Environment env;
+       static  Options options = new Options
+        {
+            //UseTextChangedEvent = true,
+            //UseEnterPressed = false
+        };
+
         public MainWindow()
         {
 
@@ -29,7 +39,13 @@ namespace SlimeWrite
             InitializeComponent();
             // Preview.EnsureCoreWebView2Async();
             initilizePreview();
+            using (StreamReader r = new StreamReader("appsettings.json"))
+            {
+                string json = r.ReadToEnd();
+                options = JsonSerializer.Deserialize<Options>(json);
+            }
             LoadEditor();
+           
             _parser = new MarkupParser(new List<IBlockMarkupExtension>
             {
                 new HeaderExtension(),
@@ -302,9 +318,25 @@ namespace SlimeWrite
 
             // Assign to host
             formsHost.Child = Editor;
-            Editor.TextChanged += Editor_TextChanged;
+            if (options.UseTextChangedEvent)
+            {
+                Editor.TextChanged += Editor_TextChanged;
+            }
+              if (options.UseEnterPressed)
+            {
+                Editor.KeyDown += Editor_KeyDown;
+            }
         }
-      
+
+        private void Editor_KeyDown(object? sender, KeyEventArgs e)
+        {
+            if ( e.KeyCode == Keys.Enter)
+            {
+                _markdown = Editor.Text;//?? "";
+                UpdatePreview(Editor.Text);
+            }
+        }
+
         private async void UpdatePreview(string markdown)
         {
             var md = _parser.Parse(markdown);
@@ -340,6 +372,26 @@ namespace SlimeWrite
             // NOTE: this waits until the first page is navigated - then continues
             //       executing the next line of code!
             await Preview.EnsureCoreWebView2Async(env);
+            switch (options.WebViewOrientation)
+            {
+                case 0:
+                    {
+                        
+                        break;
+                    }
+                case 1:
+                    {
+                        grid.ColumnDefinitions.Clear();
+                        grid.RowDefinitions.Add(new RowDefinition());
+                        grid.RowDefinitions.Add(new RowDefinition( ));
+                        grid.RowDefinitions.Add(new RowDefinition());
+                        this.grid.RowDefinitions[1].Height = new GridLength(5);
+                        Grid.SetRow(formsHost, 0);
+                        Grid.SetRow(Preview, 2);
+                        Grid.SetRow(splinter, 1)   ;
+                        break;
+                    }
+            }
             App.env = env;
         }
 
