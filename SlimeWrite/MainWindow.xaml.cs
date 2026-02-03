@@ -59,7 +59,8 @@ namespace SlimeWrite
                 new IncludeExtension(), 
                 new IncludeCSSExtension()
                  , new IncludeScriptExtension(),
-                 new HorizontalRuleExtension()
+                 new HorizontalRuleExtension(),
+                  new EscapeCharsExtension()
             });
 
             _renderer = new HtmlRenderer();

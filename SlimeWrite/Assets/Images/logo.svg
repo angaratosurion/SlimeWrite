@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg
+    width="1080"
+    height="1080"
+    viewBox="0 0 1080 1080"
+    xmlns="http://www.w3.org/2000/svg">
+
+  <!-- background -->
+  <rect width="1080" height="1080" fill="#2b2b2b"/>
+
+  <!-- book -->
+  <path
+    d="M240 300
+       Q400 260 540 340
+       Q680 260 840 300
+       V760
+       Q680 720 540 800
+       Q400 720 240 760
+       Z"
+    fill="none"
+    stroke="white"
+    stroke-width="28"
+    stroke-linejoin="round"
+    stroke-linecap="round"/>
+
+  <!-- center fold -->
+  <line
+    x1="540"
+    y1="320"
+    x2="540"
+    y2="780"
+    stroke="white"
+    stroke-width="20"
+    stroke-linecap="round"/>
+
+  <!-- pencil body -->
+  <rect
+    x="610"
+    y="380"
+    width="110"
+    height="360"
+    rx="28"
+    ry="28"
+    fill="none"
+    stroke="white"
+    stroke-width="26"/>
+
+  <!-- pencil tip -->
+  <polygon
+    points="610,380 665,300 720,380"
+    fill="none"
+    stroke="white"
+    stroke-width="26"
+    stroke-linejoin="round"/>
+
+  <!-- pencil lead -->
+  <line
+    x1="665"
+    y1="300"
+    x2="665"
+    y2="330"
+    stroke="white"
+    stroke-width="18"
+    stroke-linecap="round"/>
+
+</svg>
