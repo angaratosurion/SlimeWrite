@@ -42,7 +42,7 @@ OutputDir=D:\Cloud Folder\NextCloud\My Programs\dotNet\Open Source\SlimeWrite\Se
 OutputBaseFilename={#MyAppName}-{#MyAppVersion}
 SolidCompression=yes
 WizardStyle=modern dynamic
-
+SignTool=MsSign $f
 [Languages]
 Name: "english"; MessagesFile: "compiler:Default.isl"
 Name: "arabic"; MessagesFile: "compiler:Languages\Arabic.isl"
