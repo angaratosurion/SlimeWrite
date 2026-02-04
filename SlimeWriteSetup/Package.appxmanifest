@@ -9,7 +9,7 @@
   <Identity
     Name="e36e6143-f203-4541-a1d7-32de60d4070d"
     Publisher="CN=angarato surion"
-    Version="0.1.1.0" />
+    Version="0.1.0.0" />
 
   <Properties>
     <DisplayName>SlimeWriteSetup</DisplayName>
