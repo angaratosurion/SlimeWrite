@@ -7,7 +7,11 @@
 
         <!-- Toolbar -->
         <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="4">
-            <Button Content="Open Markdown" Click="Open_Clicked" Margin="2"/>
+            <Button Content="Open Markdown" Click="Open_Clicked" Margin="2" ><!--Height="30" Width="50">
+                <Image
+        Source="/Assets/Images/newfile.png"
+        Stretch="Uniform"/>-->
+            </Button>
             <Button Content="Save Markdown" Click="Save_Clicked" Margin="2"/>
             <Button Content="Close File" Click="Close_Clicked" Margin="2"/>
             <Button Content="H1" Click="H1_Clicked" Margin="2"/>

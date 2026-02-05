@@ -18,10 +18,13 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Assets\Images\newfile.png" />
+    <None Remove="Assets\Images\newfile.svg" />
     <None Remove="Assets\logo.png" />
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="Assets\Images\newfile.png" />
     <Resource Include="Assets\Images\slimewrite_logo.ico" />
   </ItemGroup>
 
