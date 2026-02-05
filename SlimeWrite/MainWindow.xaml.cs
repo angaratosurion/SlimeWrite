@@ -56,7 +56,7 @@ namespace SlimeWrite
                 new BlockquoteExtension(),
                 new InlineStyleExtension(),
                 new LinkExtension(),
-                new IncludeExtension(), 
+                //new IncludeExtension(), 
                 new IncludeCSSExtension()
                  , new IncludeScriptExtension(),
                  new HorizontalRuleExtension(),
