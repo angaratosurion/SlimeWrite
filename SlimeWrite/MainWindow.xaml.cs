@@ -143,7 +143,13 @@ namespace SlimeWrite
             }
 
         }
-         
+        private void New_Clicked(object sender, EventArgs e)
+        {
+
+             Editor.ClearAll();
+
+        }
+
         private void Open_Clicked(object sender, EventArgs e)
         {
 

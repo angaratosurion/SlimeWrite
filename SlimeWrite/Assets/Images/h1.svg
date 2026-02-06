@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="128" height="128" viewBox="0 0 128 128" xmlns="http://www.w3.org/2000/svg">
+
+  <!-- H -->
+  <path d="M28 28 V100
+           M28 64 H68
+           M68 28 V100"
+        stroke="#2d2d2d"
+        stroke-width="10"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        fill="none"/>
+
+  <!-- 1 -->
+  <path d="M90 40
+           L102 28
+           V100"
+        stroke="#2d2d2d"
+        stroke-width="10"
+        stroke-linecap="round"
+        stroke-linejoin="round"
+        fill="none"/>
+
+</svg>

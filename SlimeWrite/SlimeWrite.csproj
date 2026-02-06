@@ -9,7 +9,7 @@
     <Platforms>AnyCPU;x64;x86</Platforms>
     <Title>Slime Write</Title>
     <Authors>Angarato Surion</Authors>
-    <Version>0.1.0.5</Version>
+    <Version>0.1.1.0</Version>
     <ApplicationIcon>Assets\Images\slimewrite_logo.ico</ApplicationIcon>
     <Copyright>Angarato Surion</Copyright>
     <Description>An Open Source MarkDown Editor</Description>
@@ -18,13 +18,38 @@
   </PropertyGroup>
 
   <ItemGroup>
+    <None Remove="Assets\Images\blockquote.png" />
+    <None Remove="Assets\Images\bold.png" />
+    <None Remove="Assets\Images\close-file.png" />
+    <None Remove="Assets\Images\file-properties.png" />
+    <None Remove="Assets\Images\h1.png" />
+    <None Remove="Assets\Images\h2.png" />
+    <None Remove="Assets\Images\image.png" />
+    <None Remove="Assets\Images\italic.png" />
+    <None Remove="Assets\Images\link.png" />
+    <None Remove="Assets\Images\list.png" />
     <None Remove="Assets\Images\newfile.png" />
     <None Remove="Assets\Images\newfile.svg" />
+    <None Remove="Assets\Images\open-file.png" />
+    <None Remove="Assets\Images\save-file.png" />
+    <None Remove="Assets\Images\table.png" />
     <None Remove="Assets\logo.png" />
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="Assets\Images\blockquote.png" />
+    <Resource Include="Assets\Images\bold.png" />
+    <Resource Include="Assets\Images\close-file.png" />
+    <Resource Include="Assets\Images\file-properties.png" />
+    <Resource Include="Assets\Images\h1.png" />
+    <Resource Include="Assets\Images\h2.png" />
+    <Resource Include="Assets\Images\image.png" />
+    <Resource Include="Assets\Images\italic.png" />
+    <Resource Include="Assets\Images\link.png" />
+    <Resource Include="Assets\Images\list.png" />
     <Resource Include="Assets\Images\newfile.png" />
+    <Resource Include="Assets\Images\open-file.png" />
+    <Resource Include="Assets\Images\save-file.png" />
     <Resource Include="Assets\Images\slimewrite_logo.ico" />
   </ItemGroup>
 
@@ -49,6 +74,7 @@
     <Resource Include="Assets\Images\logo.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
+    <Resource Include="Assets\Images\table.png" />
   </ItemGroup>
 
   <ItemGroup>

@@ -7,24 +7,86 @@
 
         <!-- Toolbar -->
         <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="4">
+            <StackPanel.Resources>
+                <Style TargetType="Button">
+                    <!--<Setter Property="Foreground" Value="Gray" />
+                    <Setter Property="FontSize" Value="24" />-->
+                    <Setter Property="Width" Value="50"/>
+                    <Setter Property="Height" Value="30"/>
+                </Style>
+            </StackPanel.Resources>
             <Button ToolTip
-                    ="Open Markdown" Click="Open_Clicked" Margin="2" Height="30" Width="50">
+            ="New File" Click="New_Clicked" Margin="2" >
                 <Image
-        Source="pack://application:,,,/Assets/Images/newfile.png"
+Source="pack://application:,,,/Assets/Images/newfile.png"
+Stretch="Uniform"/>
+            </Button>
+            <Button ToolTip
+                    ="Open Markdown" Click="Open_Clicked" Margin="2" >
+                <Image
+        Source="pack://application:,,,/Assets/Images/open-file.png"
         Stretch="Uniform"/>
             </Button>
-            <Button Content="Save Markdown" Click="Save_Clicked" Margin="2"/>
-            <Button Content="Close File" Click="Close_Clicked" Margin="2"/>
-            <Button Content="H1" Click="H1_Clicked" Margin="2"/>
-            <Button Content="H2" Click="H2_Clicked" Margin="2"/>
-            <Button Content="Bold" Click="Bold_Clicked" Margin="2"/>
-            <Button Content="Italic" Click="Italic_Clicked" Margin="2"/>
-            <Button Content="Link" Click="Link_Clicked" Margin="2"/>
-            <Button Content="Image" Click="Image_Clicked" Margin="2"/>
-            <Button Content="List" Click="List_Clicked" Margin="2"/>
-            <Button Content="Table" Click="Table_Clicked" Margin="2"/>
-            <Button Content="Blockquote" Click="Quote_Clicked" Margin="2"/>
-            <Button Content="Insert File Properties" Click="InserFilepropps_Click" Margin="2"/>
+            <Button ToolTip="Save Markdown" Click="Save_Clicked" Margin="2" >
+                <Image
+Source="pack://application:,,,/Assets/Images/save-file.png"
+Stretch="Uniform"/>
+            </Button>
+            <Button ToolTip="Close File" Click="Close_Clicked" Margin="2">
+                <Image
+Source="pack://application:,,,/Assets/Images/close-file.png"
+Stretch="Uniform"/>
+            </Button>
+            <Button ToolTip="H1" Click="H1_Clicked" Margin="2">
+                <Image
+Source="pack://application:,,,/Assets/Images/h1.png"
+Stretch="Uniform"/>
+            </Button>
+            <Button ToolTip="H2" Click="H2_Clicked" Margin="2">
+                <Image
+Source="pack://application:,,,/Assets/Images/h2.png"
+Stretch="Uniform"/>
+            </Button>
+            <Button ToolTip="Bold" Click="Bold_Clicked" Margin="2">
+                <Image
+Source="pack://application:,,,/Assets/Images/bold.png"
+Stretch="Uniform"/>
+            </Button>
+            <Button ToolTip="Italic" Click="Italic_Clicked" Margin="2">
+                <Image
+Source="pack://application:,,,/Assets/Images/italic.png"
+Stretch="Uniform"/>
+            </Button>
+            <Button ToolTip="Link" Click="Link_Clicked" Margin="2">
+                <Image
+Source="pack://application:,,,/Assets/Images/link.png"
+Stretch="Uniform"/>
+            </Button>
+            <Button ToolTip="Image" Click="Image_Clicked" Margin="2">
+                <Image
+Source="pack://application:,,,/Assets/Images/image.png"
+Stretch="Uniform"/>
+            </Button>
+            <Button ToolTip="List" Click="List_Clicked" Margin="2">
+                <Image
+Source="pack://application:,,,/Assets/Images/list.png"
+Stretch="Uniform"/>
+            </Button>
+            <Button ToolTip="Table" Click="Table_Clicked" Margin="2">
+                <Image
+Source="pack://application:,,,/Assets/Images/table.png"
+Stretch="Uniform"/>
+            </Button>
+            <Button ToolTip="Blockquote" Click="Quote_Clicked" Margin="2">
+                <Image
+Source="pack://application:,,,/Assets/Images/blockquote.png"
+Stretch="Uniform"/>
+            </Button>
+            <Button ToolTip="Insert File Properties" Click="InserFilepropps_Click" Margin="2">
+                <Image
+Source="pack://application:,,,/Assets/Images/file-properties.png"
+Stretch="Uniform"/>
+            </Button>
             <Button Content="About" Click="About_Click" Margin="2"/>
         </StackPanel>
         <Grid Name="grid">

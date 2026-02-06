@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="128" height="128" viewBox="0 0 128 128" xmlns="http://www.w3.org/2000/svg">
+
+  <!-- Left chain -->
+  <path d="M48 48
+           L36 60
+           Q28 68 36 76
+           L52 92
+           Q60 100 68 92
+           L80 80"
+        fill="none"
+        stroke="#2d2d2d"
+        stroke-width="10"
+        stroke-linecap="round"
+        stroke-linejoin="round"/>
+
+  <!-- Right chain -->
+  <path d="M80 48
+           L92 36
+           Q100 28 92 20
+           L76 4
+           Q68 -4 60 4
+           L48 16"
+        transform="translate(0,24)"
+        fill="none"
+        stroke="#2d2d2d"
+        stroke-width="10"
+        stroke-linecap="round"
+        stroke-linejoin="round"/>
+
+</svg>

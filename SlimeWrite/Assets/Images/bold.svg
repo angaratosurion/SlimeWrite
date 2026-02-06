@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="128" height="128" viewBox="0 0 128 128" xmlns="http://www.w3.org/2000/svg">
+
+  <path d="M40 24
+           V104
+           H72
+           Q92 104 92 84
+           Q92 70 78 66
+           Q92 62 92 44
+           Q92 24 72 24
+           Z"
+        fill="none"
+        stroke="#2d2d2d"
+        stroke-width="10"
+        stroke-linejoin="round"/>
+
+</svg>
