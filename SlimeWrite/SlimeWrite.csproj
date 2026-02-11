@@ -9,7 +9,7 @@
     <Platforms>AnyCPU;x64;x86</Platforms>
     <Title>Slime Write</Title>
     <Authors>Angarato Surion</Authors>
-    <Version>0.1.1.0</Version>
+    <Version>0.1.2.0</Version>
     <ApplicationIcon>Assets\Images\slimewrite_logo.ico</ApplicationIcon>
     <Copyright>Angarato Surion</Copyright>
     <Description>An Open Source MarkDown Editor</Description>
@@ -60,7 +60,7 @@
     <PackageReference Include="Microsoft.Web.WebView2" Version="1.0.3719.77" />
     
     <PackageReference Include="Scintilla5.NET" Version="6.1.1" />
-    <PackageReference Include="SlimeMarkUp.Core" Version="0.1.7" />
+    <PackageReference Include="SlimeMarkUp.Core" Version="0.1.8" />
     <PackageReference Include="SlimeMarkUp.Core.Tools" Version="0.0.7" />
   </ItemGroup>
 
