@@ -33,7 +33,7 @@ namespace SlimeWrite
 
             var asm = Assembly.GetEntryAssembly() ?? Assembly.GetExecutingAssembly();
             AppName = asm.GetCustomAttribute<AssemblyTitleAttribute>()?.Title ??
-                "SlimeWritep";
+                "SlimeWrite";
             Version = asm.GetName()?.Version?.ToString() ?? "1.0.0";
             Copyright = asm.GetCustomAttribute<AssemblyCopyrightAttribute>().
                 Copyright;
