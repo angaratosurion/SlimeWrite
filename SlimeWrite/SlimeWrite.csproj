@@ -9,7 +9,7 @@
     <Platforms>AnyCPU;x64;x86</Platforms>
     <Title>Slime Write</Title>
     <Authors>Angarato Surion</Authors>
-    <Version>0.1.2.5</Version>
+    <Version>0.1.3.0</Version>
     <ApplicationIcon>Assets\Images\slimewrite_logo.ico</ApplicationIcon>
     <Copyright>Angarato Surion</Copyright>
     <Description>An Open Source MarkDown Editor</Description>

@@ -1,6 +1,7 @@
 ﻿using SlimeWrite.Models;
 using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Net.Http;
 using System.Net.Http.Headers;
@@ -27,13 +28,33 @@ namespace SlimeWrite
             var json = await client.GetStringAsync(url);
 
             var release = JsonSerializer.Deserialize<GitHubRelease>(json);
-
-            var asset = release.assets.FirstOrDefault(a => a.name.EndsWith(".exe"));
-
-            if (asset != null)
+            if (release != null)     
             {
-                var bytes = await client.GetByteArrayAsync(asset.browser_download_url);
-                await File.WriteAllBytesAsync("latest.exe", bytes);
+                 var ver= new Version(release.tag_name.TrimStart('v'));
+                var appVer = new Version(Version);
+                if (ver > appVer)
+                { 
+
+                    var asset = release.assets.FirstOrDefault(a => a.name.EndsWith(".exe"));
+
+                    if (asset != null)
+                    {
+                        var bytes = await client.GetByteArrayAsync(asset.browser_download_url);
+                        var file = Path.Combine(Path.Combine(Path.GetTempPath(),
+                            "SlimeWrite"), "latst.exe");
+                        if (!File.Exists(file))
+                        {
+
+
+                            await File.WriteAllBytesAsync(file, bytes);
+                        }
+                        else
+                        {
+                            File.Delete(file);
+                        }
+                        Process.Start(file);
+                    }
+                }
             }
         }
     }

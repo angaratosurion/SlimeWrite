@@ -4,6 +4,7 @@ using SlimeMarkUp.Core;
 using SlimeMarkUp.Core.Extensions.SlimeMarkup;
 using SlimeWrite.Models;
 using System.IO;
+using System.Reflection;
 using System.Security.Principal;
 using System.Text;
 using System.Text.Json;
@@ -70,12 +71,19 @@ namespace SlimeWrite
 
             Editor.Text = _markdown;
             //UpdatePreview(_markdown);
-             
+            ChangeWindowsTitle(null);
 
             string[] args = Environment.GetCommandLineArgs();
             if (args.Length>1)
             {
                 OpenFile(args[1]);
+            }
+            if (options.AutoUpdateUsingGithub)
+            {
+
+                var updater = new Updater();
+                updater.DownloadLatestRelease();
+
             }
 
         }
@@ -90,7 +98,19 @@ namespace SlimeWrite
                UpdatePreview(Editor.Text);
         }
 
-      
+      private void ChangeWindowsTitle(string filename)
+        {
+            var asm = Assembly.GetEntryAssembly() ?? Assembly.GetExecutingAssembly();
+            var AppName = asm.GetCustomAttribute<AssemblyTitleAttribute>()?.Title ??
+                "SlimeWrite";
+            var Version = asm.GetName()?.Version?.ToString() ?? "1.0.0";
+            var wintile =  AppName + " " + Version;
+            if (filename != null)
+            {
+                wintile += " - " + filename;
+            }
+            this.Title = wintile;
+        }
          
 
         // ---------------- Toolbar buttons ---------------- //
@@ -124,6 +144,7 @@ namespace SlimeWrite
                         , CancellationToken.None);
                 Editor.Text = file;
             }
+            ChangeWindowsTitle(filename);
             //UpdatePreview(Editor.Text);
             //Editor.TextChanged += Editor_TextChanged;
 
@@ -141,7 +162,9 @@ namespace SlimeWrite
             if (res == System.Windows.Forms.DialogResult.OK)
             {
                    File.WriteAllText (saveFileDialog.FileName, Editor.Text, Encoding.UTF8);
-                 
+                ChangeWindowsTitle(saveFileDialog.FileName);
+
+
             }
 
         }
@@ -149,6 +172,7 @@ namespace SlimeWrite
         {
 
              Editor.ClearAll();
+            ChangeWindowsTitle(null);
 
         }
 
@@ -160,8 +184,8 @@ namespace SlimeWrite
         }
         private void Close_Clicked(object sender, EventArgs e)
         {
-
            Editor.ClearAll();
+            ChangeWindowsTitle(null);
 
         }
         private void Save_Clicked(object sender, EventArgs e)
