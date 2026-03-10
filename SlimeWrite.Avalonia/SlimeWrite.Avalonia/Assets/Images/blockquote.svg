@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="128" height="128" viewBox="0 0 128 128" xmlns="http://www.w3.org/2000/svg">
+
+  <!-- Left quote bar -->
+  <rect x="24" y="24" width="12" height="80" fill="#2d2d2d" rx="2"/>
+
+  <!-- Quote lines -->
+  <line x1="44" y1="36" x2="100" y2="36" stroke="#2d2d2d" stroke-width="8" stroke-linecap="round"/>
+  <line x1="44" y1="60" x2="100" y2="60" stroke="#2d2d2d" stroke-width="8" stroke-linecap="round"/>
+  <line x1="44" y1="84" x2="80" y2="84" stroke="#2d2d2d" stroke-width="8" stroke-linecap="round"/>
+
+</svg>

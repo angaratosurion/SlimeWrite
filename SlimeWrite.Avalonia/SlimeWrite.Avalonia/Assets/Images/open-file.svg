@@ -1,0 +1,33 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="128" height="128" viewBox="0 0 128 128" xmlns="http://www.w3.org/2000/svg">
+
+  <!-- Folder -->
+  <path d="M16 40
+           Q16 32 24 32
+           H52
+           L60 44
+           H104
+           Q112 44 112 52
+           V96
+           Q112 104 104 104
+           H24
+           Q16 104 16 96
+           Z"
+        fill="#f4c542"
+        stroke="#d4a017"
+        stroke-width="3"/>
+
+  <!-- Arrow (Open) -->
+  <path d="M64 60
+           V90
+           M64 60
+           L50 74
+           M64 60
+           L78 74"
+        fill="none"
+        stroke="#2d2d2d"
+        stroke-width="6"
+        stroke-linecap="round"
+        stroke-linejoin="round"/>
+
+</svg>
