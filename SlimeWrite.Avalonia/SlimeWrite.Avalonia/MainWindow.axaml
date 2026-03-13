@@ -8,6 +8,16 @@
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="SlimeWrite.Avalonia.MainWindow"
         Title="SlimeWrite.Avalonia">
+
+  <Window.Styles>
+    <ControlTheme x:Key="{x:Type Button}" TargetType="Button">
+
+      <Setter Property="Width" Value="50"/>
+      <Setter Property="Height" Value="30"/>
+    </ControlTheme>
+
+
+  </Window.Styles>
   <DockPanel>
     <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="4">
       <StackPanel.Resources>
@@ -21,71 +31,71 @@
       </StackPanel.Resources>
       <Button   Click="New_Clicked" Margin="2" >
         <Image
-Source="avares://Assets/Images/newfile.png"
+Source="/Assets/Images/newfile.png"
 Stretch="Uniform"/>
       </Button>
       <Button  Click="Open_Clicked" Margin="2" >
- <Image Source="pack://application:,,,/Assets/Images/open-file.png" 
+ <Image Source="/Assets/Images/open-file.png" 
 Stretch="Uniform"/>
       </Button>
       <Button Click="Save_Clicked" Margin="2" >
         <Image
-Source="pack://application:,,,/Assets/Images/save-file.png"
+Source="/Assets/Images/save-file.png"
 Stretch="Uniform"/>
       </Button>
       <Button   Click="Close_Clicked" Margin="2">
         <Image
-Source="pack://application:,,,/Assets/Images/close-file.png"
+Source="/Assets/Images/close-file.png"
 Stretch="Uniform"/>
       </Button>
       <Button  Click="H1_Clicked" Margin="2">
         <Image
-Source="pack://application:,,,/Assets/Images/h1.png"
+Source="/Assets/Images/h1.png"
 Stretch="Uniform"/>
       </Button>
       <Button   Click="H2_Clicked" Margin="2">
         <Image
-Source="pack://application:,,,/Assets/Images/h2.png"
+Source="/Assets/Images/h2.png"
 Stretch="Uniform"/>
       </Button>
       <Button   Click="Bold_Clicked" Margin="2">
         <Image
-Source="pack://application:,,,/Assets/Images/bold.png"
+Source="/Assets/Images/bold.png"
 Stretch="Uniform"/>
       </Button>
       <Button   Click="Italic_Clicked" Margin="2">
         <Image
-Source="pack://application:,,,/Assets/Images/italic.png"
+Source="/Assets/Images/italic.png"
 Stretch="Uniform"/>
       </Button>
       <Button   Click="Link_Clicked" Margin="2">
         <Image
-Source="pack://application:,,,/Assets/Images/link.png"
+Source="/Assets/Images/link.png"
 Stretch="Uniform"/>
       </Button>
       <Button  Click="Image_Clicked" Margin="2">
         <Image
-Source="pack://application:,,,/Assets/Images/image.png"
+Source="/Assets/Images/image.png"
 Stretch="Uniform"/>
       </Button>
       <Button   Click="List_Clicked" Margin="2">
         <Image
-Source="pack://application:,,,/Assets/Images/list.png"
+Source="/Assets/Images/list.png"
 Stretch="Uniform"/>
       </Button>
       <Button  Click="Table_Clicked" Margin="2">
         <Image
-Source="pack://application:,,,/Assets/Images/table.png"
+Source="/Assets/Images/table.png"
 Stretch="Uniform"/>
       </Button>
       <Button   Click="Quote_Clicked" Margin="2">
         <Image
-Source="pack://application:,,,/Assets/Images/blockquote.png"
+Source="/Assets/Images/blockquote.png"
 Stretch="Uniform"/>
       </Button>
       <Button   Click="InserFilepropps_Click" Margin="2">
         <Image
-Source="pack://application:,,,/Assets/Images/file-properties.png"
+Source="/Assets/Images/file-properties.png"
 Stretch="Uniform"/>
       </Button>
       <Button   Click="About_Click" Margin="2"/>

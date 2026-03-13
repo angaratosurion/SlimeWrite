@@ -7,4 +7,9 @@
     <Application.Styles>
         <FluentTheme />
     </Application.Styles>
+  <Application.Resources>
+    <ControlTheme x:Key="{x:Type Button}" TargetType="Button">
+
+    </ControlTheme>
+  </Application.Resources>
 </Application>

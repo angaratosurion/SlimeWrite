@@ -72,6 +72,7 @@
     <EmbeddedResource Include="Assets\Images\slimewrite_logo.ico" />
     <EmbeddedResource Include="Assets\Images\table.png" />
     <EmbeddedResource Include="Assets\Images\table.svg" />
+    <AvaloniaResource Include="Assets\Images\**" />
   </ItemGroup>
 
   <ItemGroup>
@@ -87,5 +88,11 @@
     </PackageReference>
     <PackageReference Include="CefGlue.Avalonia" Version="120.6099.211" />
     <PackageReference Include="SlimeMarkUp.Core" Version="0.1.8" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Update="appsettings.json">
+      <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+    </None>
   </ItemGroup>
 </Project>
