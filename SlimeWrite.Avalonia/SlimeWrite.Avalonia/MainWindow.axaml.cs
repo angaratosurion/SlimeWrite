@@ -2,15 +2,20 @@ using Avalonia.Controls;
 using Avalonia.Data;
 using Avalonia.Input;
 using Avalonia.Interactivity;
+using Avalonia.Platform.Storage;
 using SlimeMarkUp.Core;
 using SlimeMarkUp.Core.Extensions.SlimeMarkup;
+using SlimeWrite.Avalonia.Models;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Text.Json;
 using System.Threading;
+using System.Threading.Tasks;
+using Xilium.CefGlue.Avalonia;
 
 namespace SlimeWrite.Avalonia
 {
@@ -20,7 +25,10 @@ namespace SlimeWrite.Avalonia
         private readonly MarkupParser _parser;
         private readonly HtmlRenderer _renderer;
       
-        CoreWebView2Environment env;
+        private AvaloniaCefBrowser Preview;
+
+
+       // CoreWebView2Environment env;
         static Options options = new Options
         {
             //UseTextChangedEvent = true,
@@ -57,8 +65,8 @@ namespace SlimeWrite.Avalonia
             });
 
             _renderer = new HtmlRenderer();
-
-
+            
+           
             Editor.Text = _markdown;
             //UpdatePreview(_markdown);
             ChangeWindowsTitle(null);
@@ -75,6 +83,7 @@ namespace SlimeWrite.Avalonia
                 updater.DownloadLatestRelease();
 
             }
+             
         }
 
 
@@ -107,20 +116,27 @@ namespace SlimeWrite.Avalonia
             //Editor.TextChanged -= Editor_TextChanged;
             if (filename == null)
             {
-                System.Windows.Forms.OpenFileDialog openFileDialog =
-                    new System.Windows.Forms.OpenFileDialog();
-                openFileDialog.Filter =
-                       "All Files (*.*)|*.*|" +
-                           "Markdown (*.md)|*.md|" +
-                           "SlimeMarkup (*.smd)|*.smd";
+                 
 
-                DialogResult res = openFileDialog.ShowDialog();
-
-                if (res == System.Windows.Forms.DialogResult.OK)
+               var res = await this.StorageProvider.OpenFilePickerAsync(new FilePickerOpenOptions
                 {
-                    var file = await File.ReadAllTextAsync(openFileDialog.FileName, Encoding.UTF8
+                    AllowMultiple = false,
+                    Title = "Open Markdown or SlimeMarkup file",
+                    FileTypeFilter = new List<FilePickerFileType>
+                    {
+                        new FilePickerFileType("Markdown or SlimeMarkup")
+                        {
+                            Patterns = new List<string> { "*.*", "*.md", "*.smd" }
+                        }
+                    }
+                });
+
+                if (res != null)
+                {
+                    var file = await File.ReadAllTextAsync(res[0].TryGetLocalPath()
+                        , Encoding.UTF8
                         , CancellationToken.None);
-                    Editor.ClearAll();
+                  //  Editor.ClearAll();
                     Editor.Text = file;
 
 
@@ -137,26 +153,24 @@ namespace SlimeWrite.Avalonia
             //Editor.TextChanged += Editor_TextChanged;
 
         }
-        private void SaveFile()
+        private async Task SaveFile()
         {
+ 
+            FilePickerSaveOptions filePickerSaveOptions = new FilePickerSaveOptions();
 
-            System.Windows.Forms.SaveFileDialog saveFileDialog =
-                new System.Windows.Forms.SaveFileDialog();
-            DialogResult res = saveFileDialog.ShowDialog();
-            saveFileDialog.Filter =
-                      "All Files (*.*)|*.*|" +
-                          "Markdown (*.md)|*.md|" +
-                          "SlimeMarkup (*.smd)|*.smd";
-            if (res == System.Windows.Forms.DialogResult.OK)
+            var res = await this.StorageProvider.SaveFilePickerAsync(filePickerSaveOptions);
+                
+
+            if (res != null)
             {
-                File.WriteAllText(saveFileDialog.FileName, Editor.Text, Encoding.UTF8);
-                ChangeWindowsTitle(saveFileDialog.FileName);
+                File.WriteAllText(res.TryGetLocalPath(), Editor.Text, Encoding.UTF8);
+                ChangeWindowsTitle(res.Name);
 
 
             }
 
         }
-        private void New_Clicked(object sender, EventArgs e)
+        private void New_Clicked(object sender, RoutedEventArgs e)
         {
 
             Editor.Text= "";
@@ -164,26 +178,26 @@ namespace SlimeWrite.Avalonia
 
         }
 
-        private void Open_Clicked(object sender, EventArgs e)
+        private void Open_Clicked(object sender, RoutedEventArgs e)
         {
 
             OpenFile(null);
 
         }
-        private void Close_Clicked(object sender, EventArgs e)
+        private void Close_Clicked(object sender, RoutedEventArgs e)
         {
             Editor.Text = "";
             ChangeWindowsTitle(null);
 
         }
-        private void Save_Clicked(object sender, EventArgs e)
+        private void Save_Clicked(object sender,  RoutedEventArgs e)
         {
 
             SaveFile();
 
         }
 
-        private void H1_Clicked(object sender, EventArgs e)
+        private void H1_Clicked(object sender, RoutedEventArgs e)
         {
             if (Editor.SelectedText != null
                 && Editor.SelectedText != String.Empty)
@@ -197,7 +211,7 @@ namespace SlimeWrite.Avalonia
             }
         }
 
-        private void H2_Clicked(object sender, EventArgs e)
+        private void H2_Clicked(object sender, RoutedEventArgs e)
         {
             if (Editor.SelectedText != null
                 && Editor.SelectedText != String.Empty)
@@ -211,7 +225,7 @@ namespace SlimeWrite.Avalonia
             }
         }
 
-        private void Bold_Clicked(object sender, EventArgs e)
+        private void Bold_Clicked(object sender, RoutedEventArgs e)
         {
             if (Editor.SelectedText != null
                 && Editor.SelectedText != String.Empty)
@@ -225,7 +239,7 @@ namespace SlimeWrite.Avalonia
             }
         }
 
-        private void Italic_Clicked(object sender, EventArgs e)
+        private void Italic_Clicked(object sender, RoutedEventArgs e)
         {
             if (Editor.SelectedText != null
                 && Editor.SelectedText != String.Empty)
@@ -239,7 +253,7 @@ namespace SlimeWrite.Avalonia
             }
         }
 
-        private void Link_Clicked(object sender, EventArgs e)
+        private void Link_Clicked(object sender, RoutedEventArgs e)
         {
             if (Editor.SelectedText != null
                 && Editor.SelectedText != String.Empty)
@@ -254,7 +268,7 @@ namespace SlimeWrite.Avalonia
             }
         }
 
-        private void Image_Clicked(object sender, EventArgs e)
+        private void Image_Clicked(object sender, RoutedEventArgs e)
         {
             if (Editor.SelectedText != null
                 && Editor.SelectedText != String.Empty)
@@ -269,12 +283,12 @@ namespace SlimeWrite.Avalonia
             }
         }
 
-        private void List_Clicked(object sender, EventArgs e)
+        private void List_Clicked(object sender, RoutedEventArgs e)
         {
             Editor.Text += "\n- item 1\n- item 2\n";
         }
 
-        private void Table_Clicked(object sender, EventArgs e)
+        private void Table_Clicked(object sender, RoutedEventArgs e)
         {
             Editor.Text += """
         | Col1 | Col2 |
@@ -284,7 +298,7 @@ namespace SlimeWrite.Avalonia
         """;
         }
 
-        private void Quote_Clicked(object sender, EventArgs e)
+        private void Quote_Clicked(object sender, RoutedEventArgs e)
         {
             if (Editor.SelectedText != null
                 && Editor.SelectedText != String.Empty)
@@ -339,9 +353,11 @@ namespace SlimeWrite.Avalonia
             }
         }
 
-        private void Editor_KeyDown(object? sender, KeyEventArgs e)
+        
+
+        private void Editor_KeyDown(object? sender, RoutedEventArgs e)
         {
-            if (e.KeyCode == Keys.Enter)
+            //if (e == Key.Enter)
             {
                 _markdown = Editor.Text;//?? "";
                 UpdatePreview(Editor.Text);
@@ -362,7 +378,7 @@ namespace SlimeWrite.Avalonia
 
 
 
-                await Preview.EnsureCoreWebView2Async(env);
+               // await Preview.EnsureCoreWebView2Async(env);
 
                 //  Preview.NavigateToString(html);
                 NavigateToStringFile(html);
@@ -376,15 +392,15 @@ namespace SlimeWrite.Avalonia
         }
         async void initilizePreview()
         {
-            env = await CoreWebView2Environment.
-                CreateAsync(userDataFolder:
-                Path.Combine(Path.GetTempPath(), "SlimeWrite"));
+           // env = await CoreWebView2Environment.
+           //CreateAsync(userDataFolder:
+           //Path.Combine(Path.GetTempPath(), "SlimeWrite"));
 
             // NOTE: this waits until the first page is navigated - then continues
             //       executing the next line of code!
 
-            
-            await Preview.EnsureCoreWebView2Async(env);
+
+            //await Preview.EnsureCoreWebView2Async(env);
             switch (options.WebViewOrientation)
             {
                 case 0:
@@ -405,16 +421,17 @@ namespace SlimeWrite.Avalonia
                         break;
                     }
             }
-            App.env = env;
+             
         }
 
         async void NavigateToStringFile(string html)
         {
 
-            var file = Path.Combine(env.UserDataFolder, "output.html");
+            var file = Path.Combine(Path.GetTempPath(),
+                "output.html");
             File.WriteAllText(file, html);
-            Preview.Source = new Uri(file);
-            Preview.CoreWebView2.Navigate(Preview.Source.ToString());
+            Preview.Address = file;
+            
 
 
         }

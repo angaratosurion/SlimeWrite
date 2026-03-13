@@ -85,6 +85,7 @@
       <IncludeAssets Condition="'$(Configuration)' != 'Debug'">None</IncludeAssets>
       <PrivateAssets Condition="'$(Configuration)' != 'Debug'">All</PrivateAssets>
     </PackageReference>
+    <PackageReference Include="CefGlue.Avalonia" Version="120.6099.211" />
     <PackageReference Include="SlimeMarkUp.Core" Version="0.1.8" />
   </ItemGroup>
 </Project>
