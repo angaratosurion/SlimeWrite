@@ -1,33 +1,27 @@
 <Window xmlns="https://github.com/avaloniaui"
         xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:vm="using:SlimeWrite.Avalonia.ViewModels"
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:views="clr-namespace:SlimeWrite.Avalonia.Views"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         xmlns:wpf="clr-namespace:Avalonia.Xpf.Controls;assembly=Avalonia.Xpf.Controls.WebView"
         xmlns:AvaloniaEdit="clr-namespace:AvaloniaEdit;assembly=AvaloniaEdit"
-        
-        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-        x:Class="SlimeWrite.Avalonia.MainWindow"
+        x:Class="SlimeWrite.Avalonia.Views.MainWindow"
+        Icon="/Assets/Images/slimewrite_logo.ico"
+       
         Title="SlimeWrite.Avalonia">
+       <!-- <views:MainView />-->
 
   <Window.Styles>
-    <ControlTheme x:Key="{x:Type Button}" TargetType="Button">
 
-      <Setter Property="Width" Value="50"/>
-      <Setter Property="Height" Value="30"/>
-    </ControlTheme>
 
 
   </Window.Styles>
-  <DockPanel>
-    <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="4">
+  <DockPanel LastChildFill="True">
+     <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="4" >
       <StackPanel.Resources>
-        <!--
-        <Style TargetType="Button">
-          <Setter Property="Foreground" Value="Gray" />
-                    <Setter Property="FontSize" Value="24" />
-          <Setter Property="Width" Value="50"/>
-          <Setter Property="Height" Value="30"/>
-        </Style>-->
+    
       </StackPanel.Resources>
       <Button   Click="New_Clicked" Margin="2" >
         <Image
@@ -35,8 +29,8 @@ Source="/Assets/Images/newfile.png"
 Stretch="Uniform"/>
       </Button>
       <Button  Click="Open_Clicked" Margin="2" >
- <Image Source="/Assets/Images/open-file.png" 
-Stretch="Uniform"/>
+        <Image Source="/Assets/Images/open-file.png"
+       Stretch="Uniform"/>
       </Button>
       <Button Click="Save_Clicked" Margin="2" >
         <Image
@@ -98,27 +92,38 @@ Stretch="Uniform"/>
 Source="/Assets/Images/file-properties.png"
 Stretch="Uniform"/>
       </Button>
-      <Button   Click="About_Click" Margin="2"/>
-    </StackPanel>
-    <Grid Name="grid">
+       <Button   Click="About_Click" Margin="2">
+         <Image
+Source="/Assets/Images/slimewrite_logo.ico"
+Stretch="Uniform"/>
+       </Button>
+    </StackPanel>   
+    
+    <Grid Name="grid"     HorizontalAlignment="Stretch"
+          VerticalAlignment="Stretch" >
       <Grid.ColumnDefinitions>
         <ColumnDefinition Width="*"/>
         <ColumnDefinition Width="5"/>
         <ColumnDefinition Width="*"/>
       </Grid.ColumnDefinitions>
-      
+
+      <!--<AvaloniaEdit:TextEditor Name="Editor" Grid.Column="0"
+     ShowLineNumbers="True"
+     FontFamily="Cascadia Code,Consolas,Menlo,Monospace"/>
       <GridSplitter Grid.Column="1"
                      Width="5"
-                     HorizontalAlignment="Stretch" Name="splinter" />
+                     HorizontalAlignment="Stretch"  VerticalAlignment="Stretch"
+                    Name="splinter" />-->
 
-    </Grid>
-    <AvaloniaEdit:TextEditor Name="Editor" Grid.Column="0" 
-    ShowLineNumbers="True"
-    FontFamily="Cascadia Code,Consolas,Menlo,Monospace"
-                             />
-    <Decorator x:Name="BrowserView" Grid.Column="2"/>
-   <!-- <wpf:NativeWebView Grid.Column="2" x:Name="Preview" />-->
+      <TextBox x:Name="Editor" HorizontalAlignment="Stretch" 
+               VerticalAlignment="Stretch"></TextBox>
+
+       
     
-
+                              
+    <Decorator x:Name="BrowserView" Grid.Column="2"/>
+      
+    </Grid>
+    
   </DockPanel>
 </Window>
