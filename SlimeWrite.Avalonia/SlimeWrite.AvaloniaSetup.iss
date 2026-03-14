@@ -80,8 +80,8 @@ Name: "ukrainian"; MessagesFile: "compiler:Languages\Ukrainian.isl"
 Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked
 
 [Files]
-Source: "D:\Cloud Folder\NextCloud\My Programs\dotNet\Open Source\SlimeWrite\SlimeWrite.Avalonia\SlimeWrite.Avalonia.Desktop\bin\Release\net10.0\{#MyAppExeName}"; DestDir: "{app}"; Flags: ignoreversion
-Source: "D:\Cloud Folder\NextCloud\My Programs\dotNet\Open Source\SlimeWrite\SlimeWrite.Avalonia\SlimeWrite.Avalonia.Desktop\bin\Release\net10.0\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "D:\Cloud Folder\NextCloud\My Programs\dotNet\Open Source\SlimeWrite\SlimeWrite.Avalonia\SlimeWrite.Avalonia.Desktop\bin\x64\Release\net10.0\{#MyAppExeName}"; DestDir: "{app}"; Flags: ignoreversion
+Source: "D:\Cloud Folder\NextCloud\My Programs\dotNet\Open Source\SlimeWrite\SlimeWrite.Avalonia\SlimeWrite.Avalonia.Desktop\bin\x64\Release\net10.0\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
 [Registry]

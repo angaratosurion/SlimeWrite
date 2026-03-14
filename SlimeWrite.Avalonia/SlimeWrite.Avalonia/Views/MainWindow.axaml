@@ -93,9 +93,10 @@ Source="/Assets/Images/file-properties.png"
 Stretch="Uniform"/>
       </Button>
        <Button   Click="About_Click" Margin="2">
-         <Image
+        <!-- <Image
 Source="/Assets/Images/slimewrite_logo.ico"
-Stretch="Uniform"/>
+Stretch="Uniform"/>-->
+         About
        </Button>
     </StackPanel>   
     

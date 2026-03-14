@@ -4,32 +4,34 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
         x:Class="SlimeWrite.Avalonia.About"
-        Title="About"> 
-     <Border Padding="18" CornerRadius="8" Background="#FFF" BorderBrush="#DDD" BorderThickness="1">
-        <StackPanel Orientation="Vertical" Width="520">
-            <StackPanel Orientation="Horizontal" Margin="0 0 0 12" VerticalAlignment="Center">
-                <Image x:Name="LogoImage" Width="64" Height="64" Margin="0 0 12 0" Stretch="Uniform"
-                       Source="pack://application:,,,/Assets/Images/logo.png"
+         Width="400" Height="400"
+        Title="About"   CanResize="False"
+        WindowStartupLocation="CenterOwner"> 
+    <!-- <Border  CornerRadius="8"  BorderBrush="#DDD" BorderThickness="1">-->
+        <StackPanel    HorizontalAlignment="Center" VerticalAlignment="Top" Spacing="10"   Margin="0,50,0,0">
+            <StackPanel Orientation="Horizontal"    >
+                <Image x:Name="LogoImage" Width="64" Height="64"   Stretch="Uniform"
+                       Source="/Assets/Images/logo.png"
                         />
-                <StackPanel Orientation="Vertical" VerticalAlignment="Center">
+                <StackPanel Orientation="Vertical" Spacing="10" >
                     <TextBlock x:Name="AppNameText" Text="MyApp" FontSize="20" FontWeight="SemiBold" />
                     <TextBlock x:Name="VersionText" Text="Έκδοση 1.0.0" FontSize="12" Opacity="0.8" />
                 </StackPanel>
             </StackPanel>
 
-            <TextBlock Name="DescriptionText" TextWrapping="Wrap" Margin="0 0 0 12">
+            <TextBlock Name="DescriptionText" TextWrapping="Wrap"   >
                 Description
             </TextBlock>
 
-            <StackPanel Orientation="Vertical" Margin="0 0 0 12">
+            <StackPanel Orientation="Vertical"  >
                 <TextBlock>
                     <Run>Web Site: </Run>
                     <!--<Hyperlink Click="WebsiteHyperlink_Click" />https://github.com/angaratosurion/SlimeWrite</Hyperlink>-->
                 </TextBlock>
-                <TextBlock Margin="0 6 0 0" Name="CopyRightText">© 2025 .</TextBlock>
+                <TextBlock   Name="CopyRightText">© 2025 .</TextBlock>
             </StackPanel>
 
-            <Expander Header="Contributors  and License" IsExpanded="False" Margin="0 0 0 12">
+            <Expander Header="Contributors  and License" IsExpanded="False"  >
                 <StackPanel>
                     <TextBlock TextWrapping="Wrap" >Contributors: Angarato Surion</TextBlock>
                     <TextBlock TextWrapping="Wrap" > License: GNU GENERAL PUBLIC LICENSE v3</TextBlock>
@@ -42,5 +44,5 @@
                         Click="Close_Click">Close</Button>
             </StackPanel>
         </StackPanel>
-    </Border>
+    <!--</Border>-->
 </Window>
