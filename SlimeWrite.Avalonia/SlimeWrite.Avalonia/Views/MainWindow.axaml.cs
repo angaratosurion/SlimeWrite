@@ -37,6 +37,7 @@ public partial class MainWindow : Window
     {
         InitializeComponent();
         initilizePreview();
+         
         using (StreamReader r = new StreamReader("appsettings.json"))
         {
             string json = r.ReadToEnd();
@@ -413,9 +414,9 @@ public partial class MainWindow : Window
                     grid.RowDefinitions.Add(new RowDefinition());
                     grid.RowDefinitions.Add(new RowDefinition());
                     this.grid.RowDefinitions[1].Height = new GridLength(5);
-                    //Grid.SetRow(formsHost, 0);
-                    //Grid.SetRow(Preview, 2);
-                    //Grid.SetRow(splinter, 1);
+                    Grid.SetRow(this.BrowserView, 0);
+                    Grid.SetRow(Preview, 2);
+                   Grid.SetRow(splinter, 1);
                     break;
                 }
         }

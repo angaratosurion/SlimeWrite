@@ -107,13 +107,11 @@ Stretch="Uniform"/>
         <ColumnDefinition Width="*"/>
       </Grid.ColumnDefinitions>
 
-      <!--<AvaloniaEdit:TextEditor Name="Editor" Grid.Column="0"
-     ShowLineNumbers="True"
-     FontFamily="Cascadia Code,Consolas,Menlo,Monospace"/>
+     
       <GridSplitter Grid.Column="1"
                      Width="5"
                      HorizontalAlignment="Stretch"  VerticalAlignment="Stretch"
-                    Name="splinter" />-->
+                    Name="splinter" />
 
       <TextBox x:Name="Editor" HorizontalAlignment="Stretch" 
                VerticalAlignment="Stretch"></TextBox>
