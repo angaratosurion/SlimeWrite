@@ -43,6 +43,7 @@ LicenseFile=D:\Cloud Folder\NextCloud\My Programs\dotNet\Open Source\SlimeWrite\
 OutputDir=D:\Cloud Folder\NextCloud\My Programs\dotNet\Open Source\SlimeWrite\SetupOutput
 OutputBaseFilename={#MyAppName}-{#MyAppVersion}
 SolidCompression=yes
+Compression=lzma2/ultra64
 WizardStyle=modern dynamic
 SignTool=MsSign $f
 [Languages]
