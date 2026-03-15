@@ -22,10 +22,10 @@ public partial class About : Window
         AppName = asm.GetCustomAttribute<AssemblyTitleAttribute>()?.Title ??
             "SlimeWrite";
         Version = asm.GetName()?.Version?.ToString() ?? "1.0.0";
-        Copyright = asm.GetCustomAttribute<AssemblyCopyrightAttribute>()?.
+        Copyright = asm.GetCustomAttribute<AssemblyCopyrightAttribute>().
             Copyright;
 
-        Description = asm.GetCustomAttribute<AssemblyDescriptionAttribute>()?.
+        Description = asm.GetCustomAttribute<AssemblyDescriptionAttribute>().
             Description;
         AppNameText.Text = AppName;
         VersionText.Text = $"Version {Version}";
@@ -35,7 +35,7 @@ public partial class About : Window
 
         try
         {
-            var uri = new Uri("/Assets/Images/logo.png",
+            var uri = new Uri("pack://application:,,,/Assets/Images/logo.png",
                 UriKind.Absolute);
 
         }
