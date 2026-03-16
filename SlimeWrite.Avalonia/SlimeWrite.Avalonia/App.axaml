@@ -21,9 +21,9 @@
     </ControlTheme>
     <ControlTheme x:Key="{x:Type StackPanel}" TargetType="StackPanel">
 
-       
+      <!--
       <Setter Property="Height" Value="30"/>
-      <Setter Property="Background" Value="Gray"/>
+     <Setter Property="Background" Value="Gray"/>-->
     </ControlTheme>
   </Application.Resources>
 </Application>

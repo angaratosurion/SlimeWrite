@@ -92,10 +92,14 @@ Stretch="Uniform"/>
 Source="/Assets/Images/file-properties.png"
 Stretch="Uniform"/>
       </Button>
+       <Button Click="AppOptions_Click" Margin="2">
+         Options
+       </Button>
        <Button   Click="About_Click" Margin="2">
-         <Image
+         About
+         <!--Image
 Source="/Assets/Images/slimewrite_logo.ico"
-Stretch="Uniform"/>
+Stretch="Uniform"/>-->
        </Button>
     </StackPanel>   
     

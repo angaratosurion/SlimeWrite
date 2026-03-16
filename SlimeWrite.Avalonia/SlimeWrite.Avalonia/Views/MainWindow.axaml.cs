@@ -180,6 +180,14 @@ public partial class MainWindow : Window
         OpenFile(null);
 
     }
+    private void AppOptions_Click(object sender, RoutedEventArgs e)
+    {
+
+         OptionsView options = new OptionsView();
+        options.Show();
+       
+
+    }
     private void Close_Clicked(object sender, RoutedEventArgs e)
     {
         Editor.Text = "";

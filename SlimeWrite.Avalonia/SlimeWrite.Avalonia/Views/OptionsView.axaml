@@ -3,17 +3,22 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
-        x:Class="SlimeWrite.Avalonia.OptionsView"
+        x:Class="SlimeWrite.Avalonia.Views.OptionsView"
         Title="OptionsView">
   <DockPanel LastChildFill="True">
-    <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="4" >
-      <CheckBox Name="cbxUseTextChangedEvent">Use Text Changed Event</CheckBox>
-      <CheckBox Name="cbxUseEnterPressedEvent">Use Enter Pressed Event</CheckBox>
+    <StackPanel DockPanel.Dock="Top" Orientation="Vertical"   >
+      <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="4" >
+        <CheckBox Name="cbxUseTextChangedEvent">Use Text Changed Event</CheckBox>
+        <CheckBox Name="cbxUseEnterPressedEvent">Use Enter Pressed Event</CheckBox>
+
+      </StackPanel>
+      <TextBlock>WebView Orientation</TextBlock>
       <ComboBox SelectedIndex="0" MaxDropDownHeight="100">
-        <ComboBoxItem>Text Item 1</ComboBoxItem>
+
+        <ComboBoxItem>Vertical</ComboBoxItem>
+        <ComboBoxItem>Horizontal</ComboBoxItem>
 
       </ComboBox>
-      
     </StackPanel>
 
   </DockPanel>

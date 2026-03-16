@@ -10,7 +10,7 @@
     <AndroidPackageFormat>apk</AndroidPackageFormat>
     <AndroidEnableProfiledAot>false</AndroidEnableProfiledAot>
     <RuntimeIdentifiers>android-arm64;android-x64</RuntimeIdentifiers>
-    <Platforms>ARM64;x64</Platforms>
+     
     <AndroidLinkMode>None</AndroidLinkMode>
   </PropertyGroup>
 
