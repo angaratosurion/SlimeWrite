@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="128" height="128" viewBox="0 0 128 128" xmlns="http://www.w3.org/2000/svg">
+
+  <!-- Outer table -->
+  <rect x="24" y="32" width="80" height="64" fill="none" stroke="#2d2d2d" stroke-width="8" rx="4"/>
+
+  <!-- Horizontal lines -->
+  <line x1="24" y1="56" x2="104" y2="56" stroke="#2d2d2d" stroke-width="6"/>
+  <line x1="24" y1="80" x2="104" y2="80" stroke="#2d2d2d" stroke-width="6"/>
+
+  <!-- Vertical lines -->
+  <line x1="48" y1="32" x2="48" y2="96" stroke="#2d2d2d" stroke-width="6"/>
+  <line x1="72" y1="32" x2="72" y2="96" stroke="#2d2d2d" stroke-width="6"/>
+  <line x1="96" y1="32" x2="96" y2="96" stroke="#2d2d2d" stroke-width="6"/>
+
+</svg>

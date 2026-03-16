@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="128" height="128" viewBox="0 0 128 128" xmlns="http://www.w3.org/2000/svg">
+
+  <!-- Italic I -->
+  <path d="M76 24
+           L52 104
+           M44 24
+           H96
+           M32 104
+           H84"
+        fill="none"
+        stroke="#2d2d2d"
+        stroke-width="10"
+        stroke-linecap="round"
+        stroke-linejoin="round"/>
+
+</svg>
