@@ -7,7 +7,12 @@
         Title="OptionsView">
   <DockPanel LastChildFill="True">
     <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="4" >
-      <TextBlock></TextBlock>
+      <CheckBox Name="cbxUseTextChangedEvent">Use Text Changed Event</CheckBox>
+      <CheckBox Name="cbxUseEnterPressedEvent">Use Enter Pressed Event</CheckBox>
+      <ComboBox SelectedIndex="0" MaxDropDownHeight="100">
+        <ComboBoxItem>Text Item 1</ComboBoxItem>
+
+      </ComboBox>
       
     </StackPanel>
 
