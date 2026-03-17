@@ -12,9 +12,13 @@
      
     <AndroidLinkMode>None</AndroidLinkMode>
      
-    <Platforms>AnyCPU;ARM32;x64</Platforms>
+    
   </PropertyGroup>
+  <PropertyGroup>
+    <RuntimeIdentifiers>android-arm;android-arm64;android-x64</RuntimeIdentifiers>
 
+    <RuntimeIdentifier Condition="'$(RuntimeIdentifier)' == 'linux-arm64'">android-arm64</RuntimeIdentifier>
+  </PropertyGroup>
   <ItemGroup>
     <AndroidResource Include="Icon.png">
       <Link>Resources\drawable\Icon.png</Link>
