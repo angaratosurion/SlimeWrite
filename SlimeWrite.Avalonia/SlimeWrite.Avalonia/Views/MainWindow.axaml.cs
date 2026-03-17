@@ -23,8 +23,9 @@ public partial class MainWindow : Window
     string _markdown = "#Καλημέρα";
     private readonly MarkupParser _parser;
     private readonly HtmlRenderer _renderer;
-
+    AppInfo appInfo;
     private AvaloniaCefBrowser Preview;
+    Core core = new Core();
 
 
     // CoreWebView2Environment env;
@@ -38,11 +39,8 @@ public partial class MainWindow : Window
         InitializeComponent();
         initilizePreview();
          
-        using (StreamReader r = new StreamReader("appsettings.json"))
-        {
-            string json = r.ReadToEnd();
-            options = JsonSerializer.Deserialize<Options>(json);
-        }
+        appInfo = core.GetAppInfo();
+        options = core.GetOptions();
         LoadEditor();
 
         _parser = new MarkupParser(new List<IBlockMarkupExtension>
@@ -93,10 +91,9 @@ public partial class MainWindow : Window
 
     private void ChangeWindowsTitle(string filename)
     {
-        var asm = Assembly.GetEntryAssembly() ?? Assembly.GetExecutingAssembly();
-        var AppName = asm.GetCustomAttribute<AssemblyTitleAttribute>()?.Title ??
-            "SlimeWrite";
-        var Version = asm.GetName()?.Version?.ToString() ?? "1.0.0";
+
+        var AppName = appInfo.AppName;
+        var Version = appInfo.Version;
         var wintile = AppName + " " + Version;
         if (filename != null)
         {
@@ -433,9 +430,14 @@ public partial class MainWindow : Window
 
     async void NavigateToStringFile(string html)
     {
+        string appname = appInfo.AppName;
 
-        var file = Path.Combine(Path.GetTempPath(),
+        var file = Path.Combine(Path.GetTempPath(),appname,
             "output.html");
+         if ( Directory.Exists(Path.Combine(Path.GetTempPath(), appname)) == false)
+        {
+            Directory.CreateDirectory(Path.Combine(Path.GetTempPath(), appname));
+        }
         File.WriteAllText(file, html);
         if (Preview != null)
         {

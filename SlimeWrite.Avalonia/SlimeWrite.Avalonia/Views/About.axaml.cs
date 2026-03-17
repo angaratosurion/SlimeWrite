@@ -2,6 +2,7 @@ using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
 using Avalonia.Markup.Xaml;
+using SlimeWrite.Avalonia.Models;
 using System;
 using System.Diagnostics;
 using System.Reflection;
@@ -10,27 +11,16 @@ namespace SlimeWrite.Avalonia;
 
 public partial class About : Window
 {
-    public string AppName { get; }
-    public string Version { get; }
-    public string Website { get; } = "https://github.com/angaratosurion/SlimeWrite";
-    public string Copyright { get; }
-    public string Description { get; }
+    AppInfo appInfo;
     public About()
     {
         InitializeComponent();
-        var asm = Assembly.GetEntryAssembly() ?? Assembly.GetExecutingAssembly();
-        AppName = asm.GetCustomAttribute<AssemblyTitleAttribute>()?.Title ??
-            "SlimeWrite";
-        Version = asm.GetName()?.Version?.ToString() ?? "1.0.0";
-        Copyright = asm.GetCustomAttribute<AssemblyCopyrightAttribute>()?.
-            Copyright;
+         appInfo = new Core().GetAppInfo();
 
-        Description = asm.GetCustomAttribute<AssemblyDescriptionAttribute>()?.
-            Description;
-        AppNameText.Text = AppName;
-        VersionText.Text = $"Version {Version}";
-        CopyRightText.Text = "© " + DateTime.Now.Year + " " + Copyright;
-        DescriptionText.Text = Description;
+        AppNameText.Text = appInfo.AppName;
+        VersionText.Text = $"Version {appInfo.Version}";
+        CopyRightText.Text = "© " + DateTime.Now.Year + " " + appInfo.Copyright;
+        DescriptionText.Text = appInfo.Description;
 
 
         try
@@ -46,7 +36,7 @@ public partial class About : Window
     {
         try
         {
-            Process.Start(new ProcessStartInfo(Website) { UseShellExecute = true });
+            Process.Start(new ProcessStartInfo(appInfo.Website) { UseShellExecute = true });
         }
         catch (Exception ex)
         {
