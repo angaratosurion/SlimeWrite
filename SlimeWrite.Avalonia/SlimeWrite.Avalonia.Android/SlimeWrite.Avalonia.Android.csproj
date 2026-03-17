@@ -11,6 +11,8 @@
     <AndroidEnableProfiledAot>false</AndroidEnableProfiledAot>
      
     <AndroidLinkMode>None</AndroidLinkMode>
+     
+    <Platforms>AnyCPU;ARM32;x64</Platforms>
   </PropertyGroup>
 
   <ItemGroup>
