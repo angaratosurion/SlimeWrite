@@ -5,6 +5,10 @@
     <LangVersion>latest</LangVersion>
     <AvaloniaUseCompiledBindingsByDefault>true</AvaloniaUseCompiledBindingsByDefault>
     <Platforms>AnyCPU;x64;ARM64;ARM32</Platforms>
+   <TargetFrameworks>net10.0</TargetFrameworks>
+
+   <!-- <RuntimeIdentifiers>win-x64;win-arm64;android-arm;android-arm64;android-x64</RuntimeIdentifiers>-->
+
   </PropertyGroup>
   
   <ItemGroup>
