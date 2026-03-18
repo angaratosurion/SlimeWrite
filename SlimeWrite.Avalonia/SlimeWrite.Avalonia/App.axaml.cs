@@ -1,11 +1,9 @@
 using Avalonia;
 using Avalonia.Controls.ApplicationLifetimes;
-using Avalonia.Data.Core;
 using Avalonia.Data.Core.Plugins;
-using System.Linq;
 using Avalonia.Markup.Xaml;
-using SlimeWrite.Avalonia.ViewModels;
 using SlimeWrite.Avalonia.Views;
+using System.Linq;
 
 namespace SlimeWrite.Avalonia;
 
@@ -25,7 +23,7 @@ public partial class App : Application
             DisableAvaloniaDataAnnotationValidation();
             desktop.MainWindow = new MainWindow
             {
-                DataContext = new MainViewModel()
+                //DataContext = new MainViewModel()
             };
         }
         else if (ApplicationLifetime is ISingleViewApplicationLifetime singleViewPlatform)
