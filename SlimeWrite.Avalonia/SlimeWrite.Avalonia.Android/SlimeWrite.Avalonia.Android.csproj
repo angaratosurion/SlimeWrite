@@ -1,7 +1,7 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
   <PropertyGroup>
     <OutputType>Exe</OutputType>
-    <TargetFramework>net10.0-android36.1</TargetFramework>
+    <TargetFramework>net9.0-android</TargetFramework>
     <SupportedOSPlatformVersion>21</SupportedOSPlatformVersion>
     <Nullable>enable</Nullable>
     <ApplicationId>com.CompanyName.SlimeWrite.Avalonia</ApplicationId>
@@ -9,16 +9,8 @@
     <ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
     <AndroidPackageFormat>apk</AndroidPackageFormat>
     <AndroidEnableProfiledAot>false</AndroidEnableProfiledAot>
-     
-    <AndroidLinkMode>None</AndroidLinkMode>
-     
-    
   </PropertyGroup>
-  <PropertyGroup>
-    <RuntimeIdentifiers>android-arm;android-arm64;android-x64</RuntimeIdentifiers>
 
-    <RuntimeIdentifier Condition="'$(RuntimeIdentifier)' == 'linux-arm64'">android-arm64</RuntimeIdentifier>
-  </PropertyGroup>
   <ItemGroup>
     <AndroidResource Include="Icon.png">
       <Link>Resources\drawable\Icon.png</Link>
@@ -27,8 +19,7 @@
 
   <ItemGroup>
     <PackageReference Include="Avalonia.Android" />
-   <!-- <PackageReference Include="CefGlue.Avalonia" /> -->
-    <!--<PackageReference Include="Xamarin.AndroidX.Core.SplashScreen" />-->
+    <PackageReference Include="Xamarin.AndroidX.Core.SplashScreen" />
   </ItemGroup>
 
   <ItemGroup>
