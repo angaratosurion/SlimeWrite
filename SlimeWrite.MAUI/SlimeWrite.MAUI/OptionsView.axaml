@@ -1,0 +1,35 @@
+<ContentPage xmlns="https://github.com/MAUIui"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        mc:Ignorable="d" d:DesignWidth="800" d:DesignHeight="450"
+        x:Class="SlimeWrite.MAUI.Views.OptionsView" 
+        Title="Options"
+        Width="600"
+        Height="400"
+        WindowStartupLocation="CenterOwner"
+        CanResize="False">
+  <DockPanel LastChildFill="True">
+    <StackPanel DockPanel.Dock="Top" Orientation="Vertical"   >
+      <StackPanel DockPanel.Dock="Top" Orientation="Horizontal" Margin="4" >
+        <CheckBox Name="cbxUseTextChangedEvent">Use Text Changed Event</CheckBox>
+        <CheckBox Name="cbxUseEnterPressedEvent">Use Enter Pressed Event</CheckBox>
+        <CheckBox Name="cbxUseUpdateFromGitHub">Update Using GitHub</CheckBox>
+
+      </StackPanel>
+      <TextBlock>WebView Orientation</TextBlock>
+      <ComboBox SelectedIndex="0" MaxDropDownHeight="100" Name ="cmbxOrientation">
+
+        <ComboBoxItem>Vertical</ComboBoxItem>
+        <ComboBoxItem>Horizontal</ComboBoxItem>
+
+      </ComboBox>
+      <StackPanel DockPanel.Dock="Bottom" Orientation="Horizontal" Margin="100" Spacing="10">
+        <Button Click="Close_Click">Cancel</Button>
+        <Button Click="Save_Click">Save</Button>
+
+      </StackPanel>
+    </StackPanel>
+
+  </DockPanel>
+</ContentPage>

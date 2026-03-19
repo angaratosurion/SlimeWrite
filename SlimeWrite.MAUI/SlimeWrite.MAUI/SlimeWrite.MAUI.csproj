@@ -66,8 +66,28 @@
 	</ItemGroup>
 
 	<ItemGroup>
+	  <Compile Remove="About.axaml.cs" />
+	  <Compile Remove="OptionsView.axaml.cs" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <None Remove="About.axaml" />
+	  <None Remove="OptionsView.axaml" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<PackageReference Include="Microsoft.Maui.Controls" Version="$(MauiVersion)" />
 		<PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="10.0.0" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <ProjectReference Include="..\..\..\..\..\..\..\..\CloudFolder\NextCloud\MyPrograms\dotNet\OpenSource\SlimeWrite\SlimeWrite.Core\SlimeWrite.Core\SlimeWrite.Core.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <None Update="appsettings.json">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
 	</ItemGroup>
 
 </Project>
