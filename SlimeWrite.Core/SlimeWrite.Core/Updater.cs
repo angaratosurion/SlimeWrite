@@ -1,4 +1,4 @@
-﻿using SlimeWrite.Avalonia.Models;
+﻿using SlimeWrite.Core.Models;
 using System;
 using System.Diagnostics;
 using System.IO;
@@ -9,7 +9,7 @@ using System.Reflection;
 using System.Text.Json;
 using System.Threading.Tasks;
 
-namespace SlimeWrite.Avalonia
+namespace SlimeWrite.Core
 {
    public class Updater
     {   

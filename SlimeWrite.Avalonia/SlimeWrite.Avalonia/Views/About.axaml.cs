@@ -1,11 +1,9 @@
-using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
-using Avalonia.Markup.Xaml;
-using SlimeWrite.Avalonia.Models;
+using SlimeWrite.Core;
+using SlimeWrite.Core.Models;
 using System;
 using System.Diagnostics;
-using System.Reflection;
 
 namespace SlimeWrite.Avalonia;
 
@@ -15,7 +13,7 @@ public partial class About : Window
     public About()
     {
         InitializeComponent();
-         appInfo = new Core().GetAppInfo();
+         appInfo = new Kernel().GetAppInfo();
 
         AppNameText.Text = appInfo.AppName;
         VersionText.Text = $"Version {appInfo.Version}";

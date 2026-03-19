@@ -25,6 +25,11 @@
     <PackageReference Include="CefGlue.Avalonia" />
     <PackageReference Include="CommunityToolkit.Mvvm" />
     <PackageReference Include="SlimeMarkUp.Core" />
+    <PackageReference Include="System.Text.Json" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\..\SlimeWrite.Core\SlimeWrite.Core\SlimeWrite.Core.csproj" />
   </ItemGroup>
 
   <ItemGroup>

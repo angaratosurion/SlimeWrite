@@ -1,14 +1,13 @@
-using Avalonia;
 using Avalonia.Controls;
 using Avalonia.Interactivity;
-using Avalonia.Markup.Xaml;
-using SlimeWrite.Avalonia.Models;
+using SlimeWrite.Core;
+using SlimeWrite.Core.Models;
 
 namespace SlimeWrite.Avalonia.Views;
 
 public partial class OptionsView : Window
 {
-    Core core = new Core();
+    Kernel core = new Kernel();
     Options options;
     public OptionsView()
     {

@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 
-namespace SlimeWrite.Avalonia.Models
+namespace SlimeWrite.Core.Models
 {
     public class Options
     {

@@ -1,21 +1,17 @@
 using Avalonia.Controls;
-using Avalonia.Data;
 using Avalonia.Interactivity;
 using Avalonia.Platform.Storage;
 using SlimeMarkUp.Core;
 using SlimeMarkUp.Core.Extensions.SlimeMarkup;
-using SlimeWrite.Avalonia.Models;
 using System;
 using System.Collections.Generic;
 using System.IO;
-using System.Reflection;
 using System.Text;
-using System.Text.Json;
 using System.Threading;
 using System.Threading.Tasks;
 using Xilium.CefGlue.Avalonia;
-using SlimeWrite.Avalonia;
-using Avalonia.Media;
+using SlimeWrite.Core.Models;
+using SlimeWrite.Core;
 namespace SlimeWrite.Avalonia.Views;
 
 public partial class MainWindow : Window
@@ -25,7 +21,7 @@ public partial class MainWindow : Window
     private readonly HtmlRenderer _renderer;
     AppInfo appInfo;
     private AvaloniaCefBrowser Preview;
-    Core core = new Core();
+    Kernel core = new Kernel();
 
 
     // CoreWebView2Environment env;
@@ -43,24 +39,7 @@ public partial class MainWindow : Window
         options = core.GetOptions();
         LoadEditor();
 
-        _parser = new MarkupParser(new List<IBlockMarkupExtension>
-            {
-                new HeaderExtension(),
-                new ImageExtension(),
-                new TableExtension(),
-                new ListExtension(),
-                new CodeBlockExtension(),
-                new BlockquoteExtension(),
-                new InlineStyleExtension(),
-                new LinkExtension(),
-                //new IncludeExtension(), 
-                new IncludeCSSExtension()
-                 , new IncludeScriptExtension(),
-                 new HorizontalRuleExtension(),
-                  new EscapeCharsExtension(),
-                  new HtmlIgnoreExceptIncludeExtension()
-
-            });
+        _parser = core.InitializeParser();
 
         _renderer = new HtmlRenderer();
 
@@ -126,9 +105,7 @@ public partial class MainWindow : Window
 
             if (res != null && res[0]!=null)
             {
-                var file = await File.ReadAllTextAsync(res[0].TryGetLocalPath()
-                    , Encoding.UTF8
-                    , CancellationToken.None);
+                var file = core.OpenFile(res[0].TryGetLocalPath());
                 //  Editor.ClearAll();
                 Editor.Text = file;
 
@@ -137,8 +114,7 @@ public partial class MainWindow : Window
         }
         else
         {
-            var file = await File.ReadAllTextAsync(filename, Encoding.UTF8
-                    , CancellationToken.None);
+            var file = core.OpenFile(filename);
             Editor.Text = file;
         }
         ChangeWindowsTitle(filename);
@@ -156,7 +132,8 @@ public partial class MainWindow : Window
 
         if (res != null)
         {
-            File.WriteAllText(res.TryGetLocalPath(), Editor.Text, Encoding.UTF8);
+            core.SaveFile(res.TryGetLocalPath(), Editor.Text);
+           
             ChangeWindowsTitle(res.Name);
 
 
