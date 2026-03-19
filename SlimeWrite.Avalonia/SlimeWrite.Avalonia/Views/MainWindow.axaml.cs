@@ -181,12 +181,14 @@ public partial class MainWindow : Window
             && Editor.SelectedText != String.Empty)
         {
             string selectedtext = Editor.SelectedText;
-            Editor.SelectedText.Replace(selectedtext, "#" + selectedtext + "\n");
+            //Editor.SelectedText.Replace(selectedtext, "#" + selectedtext + "\n");
+            Editor.SelectedText = core.H1_Marked(Editor.SelectedText);
         }
         else
         {
-            Editor.Text += "#Heading 1\n";
+            Editor.Text += core.H1_Marked(null);
         }
+        
     }
 
     private void H2_Clicked(object sender, RoutedEventArgs e)
@@ -195,11 +197,11 @@ public partial class MainWindow : Window
             && Editor.SelectedText != String.Empty)
         {
             string selectedtext = Editor.SelectedText;
-            Editor.SelectedText.Replace(selectedtext, "\n## " + selectedtext + "\n");
+            Editor.SelectedText= core.H2_Marked(Editor.SelectedText);
         }
         else
         {
-            Editor.Text += "\n## Heading 2\n";
+            Editor.Text += core.H2_Marked(null);
         }
     }
 
@@ -209,11 +211,11 @@ public partial class MainWindow : Window
             && Editor.SelectedText != String.Empty)
         {
             string selectedtext = Editor.SelectedText;
-            Editor.SelectedText.Replace(selectedtext, "**" + selectedtext + "**");
+            Editor.SelectedText=core.Bold_Marked(Editor.SelectedText);
         }
         else
         {
-            Editor.Text += "**bold**";
+            Editor.Text += core.Bold_Marked(null);
         }
     }
 
@@ -223,11 +225,11 @@ public partial class MainWindow : Window
             && Editor.SelectedText != String.Empty)
         {
             string selectedtext = Editor.SelectedText;
-            Editor.SelectedText.Replace(selectedtext, "*" + selectedtext + "*");
+            Editor.SelectedText=core.Italic_Marked(Editor.SelectedText);
         }
         else
         {
-            Editor.Text += "*italic*";
+            Editor.Text += core.Italic_Marked(null);
         }
     }
 
@@ -237,12 +239,11 @@ public partial class MainWindow : Window
             && Editor.SelectedText != String.Empty)
         {
             string selectedtext = Editor.SelectedText;
-            Editor.SelectedText.Replace(selectedtext,
-                "[" + selectedtext + "](url){target=_blank rel=nofollow}");
+            Editor.SelectedText = core.Link_Marked(selectedtext);
         }
         else
         {
-            Editor.Text += "[text](url){target=_blank rel=nofollow}";
+            Editor.Text += core.Link_Marked(null);
         }
     }
 
@@ -252,28 +253,22 @@ public partial class MainWindow : Window
             && Editor.SelectedText != String.Empty)
         {
             string selectedtext = Editor.SelectedText;
-            Editor.SelectedText.Replace(selectedtext, "![" + selectedtext +
-                "](image.png){ width = 100 height = 200}");
+            Editor.SelectedText=core.Image_Marked(selectedtext);
         }
         else
         {
-            Editor.Text += "![alt](image.png){width=100 height=200}";
+            Editor.Text += core.Image_Marked(null);
         }
     }
 
     private void List_Clicked(object sender, RoutedEventArgs e)
     {
-        Editor.Text += "\n- item 1\n- item 2\n";
+        Editor.Text += core.List_Marked(null);
     }
 
     private void Table_Clicked(object sender, RoutedEventArgs e)
     {
-        Editor.Text += """
-        | Col1 | Col2 |
-        |------|------|
-        | A    | B    |
-        | C    | D    |
-        """;
+        Editor.Text +=core.Table_Marked(null);
     }
 
     private void Quote_Clicked(object sender, RoutedEventArgs e)
@@ -282,11 +277,11 @@ public partial class MainWindow : Window
             && Editor.SelectedText != String.Empty)
         {
             string selectedtext = Editor.SelectedText;
-            Editor.SelectedText.Replace(selectedtext, "\n>" + selectedtext + "\n");
+            Editor.SelectedText=core.Quote_Marked(selectedtext);
         }
         else
         {
-            Editor.Text += "\n> quote\n";
+            Editor.Text +=core.Quote_Marked(null);
         }
     }
 
