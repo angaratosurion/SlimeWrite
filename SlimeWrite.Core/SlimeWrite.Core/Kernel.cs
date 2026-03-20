@@ -6,6 +6,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Reflection;
+using System.Runtime.InteropServices;
 using System.Text;
 using System.Text.Json;
 
@@ -16,8 +17,8 @@ namespace SlimeWrite.Core
         public Options GetOptions()
         {
             Options options;
-              string AppDataPath =
-        Path.Combine( Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), GetAppInfo().AppName);
+            string AppDataPath = this.GetAppdataPath();
+            //GetAppInfo().AppName);
             if (File.Exists(Path.Combine(AppDataPath, "appsettings.json")))
             {
                 using (StreamReader r = new StreamReader(Path.Combine(AppDataPath, "appsettings.json")))
@@ -60,14 +61,12 @@ namespace SlimeWrite.Core
         }
         public void SaveOptions(Options options)
         {
-            string AppDataPath =
-         Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), GetAppInfo().AppName);
-
+            string AppDataPath = this.GetAppdataPath();
             string json = JsonSerializer.Serialize(options, new JsonSerializerOptions
             {
                 WriteIndented = true
             });
-            File.WriteAllText("appsettings.json", json);
+            File.WriteAllText(Path.Combine(AppDataPath, "appsettings.json"), json);
 
         }
         public MarkupParser InitializeParser()
@@ -303,7 +302,57 @@ namespace SlimeWrite.Core
             }
             return ap;
         }
-        
+        public string IncludeScript_Marked(string selectedtext)
+        {
+            string ap;
+            if (selectedtext != null)
+            {
+                ap = selectedtext.Replace(selectedtext, "\n<!-- include script:" + selectedtext + "-->\n");
+            }
+            else
+            {
+                ap = "\n<!-- include script: script.js -->\n";
+            }
+            return ap;
+
+
+        }
+        public string GetAppdataPath()
+        {
+            string AppDataPath;
+             if (this.isDesktopMode())
+             {
+                 AppDataPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
+                     GetAppInfo().AppName);
+             }
+             else
+             {
+                AppDataPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData));
+            }
+
+              if (Directory.Exists(AppDataPath) == false)
+              {
+                  Directory.CreateDirectory(AppDataPath);
+              }
+         
+            return AppDataPath;
+        }
+        public bool isDesktopMode()
+        {
+            bool isDesktop = false;
+
+            
+            if (OperatingSystem.IsAndroid() || OperatingSystem.IsIOS())
+            {
+                isDesktop=false;
+            }
+            else if (OperatingSystem.IsWindows() || OperatingSystem.IsLinux() || OperatingSystem.IsMacOS())
+            {
+                isDesktop=true;
+            }
+            return isDesktop;
+        }
+
 
     }
     

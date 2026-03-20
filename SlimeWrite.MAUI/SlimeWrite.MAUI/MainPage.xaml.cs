@@ -25,6 +25,10 @@ namespace SlimeWrite.MAUI
             appInfo = core.GetAppInfo();
             options = core.GetOptions();
             Loadeditor();
+            //this.preview.HeightRequest= this.Height/ 2;
+            //this.preview.WidthRequest = this.Width;
+
+
 
             _parser = core.InitializeParser();
 
@@ -75,13 +79,13 @@ namespace SlimeWrite.MAUI
             PickOptions options = new PickOptions
             {
                 PickerTitle = "Open Markdown or SlimeMarkup file",
-                FileTypes = new FilePickerFileType(new Dictionary<DevicePlatform, IEnumerable<string>>
-                {
-                    { DevicePlatform.WinUI, new[] { "*.*", "*.md", "*.smd" } },
-                    { DevicePlatform.Android, new[] { "*/*", "text/markdown", "application/octet-stream" } },
-                    { DevicePlatform.iOS, new[] { "*/*", "public.plain-text" } },
-                    { DevicePlatform.MacCatalyst, new[] { "*/*", "public.plain-text" } }
-                })
+                //FileTypes = new FilePickerFileType(new Dictionary<DevicePlatform, IEnumerable<string>>
+                //{
+                //    { DevicePlatform.WinUI, new[] { "*.*", "*.md", "*.smd" } },
+                //    { DevicePlatform.Android, new[] { "*/*", "text/markdown", "application/octet-stream" } },
+                //    { DevicePlatform.iOS, new[] { "*/*", "public.plain-text" } },
+                //    { DevicePlatform.MacCatalyst, new[] { "*/*", "public.plain-text" } }
+                //})
             };
 
             //editor.TextChanged -= editor_TextChanged;
@@ -325,7 +329,8 @@ namespace SlimeWrite.MAUI
             //editor.Font = new System.Drawing.Font("Consolas", 16);
 
             // Faster for large files
-
+           // this.editor.HeightRequest =  this.Height / 2;
+             
 
             if (options.UseTextChangedEvent)
             {
