@@ -16,11 +16,27 @@ namespace SlimeWrite.Core
         public Options GetOptions()
         {
             Options options;
-            using (StreamReader r = new StreamReader("appsettings.json"))
+              string AppDataPath =
+        Path.Combine( Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), GetAppInfo().AppName);
+            if (File.Exists(Path.Combine(AppDataPath, "appsettings.json")))
             {
-                string json = r.ReadToEnd();
-                options = JsonSerializer.Deserialize<Options>(json);
+                using (StreamReader r = new StreamReader(Path.Combine(AppDataPath, "appsettings.json")))
+                {
+                    string json = r.ReadToEnd();
+                    options = JsonSerializer.Deserialize<Options>(json);
+                }
             }
+            else
+            {
+                options = new Options
+                {
+                    UseTextChangedEvent = true,
+                    UseEnterPressed = false,
+                    WebViewOrientation = 0,
+                    AutoUpdateUsingGithub = true
+                };
+            }
+            this.SaveOptions(options);
             return options;
         }
         public AppInfo GetAppInfo()
@@ -44,6 +60,9 @@ namespace SlimeWrite.Core
         }
         public void SaveOptions(Options options)
         {
+            string AppDataPath =
+         Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData), GetAppInfo().AppName);
+
             string json = JsonSerializer.Serialize(options, new JsonSerializerOptions
             {
                 WriteIndented = true
