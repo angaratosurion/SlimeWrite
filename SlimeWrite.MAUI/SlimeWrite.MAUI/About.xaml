@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
+             x:Class="SlimeWrite.MAUI.About"
+        Title="About"
+        Width="600"
+        Height="400"
+         >
+
+ <!-- <Border Padding="18" CornerRadius="8"   BorderThickness="1">-->
+    <StackLayout Orientation="Vertical" Width="520"  Spacing="10">
+
+      <!-- Header -->
+      <StackLayout Orientation="Horizontal"   Spacing="12">
+        <Image x:Name="LogoImage" Width="64" Height="64"   Source="logo.svg"/>
+        <StackLayout Orientation="Vertical"  >
+          <Label x:Name="AppNameText" Text="MyApp" FontSize="20"   />
+          <Label x:Name="VersionText" Text="Έκδοση 1.0.0" FontSize="12" Opacity="0.8"/>
+        </StackLayout>
+      </StackLayout>
+
+      <!-- Description -->
+      <Label x:Name="DescriptionText" Text="Description"   />
+
+      <!-- Website and copyright -->
+      <StackLayout Orientation="Vertical"   Spacing="6">
+        <Label Text="Web Site:">
+               
+          <!--<Hyperlink Click="WebsiteHyperlink_Click">https://github.com/angaratosurion/SlimeWrite</Hyperlink>-->
+        </Label>
+        
+        <Label x:Name="CopyRightText">© 2025 .</Label>
+      </StackLayout>
+
+      <!-- Contributors and license -->
+       
+      <toolkit:Expander Header="Contributors and License" IsExpanded="False" Margin="0,0,0,12">
+        <StackLayout Spacing="4">
+          <Label Text="Contributors: Angarato Surion" TextWrapping="Wrap"/>
+          <Label Text="License: GNU GENERAL PUBLIC LICENSE v3" TextWrapping="Wrap"/>
+        </StackLayout>
+      </toolkit:Expander>
+
+      <!-- Buttons -->
+      <StackLayout Orientation="Horizontal" HorizontalAlignment="Right" Spacing="8">
+        <!--<Button Padding="10,4" Click="CopyInfo_Click">Αντιγραφή Πληροφοριών</Button>-->
+        <Button Padding="10,4" IsDefault="True" Click="Close_Click" Width="60">Close</Button>
+      </StackLayout>
+
+    </StackLayout>
+  <!--</Border>-->
+</ContentPage>

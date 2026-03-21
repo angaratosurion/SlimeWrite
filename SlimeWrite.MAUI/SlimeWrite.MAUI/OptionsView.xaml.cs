@@ -18,8 +18,11 @@ public partial class OptionsView : ContentPage
 
     }
 
-    private void Close_Click(object sender, RoutedEventArgs e) => Close();
-    private void Save_Click(object sender, RoutedEventArgs e)
+    private void Close_Click(object sender, EventArgs e)
+    {
+
+    }
+    private void Save_Click(object sender, EventArgs e)
     {
          if (options == null)
         {
@@ -32,6 +35,6 @@ public partial class OptionsView : ContentPage
         options.WebViewOrientation = cmbxOrientation.SelectedIndex;
         core.SaveOptions(options);
 
-        Close();
+        //Close();
     }
 }

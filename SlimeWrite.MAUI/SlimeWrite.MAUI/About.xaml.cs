@@ -11,7 +11,7 @@ public partial class About : ContentPage
     public About()
     {
         InitializeComponent();
-         appInfo = new Kernel().GetAppInfo();
+        appInfo = new Kernel().GetAppInfo();
 
         AppNameText.Text = appInfo.AppName;
         VersionText.Text = $"Version {appInfo.Version}";
@@ -21,27 +21,30 @@ public partial class About : ContentPage
 
         try
         {
-            var uri = new Uri("/Assets/Images/logo.png",
+            var uri = new Uri("logo.svg",
                 UriKind.Absolute);
 
         }
 
         catch { }
     }
-    private void WebsiteHyperlink_Click(object sender, EventArgss e)
-    {
-        try
-        {
-            Process.Start(new ProcessStartInfo(appInfo.Website) { UseShellExecute = true });
-        }
-        catch (Exception ex)
-        {
-            //MessageBox.Show(this, $"Couldn't open thee Web Site: {ex.Message}",
-            //    "Error", MessageBoxButton.OK, MessageBoxImage.Error);
-        }
-    }
+    //private void WebsiteHyperlink_Click(object sender, EventArgs e)
+    //{
+    //    try
+    //    {
+    //        Process.Start(new ProcessStartInfo(appInfo.Website) { UseShellExecute = true });
+    //    }
+    //    catch (Exception ex)
+    //    {
+    //        //MessageBox.Show(this, $"Couldn't open thee Web Site: {ex.Message}",
+    //        //    "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+    //    }
+    //}
 
-    private void Close_Click(object sender, EventArgss e) => Close();
+    private void Close_Click(object sender, EventArgs e)
+    {
+        Shell.Current.GoToAsync("..");
+    }
 
 
 }

@@ -1,6 +1,7 @@
 ﻿using SlimeMarkUp.Core;
 using SlimeWrite.Core;
 using SlimeWrite.Core.Models;
+using SlimeWrite.MAUI.Views;
 using AppInfo = SlimeWrite.Core.Models.AppInfo;
 
 namespace SlimeWrite.MAUI
@@ -25,10 +26,10 @@ namespace SlimeWrite.MAUI
             appInfo = core.GetAppInfo();
             options = core.GetOptions();
             Loadeditor();
-            //this.preview.HeightRequest= this.Height/ 2;
-            //this.preview.WidthRequest = this.Width;
+            this.preview.HeightRequest= this.Height/ 2;
+            this.preview.WidthRequest = this.Width;
 
-
+             
 
             _parser = core.InitializeParser();
 
@@ -171,7 +172,10 @@ namespace SlimeWrite.MAUI
         private void AppOptions_Click(object sender, EventArgs e)
         {
 
-            //OptionsView options = new OptionsView();
+             OptionsView options = new OptionsView();
+            var win = new Window(options);
+            Application.Current.OpenWindow(win);
+            
             //options.Show();
 
 
@@ -301,8 +305,10 @@ namespace SlimeWrite.MAUI
 
         private void About_Click(object sender, EventArgs e)
         {
-            //About aboutwindows = new About();
-          //  Microsoft.Maui.Controls.Application.Current?.OpenWindow(aboutwindows);
+            About aboutwindows = new About();
+            var win = new Window(aboutwindows);
+                Application.Current.OpenWindow(win );
+
         }
 
         private void InserFilepropps_Click(object sender, EventArgs e)
@@ -329,7 +335,8 @@ namespace SlimeWrite.MAUI
             //editor.Font = new System.Drawing.Font("Consolas", 16);
 
             // Faster for large files
-           // this.editor.HeightRequest =  this.Height / 2;
+            this.editor.HeightRequest = this.Height - preview.Height;
+            this.editor.AutoSize = EditorAutoSizeOption.TextChanges;
              
 
             if (options.UseTextChangedEvent)
