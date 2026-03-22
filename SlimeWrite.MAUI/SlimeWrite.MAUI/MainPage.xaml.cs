@@ -12,8 +12,10 @@ namespace SlimeWrite.MAUI
         private readonly MarkupParser _parser;
         private readonly HtmlRenderer _renderer;
         AppInfo appInfo;
-        //private MAUICefBrowser preview;
+
         Kernel core = new Kernel();
+        double startHeight;
+        
         static Options options = new Options
         {
             //UseTextChangedEvent = true,
@@ -26,9 +28,9 @@ namespace SlimeWrite.MAUI
             appInfo = core.GetAppInfo();
             options = core.GetOptions();
             Loadeditor();
-            
 
-             
+
+
 
             _parser = core.InitializeParser();
 
@@ -52,7 +54,7 @@ namespace SlimeWrite.MAUI
 
             }
         }
-             private void editor_TextChanged(object? sender, EventArgs e)
+        private void editor_TextChanged(object? sender, EventArgs e)
         {
             _markdown = editor.Text;//?? "";
             editor.Text = editor.Text.Replace("\r", "\n");
@@ -69,7 +71,7 @@ namespace SlimeWrite.MAUI
             {
                 wintile += " - " + filename;
             }
-            
+
         }
 
 
@@ -106,7 +108,7 @@ namespace SlimeWrite.MAUI
                 //    }
                 //});
 
-                if (res != null  )
+                if (res != null)
                 {
                     var file = core.OpenFile(res.FullPath);
                     //  editor.ClearAll();
@@ -140,7 +142,7 @@ namespace SlimeWrite.MAUI
             };
 
 
-             
+
             var res = await FilePicker.Default.PickAsync(options);
 
 
@@ -171,14 +173,14 @@ namespace SlimeWrite.MAUI
         private void AppOptions_Click(object sender, EventArgs e)
         {
 
-             OptionsView options = new OptionsView();
+            OptionsView options = new OptionsView();
             var win = new Window(options);
             win.IsMaximizable = false;
             win.IsMinimizable = false;
             win.Height = options.HeightRequest;
             win.Width = options.WidthRequest;
             Application.Current.OpenWindow(win);
-            
+
             //options.Show();
 
 
@@ -207,7 +209,7 @@ namespace SlimeWrite.MAUI
             //}
             //else
             //{
-                editor.Text += core.H1_Marked(null);
+            editor.Text += core.H1_Marked(null);
             //}
 
         }
@@ -222,8 +224,8 @@ namespace SlimeWrite.MAUI
             //}
             //else
             //{
-                editor.Text += core.H2_Marked(null);
-          //  }
+            editor.Text += core.H2_Marked(null);
+            //  }
         }
 
         private void Bold_Clicked(object sender, EventArgs e)
@@ -236,8 +238,8 @@ namespace SlimeWrite.MAUI
             //}
             //else
             //{
-                editor.Text += core.Bold_Marked(null);
-           // }
+            editor.Text += core.Bold_Marked(null);
+            // }
         }
 
         private void Italic_Clicked(object sender, EventArgs e)
@@ -250,7 +252,7 @@ namespace SlimeWrite.MAUI
             //}
             //else
             //{
-                editor.Text += core.Italic_Marked(null);
+            editor.Text += core.Italic_Marked(null);
             //}
         }
 
@@ -264,8 +266,8 @@ namespace SlimeWrite.MAUI
             //}
             //else
             //{
-                editor.Text += core.Link_Marked(null);
-          //  }
+            editor.Text += core.Link_Marked(null);
+            //  }
         }
 
         private void Image_Clicked(object sender, EventArgs e)
@@ -278,8 +280,8 @@ namespace SlimeWrite.MAUI
             //}
             //else
             //{
-                editor.Text += core.Image_Marked(null);
-           //}
+            editor.Text += core.Image_Marked(null);
+            //}
         }
 
         private void List_Clicked(object sender, EventArgs e)
@@ -302,20 +304,20 @@ namespace SlimeWrite.MAUI
             //}
             //else
             //{
-                editor.Text += core.Quote_Marked(null);
+            editor.Text += core.Quote_Marked(null);
             //}
         }
 
         private void About_Click(object sender, EventArgs e)
         {
             About aboutwindows = new About();
-            var win = new   Window(aboutwindows);
+            var win = new Window(aboutwindows);
             win.IsMaximizable = false;
             win.IsMinimizable = false;
             win.Height = aboutwindows.HeightRequest;
-            win.Width=aboutwindows.WidthRequest;
+            win.Width = aboutwindows.WidthRequest;
 
-            Application.Current.OpenWindow(win );
+            Application.Current.OpenWindow(win);
 
         }
 
@@ -345,7 +347,7 @@ namespace SlimeWrite.MAUI
             // Faster for large files
             this.editor.HeightRequest = this.Height - preview.Height;
             this.editor.AutoSize = EditorAutoSizeOption.TextChanges;
-             
+
 
             if (options.UseTextChangedEvent)
             {
@@ -353,14 +355,14 @@ namespace SlimeWrite.MAUI
             }
             if (options.UseEnterPressed)
             {
-                
+
                 //editor.KeyDown += editor_KeyDown;
             }
         }
 
 
 
-        private void editor_KeyDown(object? sender,TextChangedEventArgs e)
+        private void editor_KeyDown(object? sender, TextChangedEventArgs e)
         {
             //if (e == Key.Enter)
             {
@@ -371,7 +373,7 @@ namespace SlimeWrite.MAUI
 
         private async void Updatepreview(string markdown)
         {
-              var md = _parser.Parse(markdown);
+            var md = _parser.Parse(markdown);
             if (md != null && markdown != "")
             {
 
@@ -401,10 +403,10 @@ namespace SlimeWrite.MAUI
                     Directory.CreateDirectory(Path.Combine(Path.GetTempPath(), appname));
                 }
                 File.WriteAllText(file, html);
-                if (preview!= null)
+                if (preview != null)
                 {
                     preview.Source = file;
-                     
+
                 }
 
 
@@ -419,14 +421,49 @@ namespace SlimeWrite.MAUI
 
         private void ContentPage_SizeChanged(object sender, EventArgs e)
         {
-            this.preview.HeightRequest = this.Height / 2;
+
+            double editorandpreviewheight= this.Height / 2;
+            if (editor.Height <= editorandpreviewheight)
+            {
+                this.preview.HeightRequest = this.Height / 2;
+                
+                this.editor.HeightRequest = this.Height / 2;
+               
+            }
+            else
+            {
+                this.preview.HeightRequest = this.TopRow.Height.Value;
+
+                this.editor.HeightRequest = this.BottomRow.Height.Value;
+            }
             this.preview.WidthRequest = this.Width;
-            this.editor.HeightRequest = this.Height / 2;
-            this.editor.WidthRequest = this.Width-25; ;
-
+            this.editor.WidthRequest = this.Width - 25; ;
         }
-    }
+        void OnPanUpdated(object sender, PanUpdatedEventArgs e)
+        {
+            switch (e.StatusType)
+            {
+                case GestureStatus.Started:
+                    startHeight = TopRow.Height.Value;
+                    break;
 
-         
+                case GestureStatus.Running:
+                    double newHeight = startHeight + e.TotalY;
+
+                    if (newHeight < 50) newHeight = 50;
+                    if (newHeight > MainGrid.Height - 50) newHeight = MainGrid.Height - 50;
+
+                    TopRow.Height = new GridLength(newHeight, GridUnitType.Absolute);
+                    BottomRow.Height = 
+                        new GridLength(MainGrid.Height - newHeight - 5, GridUnitType.Absolute);
+                    break;
+            }
+            this.editor.HeightRequest = this.TopRow.Height.Value;
+            this.preview.HeightRequest = this.BottomRow.Height.Value;
+            startHeight = 0;
+        }
+
+       
     }
+}
 

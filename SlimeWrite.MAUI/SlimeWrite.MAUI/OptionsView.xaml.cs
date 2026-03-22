@@ -15,6 +15,7 @@ public partial class OptionsView : ContentPage
         this.cbxUseTextChangedEvent.IsChecked = options.UseTextChangedEvent;
         cmbxOrientation.SelectedIndex = options.WebViewOrientation;
         cbxUseUpdateFromGitHub.IsChecked = options.AutoUpdateUsingGithub;
+        this.cmbxOrientation.WidthRequest = this.WidthRequest - 50;
 
     }
 

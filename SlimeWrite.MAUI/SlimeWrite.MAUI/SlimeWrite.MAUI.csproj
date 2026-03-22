@@ -29,7 +29,7 @@
 		<ApplicationTitle>SlimeWrite.MAUI</ApplicationTitle>
 
 		<!-- App Identifier -->
-		<ApplicationId>com.companyname.slimewrite.maui</ApplicationId>
+		<ApplicationId>com.angaratosurion.slimewrite.maui</ApplicationId>
 
 		<!-- Versions -->
 		<ApplicationDisplayVersion>1.0</ApplicationDisplayVersion>
@@ -64,6 +64,10 @@
 
 		<!-- Raw Assets (also remove the "Resources\Raw" prefix) -->
 		<MauiAsset Include="Resources\Raw\**" LogicalName="%(RecursiveDir)%(Filename)%(Extension)" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <None Remove="Build-MAUI.ps1" />
 	</ItemGroup>
 
 	<ItemGroup>
