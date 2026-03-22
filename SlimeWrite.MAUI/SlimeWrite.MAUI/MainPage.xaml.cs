@@ -53,6 +53,7 @@ namespace SlimeWrite.MAUI
                 updater.DownloadLatestRelease();
 
             }
+           
         }
         private void editor_TextChanged(object? sender, EventArgs e)
         {

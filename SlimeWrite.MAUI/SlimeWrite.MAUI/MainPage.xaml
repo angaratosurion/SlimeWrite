@@ -1,25 +1,26 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="SlimeWrite.MAUI.MainPage" SizeChanged="ContentPage_SizeChanged">
+             x:Class="SlimeWrite.MAUI.MainPage" SizeChanged="ContentPage_SizeChanged"
+              >
 
     <ContentPage.ToolbarItems >
-        <ToolbarItem IconImageSource="newfile.png" Clicked="New_Clicked"   />
-        <ToolbarItem IconImageSource="openfile.png" Clicked="Open_Clicked" />
-        <ToolbarItem IconImageSource="savefile.png" Clicked="Save_Clicked" />
-        <ToolbarItem IconImageSource="closefile.png" Clicked="Close_Clicked" />
-        <ToolbarItem IconImageSource="h1.png" Clicked="H1_Clicked" />
-        <ToolbarItem IconImageSource="h2.png" Clicked="H2_Clicked" />
-        <ToolbarItem IconImageSource="bold.png" Clicked="Bold_Clicked" />
-        <ToolbarItem IconImageSource="italic.png" Clicked="Italic_Clicked" />
-        <ToolbarItem IconImageSource="link.png" Clicked="Link_Clicked" />
-        <ToolbarItem IconImageSource="image.png" Clicked="Image_Clicked" />
-        <ToolbarItem IconImageSource="list.png" Clicked="List_Clicked" />
-        <ToolbarItem IconImageSource="table.png" Clicked="Table_Clicked" />
-        <ToolbarItem IconImageSource="blockquote.png" Clicked="Quote_Clicked" />
-        <ToolbarItem IconImageSource="fileproperties.png" Clicked="InserFilepropps_Click" />
-        <ToolbarItem Text="Options" Clicked="AppOptions_Click" />
-        <ToolbarItem Text="About" Clicked="About_Click" />
+        <ToolbarItem IconImageSource="newfile.png" Clicked="New_Clicked"  Order="Primary"  />
+        <ToolbarItem IconImageSource="openfile.png" Clicked="Open_Clicked" Order="Primary" />
+        <ToolbarItem IconImageSource="savefile.png" Clicked="Save_Clicked"  Order="Primary"/>
+        <ToolbarItem IconImageSource="closefile.png" Clicked="Close_Clicked" Order="Primary" />
+        <ToolbarItem IconImageSource="h1.png" Clicked="H1_Clicked"  Order="Primary"/>
+        <ToolbarItem IconImageSource="h2.png" Clicked="H2_Clicked" Order="Primary" />
+        <ToolbarItem IconImageSource="bold.png" Clicked="Bold_Clicked" Order="Primary" />
+        <ToolbarItem IconImageSource="italic.png" Clicked="Italic_Clicked" Order="Primary" />
+        <ToolbarItem IconImageSource="link.png" Clicked="Link_Clicked" Order="Primary" />
+        <ToolbarItem IconImageSource="image.png" Clicked="Image_Clicked" Order="Primary" />
+        <ToolbarItem IconImageSource="list.png" Clicked="List_Clicked" Order="Primary" />
+        <ToolbarItem IconImageSource="table.png" Clicked="Table_Clicked" Order="Primary" />
+        <ToolbarItem IconImageSource="blockquote.png" Clicked="Quote_Clicked" Order="Primary" />
+        <ToolbarItem IconImageSource="fileproperties.png" Clicked="InserFilepropps_Click" Order="Primary" />
+        <ToolbarItem Text="Options" Clicked="AppOptions_Click" Order="Secondary"/>
+        <ToolbarItem Text="About" Clicked="About_Click"  Order="Secondary" />
     </ContentPage.ToolbarItems>
 
         <!-- Single Content child: a Grid that hosts the editor and preview sections -->
