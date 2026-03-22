@@ -3,9 +3,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              x:Class="SlimeWrite.MAUI.About"
-        Title="About"
-        Width="600"
-        Height="400"
+        Title="About" HeightRequest="300" WidthRequest="400" 
          >
 
  <!-- <Border Padding="18" CornerRadius="8"   BorderThickness="1">-->
@@ -13,7 +11,9 @@
 
       <!-- Header -->
       <StackLayout Orientation="Horizontal"   Spacing="12">
-        <Image x:Name="LogoImage" Width="64" Height="64"   Source="logo.svg"/>
+        <Image x:Name="LogoImage" Width="64" Height="64" 
+               MaximumHeightRequest="64"  MaximumWidthRequest="64"
+               Source="logo.png"/>
         <StackLayout Orientation="Vertical"  >
           <Label x:Name="AppNameText" Text="MyApp" FontSize="20"   />
           <Label x:Name="VersionText" Text="Έκδοση 1.0.0" FontSize="12" Opacity="0.8"/>
@@ -25,28 +25,27 @@
 
       <!-- Website and copyright -->
       <StackLayout Orientation="Vertical"   Spacing="6">
-        <Label Text="Web Site:">
-               
-          <!--<Hyperlink Click="WebsiteHyperlink_Click">https://github.com/angaratosurion/SlimeWrite</Hyperlink>-->
-        </Label>
-        
-        <Label x:Name="CopyRightText">© 2025 .</Label>
+            <Button Clicked="WebsiteHyperlink_Click" Text="Web Site"/>
+
+
+            <Label x:Name="CopyRightText">© 2025 .</Label>
       </StackLayout>
 
       <!-- Contributors and license -->
        
-      <toolkit:Expander Header="Contributors and License" IsExpanded="False" Margin="0,0,0,12">
+      <!--<toolkit:Expander Header="Contributors and License" IsExpanded="False" Margin="0,0,0,12">-->
         <StackLayout Spacing="4">
-          <Label Text="Contributors: Angarato Surion" TextWrapping="Wrap"/>
-          <Label Text="License: GNU GENERAL PUBLIC LICENSE v3" TextWrapping="Wrap"/>
+          <Label Text="Contributors: Angarato Surion"  />
+          <Label Text="License: GNU GENERAL PUBLIC LICENSE v3"  />
         </StackLayout>
-      </toolkit:Expander>
+      <!--</toolkit:Expander>-->
 
       <!-- Buttons -->
-      <StackLayout Orientation="Horizontal" HorizontalAlignment="Right" Spacing="8">
+      <StackLayout Orientation="Horizontal"  Spacing="8">
         <!--<Button Padding="10,4" Click="CopyInfo_Click">Αντιγραφή Πληροφοριών</Button>-->
-        <Button Padding="10,4" IsDefault="True" Click="Close_Click" Width="60">Close</Button>
-      </StackLayout>
+            <Button Padding="10,4"   Clicked="Close_Click" 
+                Width="60" Text="Close"/>
+        </StackLayout>
 
     </StackLayout>
   <!--</Border>-->

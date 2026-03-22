@@ -26,8 +26,7 @@ namespace SlimeWrite.MAUI
             appInfo = core.GetAppInfo();
             options = core.GetOptions();
             Loadeditor();
-            this.preview.HeightRequest= this.Height/ 2;
-            this.preview.WidthRequest = this.Width;
+            
 
              
 
@@ -56,7 +55,7 @@ namespace SlimeWrite.MAUI
              private void editor_TextChanged(object? sender, EventArgs e)
         {
             _markdown = editor.Text;//?? "";
-
+            editor.Text = editor.Text.Replace("\r", "\n");
             Updatepreview(editor.Text);
         }
 
@@ -174,6 +173,10 @@ namespace SlimeWrite.MAUI
 
              OptionsView options = new OptionsView();
             var win = new Window(options);
+            win.IsMaximizable = false;
+            win.IsMinimizable = false;
+            win.Height = options.HeightRequest;
+            win.Width = options.WidthRequest;
             Application.Current.OpenWindow(win);
             
             //options.Show();
@@ -306,8 +309,13 @@ namespace SlimeWrite.MAUI
         private void About_Click(object sender, EventArgs e)
         {
             About aboutwindows = new About();
-            var win = new Window(aboutwindows);
-                Application.Current.OpenWindow(win );
+            var win = new   Window(aboutwindows);
+            win.IsMaximizable = false;
+            win.IsMinimizable = false;
+            win.Height = aboutwindows.HeightRequest;
+            win.Width=aboutwindows.WidthRequest;
+
+            Application.Current.OpenWindow(win );
 
         }
 
@@ -406,6 +414,15 @@ namespace SlimeWrite.MAUI
 
 
 
+
+        }
+
+        private void ContentPage_SizeChanged(object sender, EventArgs e)
+        {
+            this.preview.HeightRequest = this.Height / 2;
+            this.preview.WidthRequest = this.Width;
+            this.editor.HeightRequest = this.Height / 2;
+            this.editor.WidthRequest = this.Width-25; ;
 
         }
     }

@@ -1,40 +1,49 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="SlimeWrite.MAUI.MainPage" 
-             >
+             x:Class="SlimeWrite.MAUI.MainPage" SizeChanged="ContentPage_SizeChanged">
 
     <ContentPage.ToolbarItems >
-        <ToolbarItem IconImageSource="newfile.svg" Clicked="New_Clicked"   />
-        <ToolbarItem IconImageSource="openfile.svg" Clicked="Open_Clicked" />
-        <ToolbarItem IconImageSource="savefile.svg" Clicked="Save_Clicked" />
-        <ToolbarItem IconImageSource="closefile.svg" Clicked="Close_Clicked" />
-        <ToolbarItem IconImageSource="h1.svg" Clicked="H1_Clicked" />
-        <ToolbarItem IconImageSource="h2.svg" Clicked="H2_Clicked" />
-        <ToolbarItem IconImageSource="bold.svg" Clicked="Bold_Clicked" />
-        <ToolbarItem IconImageSource="italic.svg" Clicked="Italic_Clicked" />
-        <ToolbarItem IconImageSource="link.svg" Clicked="Link_Clicked" />
-        <ToolbarItem IconImageSource="image.svg" Clicked="Image_Clicked" />
-        <ToolbarItem IconImageSource="list.svg" Clicked="List_Clicked" />
-        <ToolbarItem IconImageSource="table.svg" Clicked="Table_Clicked" />
-        <ToolbarItem IconImageSource="blockquote.svg" Clicked="Quote_Clicked" />
-        <ToolbarItem IconImageSource="fileproperties.svg" Clicked="InserFilepropps_Click" />
+        <ToolbarItem IconImageSource="newfile.png" Clicked="New_Clicked"   />
+        <ToolbarItem IconImageSource="openfile.png" Clicked="Open_Clicked" />
+        <ToolbarItem IconImageSource="savefile.png" Clicked="Save_Clicked" />
+        <ToolbarItem IconImageSource="closefile.png" Clicked="Close_Clicked" />
+        <ToolbarItem IconImageSource="h1.png" Clicked="H1_Clicked" />
+        <ToolbarItem IconImageSource="h2.png" Clicked="H2_Clicked" />
+        <ToolbarItem IconImageSource="bold.png" Clicked="Bold_Clicked" />
+        <ToolbarItem IconImageSource="italic.png" Clicked="Italic_Clicked" />
+        <ToolbarItem IconImageSource="link.png" Clicked="Link_Clicked" />
+        <ToolbarItem IconImageSource="image.png" Clicked="Image_Clicked" />
+        <ToolbarItem IconImageSource="list.png" Clicked="List_Clicked" />
+        <ToolbarItem IconImageSource="table.png" Clicked="Table_Clicked" />
+        <ToolbarItem IconImageSource="blockquote.png" Clicked="Quote_Clicked" />
+        <ToolbarItem IconImageSource="fileproperties.png" Clicked="InserFilepropps_Click" />
         <ToolbarItem Text="Options" Clicked="AppOptions_Click" />
         <ToolbarItem Text="About" Clicked="About_Click" />
     </ContentPage.ToolbarItems>
 
         <!-- Single Content child: a Grid that hosts the editor and preview sections -->
-    <Grid RowDefinitions="0.5*,0.5*"  >
+    <Grid RowDefinitions="*,*"  >
         <!-- Editor section (top) -->
-        <StackLayout Grid.Row="0" >
-            <Editor x:Name="editor" Margin="4" BackgroundColor="Aqua"    />
-        </StackLayout>
-         
+        <ScrollView Grid.Row="0" HorizontalScrollBarVisibility="Always"
+                    VerticalScrollBarVisibility="Always" 
+                    x:Name="scrollview"
+                     >
+            <!--<StackLayout Grid.Row="0" >-->
+                <Editor x:Name="editor" Margin="4" BackgroundColor="Aqua"
+                    VerticalOptions="FillAndExpand"
+                HorizontalOptions="FillAndExpand" IsSpellCheckEnabled="True"
+                        IsTextPredictionEnabled="True" 
+                        />
+           <!-- </StackLayout>-->
+       </ScrollView>
+
         <!-- Preview section (bottom) -->
         <ScrollView Grid.Row="1">
             <StackLayout>
                 <WebView x:Name="preview" Margin="4" BackgroundColor="Green"  MinimumHeightRequest="300" 
-                         WidthRequest="500" />
+                         WidthRequest="500" VerticalOptions="FillAndExpand"
+                HorizontalOptions="FillAndExpand" />
             </StackLayout>
         </ScrollView>
     </Grid>

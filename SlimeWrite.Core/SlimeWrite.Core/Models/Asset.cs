@@ -1,8 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
-
-namespace SlimeWrite.Core.Models
+﻿namespace SlimeWrite.Core.Models
 {
     public class Asset
     {

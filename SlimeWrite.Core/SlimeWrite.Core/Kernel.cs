@@ -2,11 +2,7 @@
 using SlimeMarkUp.Core;
 using SlimeMarkUp.Core.Extensions.SlimeMarkup;
 using SlimeWrite.Core.Models;
-using System;
-using System.Collections.Generic;
-using System.IO;
 using System.Reflection;
-using System.Runtime.InteropServices;
 using System.Text;
 using System.Text.Json;
 
@@ -320,41 +316,41 @@ namespace SlimeWrite.Core
         public string GetAppdataPath()
         {
             string AppDataPath;
-             if (this.isDesktopMode())
-             {
-                 AppDataPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
-                     GetAppInfo().AppName);
-             }
-             else
-             {
+            if (this.isDesktopMode())
+            {
+                AppDataPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
+                    GetAppInfo().AppName);
+            }
+            else
+            {
                 AppDataPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData));
             }
 
-              if (Directory.Exists(AppDataPath) == false)
-              {
-                  Directory.CreateDirectory(AppDataPath);
-              }
-         
+            if (Directory.Exists(AppDataPath) == false)
+            {
+                Directory.CreateDirectory(AppDataPath);
+            }
+
             return AppDataPath;
         }
         public bool isDesktopMode()
         {
             bool isDesktop = false;
 
-            
+
             if (OperatingSystem.IsAndroid() || OperatingSystem.IsIOS())
             {
-                isDesktop=false;
+                isDesktop = false;
             }
             else if (OperatingSystem.IsWindows() || OperatingSystem.IsLinux() || OperatingSystem.IsMacOS())
             {
-                isDesktop=true;
+                isDesktop = true;
             }
             return isDesktop;
         }
 
 
     }
-    
+
 }
 

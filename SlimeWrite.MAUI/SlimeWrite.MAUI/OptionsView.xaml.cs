@@ -20,7 +20,7 @@ public partial class OptionsView : ContentPage
 
     private void Close_Click(object sender, EventArgs e)
     {
-
+        WindowHelper.CloseWindow(this.Window);
     }
     private void Save_Click(object sender, EventArgs e)
     {
@@ -29,12 +29,12 @@ public partial class OptionsView : ContentPage
             options = new Options();
         }
           
-         options.UseEnterPressed = this.cbxUseEnterPressedEvent.IsChecked ?? false;
-        options.UseTextChangedEvent = this.cbxUseTextChangedEvent.IsChecked ?? false;
-        options.AutoUpdateUsingGithub = this.cbxUseUpdateFromGitHub.IsChecked ?? false;
+         options.UseEnterPressed = this.cbxUseEnterPressedEvent.IsChecked  ;
+        options.UseTextChangedEvent = this.cbxUseTextChangedEvent.IsChecked  ;
+        options.AutoUpdateUsingGithub = this.cbxUseUpdateFromGitHub.IsChecked;
         options.WebViewOrientation = cmbxOrientation.SelectedIndex;
         core.SaveOptions(options);
-
+        WindowHelper.CloseWindow(this.Window);
         //Close();
     }
 }

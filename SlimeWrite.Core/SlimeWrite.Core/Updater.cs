@@ -1,25 +1,20 @@
 ﻿using SlimeWrite.Core.Models;
-using System;
 using System.Diagnostics;
-using System.IO;
-using System.Linq;
-using System.Net.Http;
 using System.Net.Http.Headers;
 using System.Reflection;
 using System.Text.Json;
-using System.Threading.Tasks;
 
 namespace SlimeWrite.Core
 {
-   public class Updater
-    {   
+    public class Updater
+    {
 
         public async Task DownloadLatestRelease()
         {
             var asm = Assembly.GetEntryAssembly() ?? Assembly.GetExecutingAssembly();
             var AppName = asm.GetCustomAttribute<AssemblyTitleAttribute>()?.Title ??
                 "SlimeWrite";
-           var  Version = asm.GetName()?.Version?.ToString() ?? "1.0.0";
+            var Version = asm.GetName()?.Version?.ToString() ?? "1.0.0";
             using var client = new HttpClient();
             client.DefaultRequestHeaders.UserAgent.Add(
                 new ProductInfoHeaderValue(AppName, Version));
@@ -28,12 +23,12 @@ namespace SlimeWrite.Core
             var json = await client.GetStringAsync(url);
 
             var release = JsonSerializer.Deserialize<GitHubRelease>(json);
-            if (release != null)     
+            if (release != null)
             {
-                 var ver= new Version(release.tag_name.TrimStart('v'));
+                var ver = new Version(release.tag_name.TrimStart('v'));
                 var appVer = new Version(Version);
                 if (ver > appVer)
-                { 
+                {
 
                     var asset = release.assets.FirstOrDefault(a => a.name.EndsWith(".exe"));
 
