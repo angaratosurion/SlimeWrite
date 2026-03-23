@@ -40,7 +40,7 @@
                 <Editor x:Name="editor" Margin="4"  
                     VerticalOptions="FillAndExpand"
                 HorizontalOptions="FillAndExpand" IsSpellCheckEnabled="True"
-                        IsTextPredictionEnabled="True" 
+                        IsTextPredictionEnabled="True"  BackgroundColor="Aqua"
                         />
            <!-- </StackLayout>-->
        </ScrollView>

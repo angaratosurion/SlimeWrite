@@ -1,4 +1,5 @@
-﻿using SlimeMarkUp.Core;
+﻿
+using SlimeMarkUp.Core;
 using SlimeWrite.Core;
 using SlimeWrite.Core.Models;
 using SlimeWrite.MAUI.Views;
@@ -89,21 +90,27 @@ namespace SlimeWrite.MAUI
                     {
                         this.MainGrid.RowDefinitions.Clear();
                         this.MainGrid.ColumnDefinitions.Add(new ColumnDefinition(GridLength.Star));
-                        this.MainGrid.ColumnDefinitions.Add(new ColumnDefinition(GridLength.Star));
+                        
 
                         this.MainGrid.ColumnDefinitions.
                             Add(new ColumnDefinition());
+                        this.MainGrid.ColumnDefinitions.Add(new ColumnDefinition(GridLength.Star));
                         this.MainGrid.ColumnDefinitions[1].Width = new GridLength(10);
-                       
-                        MainGrid.SetColumn(editor, 0);
+                        
+                        MainGrid.SetColumn(scrollview, 0);
                         MainGrid.SetColumn(preview, 2);
                         MainGrid.SetColumn(this.spliter, 1);
-                        
+
                         //this.ContentPage_SizeChanged(null, null);
+                        this.SetGridContentSizes();
                         break;
+                      
+
                     }
                 case 1:
                     {
+                        this.SetGridContentSizes();
+
 
                         //this.MainGrid.ColumnDefinitions.Clear();
                         //this.MainGrid.RowDefinitions.Add(new RowDefinition( ));
@@ -225,7 +232,15 @@ namespace SlimeWrite.MAUI
             win.IsMinimizable = false;
             win.Height = options.HeightRequest;
             win.Width = options.WidthRequest;
-            Application.Current.OpenWindow(win);
+             if (core.isDesktopMode())
+             {
+                 Application.Current.OpenWindow(win);
+             }
+             else
+             {
+                 Application.Current.MainPage.Navigation.PushModalAsync(options);
+             }
+            
 
             //options.Show();
 
@@ -362,9 +377,16 @@ namespace SlimeWrite.MAUI
             win.IsMinimizable = false;
             win.Height = aboutwindows.HeightRequest;
             win.Width = aboutwindows.WidthRequest;
+            if (core.isDesktopMode())
+            {
 
-            Application.Current.OpenWindow(win);
+                Application.Current.OpenWindow(win);
+            }
+            else
+            {
+                Application.Current.MainPage.Navigation.PushModalAsync(new About());
 
+            }
         }
 
         private void InserFilepropps_Click(object sender, EventArgs e)
@@ -441,20 +463,37 @@ namespace SlimeWrite.MAUI
             async void NavigateToStringFile(string html)
             {
                 string appname = appInfo.AppName;
-
-                var file = Path.Combine(Path.GetTempPath(), appname,
-                    "output.html");
-                if (Directory.Exists(Path.Combine(Path.GetTempPath(), appname)) == false)
+                if (core.isDesktopMode())
                 {
-                    Directory.CreateDirectory(Path.Combine(Path.GetTempPath(), appname));
+
+                    var file = Path.Combine(Path.GetTempPath(), appname,
+                        "output.html");
+                    if (Directory.Exists(Path.Combine(Path.GetTempPath(), appname)) == false)
+                    {
+                        Directory.CreateDirectory(Path.Combine(Path.GetTempPath(), appname));
+                    }
+                    File.WriteAllText(file, html);
+                    if (preview != null)
+                    {
+                        preview.Source = file;
+
+                    }
                 }
-                File.WriteAllText(file, html);
-                if (preview != null)
+                else
                 {
-                    preview.Source = file;
+                    var file = Path.Combine(FileSystem.CacheDirectory
+                        ,"output.html");
+                    if (Directory.Exists(FileSystem.CacheDirectory) == false)
+                    {
+                        Directory.CreateDirectory(FileSystem.CacheDirectory);
+                    }
+                    File.WriteAllText(file, html);
+                    if (preview != null)
+                    {
+                        preview.Source =  new HtmlWebViewSource{ Html = html };
 
+                    }
                 }
-
 
 
             }
@@ -486,7 +525,7 @@ namespace SlimeWrite.MAUI
 
                 }
                 this.preview.WidthRequest = this.Width;
-                this.editor.WidthRequest = this.Width - 25; ;
+                this.editor.WidthRequest = this.Width; ; ;
             }
             else
             {
