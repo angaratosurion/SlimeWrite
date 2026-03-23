@@ -53,7 +53,9 @@ namespace SlimeWrite.MAUI
                 updater.DownloadLatestRelease();
 
             }
-           
+            initilizeOriantation();
+
+
         }
         private void editor_TextChanged(object? sender, EventArgs e)
         {
@@ -74,7 +76,41 @@ namespace SlimeWrite.MAUI
             }
 
         }
+        async void initilizeOriantation()
+        {
+             
+             
+            switch (options.WebViewOrientation)
+            {
+                case 0:
+                    {
+                        this.MainGrid.RowDefinitions.Clear();
+                        this.MainGrid.ColumnDefinitions.Add(new ColumnDefinition());
+                        this.MainGrid.ColumnDefinitions.Add(new ColumnDefinition());
+                        this.MainGrid.ColumnDefinitions.Add(new ColumnDefinition());
+                        this.MainGrid.ColumnDefinitions[1].Width = new GridLength(5);
 
+                        MainGrid.SetColumn(editor, 0);
+                        MainGrid.SetColumn(preview, 2);
+                        MainGrid.SetColumn(this.spliter, 1);
+                        break;
+                    }
+                case 1:
+                    {
+
+                        this.MainGrid.ColumnDefinitions.Clear();
+                        this.MainGrid.RowDefinitions.Add(new RowDefinition());
+                        this.MainGrid.RowDefinitions.Add(new RowDefinition());
+                        this.MainGrid.RowDefinitions.Add(new RowDefinition());
+                        this.MainGrid.RowDefinitions[1].Height = new GridLength(5);
+                        MainGrid.SetRow(editor, 0);
+                        MainGrid.SetRow(preview, 2);
+                        MainGrid.SetRow(this.spliter, 1);
+                        break;
+                    }
+            }
+             
+        }
 
         // ---------------- Toolbar buttons ---------------- //
         private async void OpenFile(string filename)
