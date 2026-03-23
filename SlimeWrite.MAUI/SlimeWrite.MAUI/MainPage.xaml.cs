@@ -14,7 +14,7 @@ namespace SlimeWrite.MAUI
         AppInfo appInfo;
 
         Kernel core = new Kernel();
-        double startHeight;
+        double startHeight ,startWidth;
         
         static Options options = new Options
         {
@@ -54,6 +54,7 @@ namespace SlimeWrite.MAUI
 
             }
             initilizeOriantation();
+            this.SetGridContentSizes();
 
 
         }
@@ -78,36 +79,44 @@ namespace SlimeWrite.MAUI
         }
         async void initilizeOriantation()
         {
-             
-             
+
+            this.MainGrid.HeightRequest = this.Height;
+
             switch (options.WebViewOrientation)
             {
+                
                 case 0:
                     {
                         this.MainGrid.RowDefinitions.Clear();
-                        this.MainGrid.ColumnDefinitions.Add(new ColumnDefinition());
-                        this.MainGrid.ColumnDefinitions.Add(new ColumnDefinition());
-                        this.MainGrid.ColumnDefinitions.Add(new ColumnDefinition());
-                        this.MainGrid.ColumnDefinitions[1].Width = new GridLength(5);
+                        this.MainGrid.ColumnDefinitions.Add(new ColumnDefinition(GridLength.Star));
+                        this.MainGrid.ColumnDefinitions.Add(new ColumnDefinition(GridLength.Star));
 
+                        this.MainGrid.ColumnDefinitions.
+                            Add(new ColumnDefinition());
+                        this.MainGrid.ColumnDefinitions[1].Width = new GridLength(10);
+                       
                         MainGrid.SetColumn(editor, 0);
                         MainGrid.SetColumn(preview, 2);
                         MainGrid.SetColumn(this.spliter, 1);
+                        
+                        //this.ContentPage_SizeChanged(null, null);
                         break;
                     }
                 case 1:
                     {
 
-                        this.MainGrid.ColumnDefinitions.Clear();
-                        this.MainGrid.RowDefinitions.Add(new RowDefinition());
-                        this.MainGrid.RowDefinitions.Add(new RowDefinition());
-                        this.MainGrid.RowDefinitions.Add(new RowDefinition());
-                        this.MainGrid.RowDefinitions[1].Height = new GridLength(5);
-                        MainGrid.SetRow(editor, 0);
-                        MainGrid.SetRow(preview, 2);
-                        MainGrid.SetRow(this.spliter, 1);
+                        //this.MainGrid.ColumnDefinitions.Clear();
+                        //this.MainGrid.RowDefinitions.Add(new RowDefinition( ));
+                        //this.MainGrid.RowDefinitions.Add(new RowDefinition());
+                        //this.MainGrid.RowDefinitions.Add(new RowDefinition());
+                        //this.MainGrid.RowDefinitions[1].Height = new GridLength(5);
+                        //MainGrid.SetRow(editor, 0);
+                        //MainGrid.SetRow(preview, 2);
+                        //MainGrid.SetRow(this.spliter, 1);
+                        //this.ContentPage_SizeChanged(null, null);
                         break;
                     }
+                   
             }
              
         }
@@ -455,49 +464,105 @@ namespace SlimeWrite.MAUI
 
 
         }
-
-        private void ContentPage_SizeChanged(object sender, EventArgs e)
+        void SetGridContentSizes()
         {
+            double editorandpreviewheight = this.Height / 2;
+            double editorandpreviewwidth = this.Width / 2;
 
-            double editorandpreviewheight= this.Height / 2;
-            if (editor.Height <= editorandpreviewheight)
+            if (options.WebViewOrientation == 1)
             {
-                this.preview.HeightRequest = this.Height / 2;
-                
-                this.editor.HeightRequest = this.Height / 2;
-               
+                if (editor.Height <= editorandpreviewheight)
+                {
+                    this.preview.HeightRequest = this.Height / 2;
+
+                    this.editor.HeightRequest = this.Height / 2;
+
+                }
+                else
+                {
+                    this.preview.HeightRequest = this.TopRow.Height.Value;
+
+                    this.editor.HeightRequest = this.BottomRow.Height.Value;
+
+                }
+                this.preview.WidthRequest = this.Width;
+                this.editor.WidthRequest = this.Width - 25; ;
             }
             else
             {
-                this.preview.HeightRequest = this.TopRow.Height.Value;
+                if (editor.Width <= editorandpreviewwidth)
+                {
 
-                this.editor.HeightRequest = this.BottomRow.Height.Value;
+                }
+                else
+                {
+                    this.preview.WidthRequest = this.MainGrid.ColumnDefinitions[0].Width.Value;
+
+                    this.editor.WidthRequest = this.MainGrid.ColumnDefinitions[2].Width.Value;
+                }
+                this.preview.HeightRequest = this.Height / 2;
+                this.editor.HeightRequest = this.Height / 2 - 25; ;
+
             }
-            this.preview.WidthRequest = this.Width;
-            this.editor.WidthRequest = this.Width - 25; ;
         }
+
+        private void ContentPage_SizeChanged(object sender, EventArgs e)
+        {
+            this.SetGridContentSizes();
+
+        }
+
+
         void OnPanUpdated(object sender, PanUpdatedEventArgs e)
         {
-            switch (e.StatusType)
+            if (options.WebViewOrientation == 1)
             {
-                case GestureStatus.Started:
-                    startHeight = TopRow.Height.Value;
-                    break;
+                 
+                switch (e.StatusType)
+                {
+                    case GestureStatus.Started:
 
-                case GestureStatus.Running:
-                    double newHeight = startHeight + e.TotalY;
+                        startHeight = TopRow.Height.Value;
+                        break;
 
-                    if (newHeight < 50) newHeight = 50;
-                    if (newHeight > MainGrid.Height - 50) newHeight = MainGrid.Height - 50;
+                    case GestureStatus.Running:
+                        double newHeight = startHeight + e.TotalY;
 
-                    TopRow.Height = new GridLength(newHeight, GridUnitType.Absolute);
-                    BottomRow.Height = 
-                        new GridLength(MainGrid.Height - newHeight - 5, GridUnitType.Absolute);
-                    break;
+                        if (newHeight < 50) newHeight = 50;
+                        if (newHeight > MainGrid.Height - 50) newHeight = MainGrid.Height - 50;
+
+                        TopRow.Height = new GridLength(newHeight, GridUnitType.Absolute);
+                        BottomRow.Height =
+                            new GridLength(MainGrid.Height - newHeight - 5, GridUnitType.Absolute);
+                        break;
+                }
+                this.editor.HeightRequest = this.TopRow.Height.Value;
+                this.preview.HeightRequest = this.BottomRow.Height.Value;
+
             }
-            this.editor.HeightRequest = this.TopRow.Height.Value;
-            this.preview.HeightRequest = this.BottomRow.Height.Value;
+            else
+            {
+                
+                switch (e.StatusType)
+                {
+                    case GestureStatus.Started:
+                        startWidth = MainGrid.ColumnDefinitions[0].Width.Value;
+                        break;
+                    case GestureStatus.Running:
+                        double newWidth = startWidth + e.TotalX;
+                        if (newWidth < 50) newWidth = 50;
+                        if (newWidth > MainGrid.Width - 50) newWidth = MainGrid.Width - 50;
+                        MainGrid.ColumnDefinitions[0].Width =
+                            new GridLength(newWidth, GridUnitType.Absolute);
+                        MainGrid.ColumnDefinitions[2].Width =
+                            new GridLength(MainGrid.Width - newWidth - 5, GridUnitType.Absolute);
+                        break;
+                }
+                this.editor.WidthRequest = this.MainGrid.ColumnDefinitions[2].Width.Value;
+                this.preview.WidthRequest = this.MainGrid.ColumnDefinitions[0].Width.Value;
+            }
             startHeight = 0;
+            startWidth = 0;
         }
 
        
