@@ -55,7 +55,7 @@ namespace SlimeWrite.MAUI
 
             }
             initilizeOriantation();
-            this.SetGridContentSizes();
+          //  this.SetGridContentSizes();
 
 
         }
@@ -103,7 +103,7 @@ namespace SlimeWrite.MAUI
                         MainGrid.SetColumn(this.spliter, 1);
 
                         //this.ContentPage_SizeChanged(null, null);
-                        this.SetGridContentSizes();
+                       // this.SetGridContentSizes();
                         break;
                       
 
@@ -414,7 +414,7 @@ namespace SlimeWrite.MAUI
             //editor.Font = new System.Drawing.Font("Consolas", 16);
 
             // Faster for large files
-            //this.editor.HeightRequest = this.Height - preview.Height;
+            ///this.editor.HeightRequest = this.Height - preview.Height;
             //this.editor.AutoSize = EditorAutoSizeOption.TextChanges;
 
 
