@@ -55,7 +55,12 @@ namespace SlimeWrite.MAUI
 
             }
             initilizeOriantation();
-          //  this.SetGridContentSizes();
+
+            //  this.SetGridContentSizes();
+#if WINDOWS
+var userDataFolder = Path.Combine(FileSystem.AppDataDirectory, core.GetAppInfo().AppName);
+Environment.SetEnvironmentVariable("WEBVIEW2_USER_DATA_FOLDER", userDataFolder);
+#endif
 
 
         }
@@ -110,18 +115,7 @@ namespace SlimeWrite.MAUI
                     }
                 case 1:
                     {
-                       // this.SetGridContentSizes();
-
-
-                        //this.MainGrid.ColumnDefinitions.Clear();
-                        //this.MainGrid.RowDefinitions.Add(new RowDefinition( ));
-                        //this.MainGrid.RowDefinitions.Add(new RowDefinition());
-                        //this.MainGrid.RowDefinitions.Add(new RowDefinition());
-                        //this.MainGrid.RowDefinitions[1].Height = new GridLength(5);
-                        //MainGrid.SetRow(editor, 0);
-                        //MainGrid.SetRow(preview, 2);
-                        //MainGrid.SetRow(this.spliter, 1);
-                        //this.ContentPage_SizeChanged(null, null);
+                       
                         break;
                     }
                    
@@ -530,24 +524,24 @@ namespace SlimeWrite.MAUI
                 this.preview.WidthRequest = this.Width;
                 this.editor.WidthRequest = this.Width; ; ;
             }
-            //else
-            //{
-            //    if (editor.Width <= editorandpreviewwidth)
-            //    {
-            //        this.preview.WidthRequest = this.MainGrid.Width / 2;
+            else
+            {
+                if (editor.Width <= editorandpreviewwidth)
+                {
+                    this.preview.WidthRequest = this.MainGrid.Width / 2;
 
-            //        this.editor.WidthRequest = this.MainGrid.Width / 2;
-            //    }
-            //    else
-            //    {
-            //        this.preview.WidthRequest = this.MainGrid.Width / 2;
+                    this.editor.WidthRequest = this.MainGrid.Width / 2;
+                }
+                else
+                {
+                    this.preview.WidthRequest = this.MainGrid.Width / 2;
 
-            //        this.editor.WidthRequest = this.MainGrid.Width / 2;
-            //    }
-            //    this.preview.HeightRequest = this.Height / 2;
-            //    this.editor.HeightRequest = this.Height / 2  ;
+                    this.editor.WidthRequest = this.MainGrid.Width / 2;
+                }
+                this.preview.HeightRequest = this.Height / 2;
+                this.editor.HeightRequest = this.Height / 2;
 
-            //}
+            }
         }
 
         private void ContentPage_SizeChanged(object sender, EventArgs e)

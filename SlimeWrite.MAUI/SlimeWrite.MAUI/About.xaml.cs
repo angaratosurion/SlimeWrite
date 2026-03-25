@@ -19,15 +19,7 @@ public partial class About : ContentPage
         CopyRightText.Text = "© " + DateTime.Now.Year + " " + appInfo.Copyright;
         DescriptionText.Text = appInfo.Description;
 
-
-        try
-        {
-            var uri = new Uri("logo.png",
-                UriKind.Absolute);
-
-        }
-
-        catch { }
+ 
         
     }
     private void WebsiteHyperlink_Click(object sender, EventArgs e)

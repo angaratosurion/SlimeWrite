@@ -11,11 +11,21 @@ public partial class OptionsView : ContentPage
     {
         InitializeComponent();
         options= core.GetOptions();
-        this.cbxUseEnterPressedEvent.IsChecked = options.UseEnterPressed;
+       // this.cbxUseEnterPressedEvent.IsChecked = options.UseEnterPressed;
         this.cbxUseTextChangedEvent.IsChecked = options.UseTextChangedEvent;
         cmbxOrientation.SelectedIndex = options.WebViewOrientation;
         cbxUseUpdateFromGitHub.IsChecked = options.AutoUpdateUsingGithub;
         this.cmbxOrientation.WidthRequest = this.WidthRequest - 50;
+       
+
+#if DEBUG
+        this.cmbxOrientation.IsVisible = true;
+        this.lblOriantation.IsVisible = true;
+         this.stLayoutCloseandSave.Margin = new Thickness(50, 0, 0, 0);
+        this.HeightRequest = 300;
+
+
+#endif
 
     }
 
@@ -30,7 +40,7 @@ public partial class OptionsView : ContentPage
             options = new Options();
         }
           
-         options.UseEnterPressed = this.cbxUseEnterPressedEvent.IsChecked  ;
+        // options.UseEnterPressed = this.cbxUseEnterPressedEvent.IsChecked  ;
         options.UseTextChangedEvent = this.cbxUseTextChangedEvent.IsChecked  ;
         options.AutoUpdateUsingGithub = this.cbxUseUpdateFromGitHub.IsChecked;
         options.WebViewOrientation = cmbxOrientation.SelectedIndex;

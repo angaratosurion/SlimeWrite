@@ -1,70 +1,124 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="SlimeWrite.MAUI.MainPage" SizeChanged="ContentPage_SizeChanged" HeightRequest="600"
-             WidthRequest="800"
+             x:Class="SlimeWrite.MAUI.MainPage" SizeChanged="ContentPage_SizeChanged"
               >
-
-    <ContentPage.ToolbarItems >
-        <ToolbarItem IconImageSource="newfile.png" Clicked="New_Clicked"  Order="Primary"  />
-        <ToolbarItem IconImageSource="openfile.png" Clicked="Open_Clicked" Order="Primary" />
-        <ToolbarItem IconImageSource="savefile.png" Clicked="Save_Clicked"  Order="Primary"/>
-        <ToolbarItem IconImageSource="closefile.png" Clicked="Close_Clicked" Order="Primary" />
-        <ToolbarItem IconImageSource="h1.png" Clicked="H1_Clicked"  Order="Primary"/>
-        <ToolbarItem IconImageSource="h2.png" Clicked="H2_Clicked" Order="Primary" />
-        <ToolbarItem IconImageSource="bold.png" Clicked="Bold_Clicked" Order="Primary" />
-        <ToolbarItem IconImageSource="italic.png" Clicked="Italic_Clicked" Order="Primary" />
-        <ToolbarItem IconImageSource="link.png" Clicked="Link_Clicked" Order="Primary" />
-        <ToolbarItem IconImageSource="image.png" Clicked="Image_Clicked" Order="Primary" />
-        <ToolbarItem IconImageSource="list.png" Clicked="List_Clicked" Order="Primary" />
-        <ToolbarItem IconImageSource="table.png" Clicked="Table_Clicked" Order="Primary" />
-        <ToolbarItem IconImageSource="blockquote.png" Clicked="Quote_Clicked" Order="Primary" />
-        <ToolbarItem IconImageSource="fileproperties.png" Clicked="InserFilepropps_Click" Order="Primary" />
+    <VerticalStackLayout Spacing="0">
+        <!--<ContentPage.ToolbarItems >
+        <ToolbarItem IconImageSource="newfile.png" Clicked="New_Clicked"  Order="Primary" 
+                     x:Name="btnNewFile" />
+        <ToolbarItem IconImageSource="openfile.png" Clicked="Open_Clicked" Order="Primary"
+                     x:Name="btnOenFile" />
+        <ToolbarItem IconImageSource="savefile.png" Clicked="Save_Clicked"  Order="Primary"
+                      x:Name="btnSaveFile"/>
+        <ToolbarItem IconImageSource="closefile.png" Clicked="Close_Clicked" Order="Primary"
+                      x:Name="btnCloseFile"/>
+        <ToolbarItem IconImageSource="h1.png" Clicked="H1_Clicked"  Order="Primary"
+                      x:Name="btnH1e"/>
+        <ToolbarItem IconImageSource="h2.png" Clicked="H2_Clicked" Order="Primary" 
+                      x:Name="btnH2"/>
+        <ToolbarItem IconImageSource="bold.png" Clicked="Bold_Clicked" Order="Primary"
+                      x:Name="btnBold"/>
+        <ToolbarItem IconImageSource="italic.png" Clicked="Italic_Clicked" Order="Primary" 
+                      x:Name="btnItalic"/>
+        <ToolbarItem IconImageSource="link.png" Clicked="Link_Clicked" Order="Primary" 
+                      x:Name="btnLink"/>
+        <ToolbarItem IconImageSource="image.png" Clicked="Image_Clicked" Order="Primary" 
+                      x:Name="btnNewFile"/>
+        <ToolbarItem IconImageSource="list.png" Clicked="List_Clicked" Order="Primary" 
+                      x:Name="btnNewFile"/>
+        <ToolbarItem IconImageSource="table.png" Clicked="Table_Clicked" Order="Primary"
+                      x:Name="btnTable"/>
+        <ToolbarItem IconImageSource="blockquote.png" Clicked="Quote_Clicked" Order="Primary"
+                      x:Name="btnQuote"/>
+        <ToolbarItem IconImageSource="fileproperties.png" Clicked="InserFilepropps_Click" Order="Primary"
+                      x:Name="btnFileProperties"/>
         <ToolbarItem Text="Options" Clicked="AppOptions_Click" Order="Secondary"/>
         <ToolbarItem Text="About" Clicked="About_Click"  Order="Secondary" />
-    </ContentPage.ToolbarItems>
+    </ContentPage.ToolbarItems>-->
+
+
+        <!-- TOOLBAR -->
+        <ScrollView Orientation="Horizontal">
+
+            <HorizontalStackLayout Spacing="10" Padding="5">
+
+                <!-- File -->
+                <ImageButton x:Name="btnNewFile" Source="newfile.png" WidthRequest="40" HeightRequest="40" Clicked="New_Clicked"/>
+                <ImageButton x:Name="btnOenFile" Source="openfile.png" WidthRequest="40" HeightRequest="40" Clicked="Open_Clicked"/>
+                <ImageButton x:Name="btnSaveFile" Source="savefile.png" WidthRequest="40" HeightRequest="40" Clicked="Save_Clicked"/>
+                <ImageButton x:Name="btnCloseFile" Source="closefile.png" WidthRequest="40" HeightRequest="40" Clicked="Close_Clicked"/>
+
+                <!-- Headings -->
+                <ImageButton x:Name="btnH1" Source="h1.png" WidthRequest="40" HeightRequest="40" Clicked="H1_Clicked"/>
+                <ImageButton x:Name="btnH2" Source="h2.png" WidthRequest="40" HeightRequest="40" Clicked="H2_Clicked"/>
+
+                <!-- Formatting -->
+                <ImageButton x:Name="btnBold" Source="bold.png" WidthRequest="40" HeightRequest="40" Clicked="Bold_Clicked"/>
+                <ImageButton x:Name="btnItalic" Source="italic.png" WidthRequest="40" HeightRequest="40" Clicked="Italic_Clicked"/>
+
+                <!-- Insert -->
+                <ImageButton x:Name="btnLink" Source="link.png" WidthRequest="40" HeightRequest="40" Clicked="Link_Clicked"/>
+                <ImageButton Source="image.png" WidthRequest="40" HeightRequest="40" Clicked="Image_Clicked"/>
+                <ImageButton Source="list.png" WidthRequest="40" HeightRequest="40" Clicked="List_Clicked"/>
+                <ImageButton x:Name="btnTable" Source="table.png" WidthRequest="40" HeightRequest="40" Clicked="Table_Clicked"/>
+                <ImageButton x:Name="btnQuote" Source="blockquote.png" WidthRequest="40" HeightRequest="40" Clicked="Quote_Clicked"/>
+
+                <!-- Extras -->
+                <ImageButton x:Name="btnFileProperties" Source="fileproperties.png" WidthRequest="40" HeightRequest="40" Clicked="InserFilepropps_Click"/>
+
+                <!-- Secondary -->
+                <Button Text="Options" Clicked="AppOptions_Click"/>
+                <Button Text="About" Clicked="About_Click"/>
+
+            </HorizontalStackLayout>
+        </ScrollView>
+
+
+
+
 
         <!-- Single Content child: a Grid that hosts the editor and preview sections -->
-    <Grid x:Name="MainGrid"   HorizontalOptions="FillAndExpand" VerticalOptions="Fill"
+        <Grid x:Name="MainGrid"    VerticalOptions="Fill"
           >
-        <Grid.RowDefinitions>
-            <RowDefinition x:Name="TopRow" Height="*" />
-            <RowDefinition Height="10" />
-            <RowDefinition x:Name="BottomRow" Height="*" />
-        </Grid.RowDefinitions>
-        <!-- Editor section (top) -->
-        <ScrollView Grid.Row="0" HorizontalScrollBarVisibility="Always"
+            <Grid.RowDefinitions>
+                <RowDefinition x:Name="TopRow" Height="*" />
+                <RowDefinition Height="10" />
+                <RowDefinition x:Name="BottomRow" Height="*" />
+            </Grid.RowDefinitions>
+            <!-- Editor section (top) -->
+            <ScrollView Grid.Row="0" HorizontalScrollBarVisibility="Always"
                     VerticalScrollBarVisibility="Always" 
                     x:Name="scrollview"
                      >
-            <!--<StackLayout Grid.Row="0" >-->
+                <!--<StackLayout Grid.Row="0" >-->
                 <Editor x:Name="editor" Margin="4"  
-                    VerticalOptions="FillAndExpand"
-                HorizontalOptions="FillAndExpand" IsSpellCheckEnabled="True"
+                    VerticalOptions="Fill"
+                HorizontalOptions="Fill" IsSpellCheckEnabled="True"
                         IsTextPredictionEnabled="True"  BackgroundColor="Aqua"
                         />
-           <!-- </StackLayout>-->
-       </ScrollView>
-        <!-- Splitter -->
-        <BoxView Grid.Row="1" BackgroundColor="DarkGray"
+                <!-- </StackLayout>-->
+            </ScrollView>
+            <!-- Splitter -->
+            <BoxView Grid.Row="1" BackgroundColor="DarkGray"
                  HorizontalOptions="Fill"
                  VerticalOptions="Fill" x:Name="spliter"
                 >
-            <BoxView.GestureRecognizers>
-                <PanGestureRecognizer PanUpdated="OnPanUpdated"/>
-                
-            </BoxView.GestureRecognizers>
+                <BoxView.GestureRecognizers>
+                    <PanGestureRecognizer PanUpdated="OnPanUpdated"/>
 
-        </BoxView>
+                </BoxView.GestureRecognizers>
 
-        <!-- Preview section (bottom) -->
-        <ScrollView Grid.Row="2">
-            <StackLayout>
-                <WebView x:Name="preview" Margin="4"   MinimumHeightRequest="300" 
-                         WidthRequest="500" VerticalOptions="FillAndExpand"
-                HorizontalOptions="FillAndExpand" />
-            </StackLayout>
-        </ScrollView>
-    </Grid>
+            </BoxView>
 
+            <!-- Preview section (bottom) -->
+            <ScrollView Grid.Row="2">
+                <StackLayout>
+                    <WebView x:Name="preview" Margin="4"   MinimumHeightRequest="300" 
+                         WidthRequest="500" VerticalOptions="Fill"
+                HorizontalOptions="Fill" />
+                </StackLayout>
+            </ScrollView>
+        </Grid>
+    </VerticalStackLayout>
 </ContentPage>

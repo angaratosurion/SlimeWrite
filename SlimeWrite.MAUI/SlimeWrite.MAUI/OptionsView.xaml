@@ -2,7 +2,7 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              x:Class="SlimeWrite.MAUI.Views.OptionsView"
-             Title="Options" HeightRequest="300" WidthRequest="850">
+             Title="Options" HeightRequest="200" WidthRequest="850">
   
     <StackLayout Orientation="Vertical">
       <StackLayout Orientation="Horizontal" Margin="4">
@@ -12,11 +12,11 @@
                 <Label Text="Use Text Changed Event" VerticalOptions="Center"/>
 
             </StackLayout>
-            <StackLayout Orientation="Horizontal" Margin="4">
+            <!--<StackLayout Orientation="Horizontal" Margin="4">
                 <CheckBox x:Name="cbxUseEnterPressedEvent" 
                           SemanticProperties.Description="Use Enter Pressed Event"/>
                 <Label Text="Use Enter Pressed Event" VerticalOptions="Center"/>
-            </StackLayout>
+            </StackLayout>-->
             <StackLayout Orientation="Horizontal" Margin="4">
                 <CheckBox x:Name="cbxUseUpdateFromGitHub"
                           SemanticProperties.Description="Update Using GitHub"/>
@@ -24,16 +24,17 @@
             </StackLayout>
         </StackLayout>
 
-        <Label  Margin="40,0,0,0">WebView Orientation</Label>
+        <Label  Margin="40,0,0,0" x:Name="lblOriantation" IsVisible="Collapse">WebView Orientation</Label>
       
-      <Picker SelectedIndex="0" x:Name="cmbxOrientation">
+      <Picker SelectedIndex="0" x:Name="cmbxOrientation" IsVisible="Collapse">
         <Picker.Items>
-          <x:String>Vertical</x:String>
-          <x:String>Horizontal</x:String>
+                <x:String>Horizontal</x:String>
+                <x:String>Vertical</x:String>
         </Picker.Items>
       </Picker>
+        <StackLayout Orientation="Horizontal" Margin="10" Spacing="10" x:Name="stLayoutCloseandSave">
 
-      <StackLayout Orientation="Horizontal" Margin="50" Spacing="10">
+     <!-- <StackLayout Orientation="Horizontal" Margin="50" Spacing="10" x:Name="stLayoutCloseandSave">-->
             <Button Clicked="Close_Click" Text="Cancel"/>
              
             <Button Clicked="Save_Click" Text="Save"/>

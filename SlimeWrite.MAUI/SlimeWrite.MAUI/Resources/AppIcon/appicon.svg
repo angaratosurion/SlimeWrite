@@ -6,7 +6,7 @@
     xmlns="http://www.w3.org/2000/svg">
 
   <!-- background -->
-  <rect width="1080" height="1080" fill="#2b2b2b"/>
+  <rect width="1080" height="1080" fill="#0000FF"/>
 
   <!-- book -->
   <path
