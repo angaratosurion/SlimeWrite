@@ -25,7 +25,7 @@
     </ContentPage.ToolbarItems>
 
         <!-- Single Content child: a Grid that hosts the editor and preview sections -->
-    <Grid x:Name="MainGrid"  >
+    <Grid x:Name="MainGrid"   HorizontalOptions="FillAndExpand" >
         <Grid.RowDefinitions>
             <RowDefinition x:Name="TopRow" Height="*" />
             <RowDefinition Height="10" />

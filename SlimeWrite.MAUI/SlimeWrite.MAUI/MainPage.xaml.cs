@@ -81,7 +81,7 @@ namespace SlimeWrite.MAUI
         async void initilizeOriantation()
         {
 
-            this.MainGrid.HeightRequest = this.Height;
+            //this.MainGrid.HeightRequest = this.Height;
 
             switch (options.WebViewOrientation)
             {
@@ -98,6 +98,7 @@ namespace SlimeWrite.MAUI
                         this.MainGrid.ColumnDefinitions[1].Width = new GridLength(10);
                         
                         MainGrid.SetColumn(scrollview, 0);
+                        MainGrid.SetColumn(editor, 0)   ;
                         MainGrid.SetColumn(preview, 2);
                         MainGrid.SetColumn(this.spliter, 1);
 
@@ -109,7 +110,7 @@ namespace SlimeWrite.MAUI
                     }
                 case 1:
                     {
-                        this.SetGridContentSizes();
+                       // this.SetGridContentSizes();
 
 
                         //this.MainGrid.ColumnDefinitions.Clear();
@@ -413,8 +414,8 @@ namespace SlimeWrite.MAUI
             //editor.Font = new System.Drawing.Font("Consolas", 16);
 
             // Faster for large files
-            this.editor.HeightRequest = this.Height - preview.Height;
-            this.editor.AutoSize = EditorAutoSizeOption.TextChanges;
+            //this.editor.HeightRequest = this.Height - preview.Height;
+            //this.editor.AutoSize = EditorAutoSizeOption.TextChanges;
 
 
             if (options.UseTextChangedEvent)
@@ -507,6 +508,8 @@ namespace SlimeWrite.MAUI
         {
             double editorandpreviewheight = this.Height / 2;
             double editorandpreviewwidth = this.Width / 2;
+            this.MainGrid.HeightRequest = this.Height;
+            this.MainGrid.WidthRequest= this.Width;
 
             if (options.WebViewOrientation == 1)
             {
@@ -521,28 +524,30 @@ namespace SlimeWrite.MAUI
                 {
                     this.preview.HeightRequest = this.TopRow.Height.Value;
 
-                    this.editor.HeightRequest = this.BottomRow.Height.Value;
+                    this.editor.HeightRequest = this.BottomRow.Height.Value; ;
 
                 }
                 this.preview.WidthRequest = this.Width;
                 this.editor.WidthRequest = this.Width; ; ;
             }
-            else
-            {
-                if (editor.Width <= editorandpreviewwidth)
-                {
+            //else
+            //{
+            //    if (editor.Width <= editorandpreviewwidth)
+            //    {
+            //        this.preview.WidthRequest = this.MainGrid.Width / 2;
 
-                }
-                else
-                {
-                    this.preview.WidthRequest = this.MainGrid.ColumnDefinitions[0].Width.Value;
+            //        this.editor.WidthRequest = this.MainGrid.Width / 2;
+            //    }
+            //    else
+            //    {
+            //        this.preview.WidthRequest = this.MainGrid.Width / 2;
 
-                    this.editor.WidthRequest = this.MainGrid.ColumnDefinitions[2].Width.Value;
-                }
-                this.preview.HeightRequest = this.Height / 2;
-                this.editor.HeightRequest = this.Height / 2 - 25; ;
+            //        this.editor.WidthRequest = this.MainGrid.Width / 2;
+            //    }
+            //    this.preview.HeightRequest = this.Height / 2;
+            //    this.editor.HeightRequest = this.Height / 2  ;
 
-            }
+            //}
         }
 
         private void ContentPage_SizeChanged(object sender, EventArgs e)
