@@ -101,11 +101,13 @@ Environment.SetEnvironmentVariable("WEBVIEW2_USER_DATA_FOLDER", userDataFolder);
                             Add(new ColumnDefinition());
                         this.MainGrid.ColumnDefinitions.Add(new ColumnDefinition(GridLength.Star));
                         this.MainGrid.ColumnDefinitions[1].Width = new GridLength(10);
-                        
+                        this.MainGrid.Children.Clear();
+
                         MainGrid.SetColumn(scrollview, 0);
                         MainGrid.SetColumn(editor, 0)   ;
                         MainGrid.SetColumn(preview, 2);
                         MainGrid.SetColumn(this.spliter, 1);
+                        
 
                         //this.ContentPage_SizeChanged(null, null);
                        // this.SetGridContentSizes();
@@ -485,7 +487,27 @@ Environment.SetEnvironmentVariable("WEBVIEW2_USER_DATA_FOLDER", userDataFolder);
                     File.WriteAllText(file, html);
                     if (preview != null)
                     {
-                        preview.Source =  new HtmlWebViewSource{ Html = html };
+                        //HtmlWebViewSource source = new HtmlWebViewSource
+                        //{
+                        //    Html = html,
+                        //    BaseUrl = file
+                        //};
+                        //preview.Source = source;
+
+                        // WebView.Settings.AllowFileAccess = true;
+                        //var source   = new UrlWebViewSource { Url = $"file://{file}" };
+                        // preview.Source = source;
+
+#if ANDROID
+                        preview.Dispatcher.Dispatch(() =>
+                        {
+                            Android.Webkit.WebView web = preview.Handler.PlatformView as Android.Webkit.WebView;
+                            web.Settings.AllowFileAccess = true;
+                            web.LoadUrl($"file://{file}");
+
+                        });
+#endif
+
 
                     }
                 }

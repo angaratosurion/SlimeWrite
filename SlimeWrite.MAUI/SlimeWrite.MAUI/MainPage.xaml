@@ -95,7 +95,7 @@
                 <Editor x:Name="editor" Margin="4"  
                     VerticalOptions="Fill"
                 HorizontalOptions="Fill" IsSpellCheckEnabled="True"
-                        IsTextPredictionEnabled="True"  BackgroundColor="Aqua"
+                        IsTextPredictionEnabled="True"   
                         />
                 <!-- </StackLayout>-->
             </ScrollView>
