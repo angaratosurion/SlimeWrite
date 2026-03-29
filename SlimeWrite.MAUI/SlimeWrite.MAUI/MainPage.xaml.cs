@@ -1,4 +1,5 @@
 ﻿
+using CommunityToolkit.Maui.Storage;
 using SlimeMarkUp.Core;
 using SlimeWrite.Core;
 using SlimeWrite.Core.Models;
@@ -179,28 +180,35 @@ Environment.SetEnvironmentVariable("WEBVIEW2_USER_DATA_FOLDER", userDataFolder);
         }
         private async Task SaveFile()
         {
-            PickOptions options = new PickOptions
-            {
-                PickerTitle = "Save Markdown or SlimeMarkup file",
-                FileTypes = new FilePickerFileType(new Dictionary<DevicePlatform, IEnumerable<string>>
-                {
-                    { DevicePlatform.WinUI, new[] { "*.*", "*.md", "*.smd" } },
-                    { DevicePlatform.Android, new[] { "*/*", "text/markdown", "application/octet-stream" } },
-                    { DevicePlatform.iOS, new[] { "*/*", "public.plain-text" } },
-                    { DevicePlatform.MacCatalyst, new[] { "*/*", "public.plain-text" } }
-                })
-            };
+            //PickOptions options = new PickOptions
+            //{
+            //    PickerTitle = "Save Markdown or SlimeMarkup file",
+            //    FileTypes = new FilePickerFileType(new Dictionary<DevicePlatform, IEnumerable<string>>
+            //    {
+            //        { DevicePlatform.WinUI, new[] { "*.*", "*.md", "*.smd" } },
+            //        { DevicePlatform.Android, new[] { "*/*", "text/markdown", "application/octet-stream" } },
+            //        { DevicePlatform.iOS, new[] { "*/*", "public.plain-text" } },
+            //        { DevicePlatform.MacCatalyst, new[] { "*/*", "public.plain-text" } }
+            //    })
+            //};
 
-
-
-            var res = await FilePicker.Default.PickAsync(options);
-
+            MemoryStream stream = new MemoryStream();
+            StreamWriter streamWriter = new StreamWriter(stream);
+            streamWriter.Write(editor.Text);
+            streamWriter.Flush();
+            
+            var res = await FileSaver.Default.SaveAsync("",stream);
+            streamWriter.Close();
+            streamWriter.Dispose();
+            
+            stream.Close();
+            stream.Dispose();
 
             if (res != null)
             {
-                core.SaveFile(res.FullPath, editor.Text);
+               // core.SaveFile(res.FullPath, editor.Text);
 
-                ChangeWindowsTitle(res.FileName);
+                ChangeWindowsTitle(res.FilePath);
 
 
             }
