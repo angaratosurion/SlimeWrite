@@ -1,5 +1,6 @@
 using SlimeWrite.Core;
 using SlimeWrite.Core.Models;
+using SlimeWrite.MAUI.Helpers;
 
 namespace SlimeWrite.MAUI.Views;
 

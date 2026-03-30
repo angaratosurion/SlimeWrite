@@ -1,4 +1,5 @@
 ﻿
+
 using SlimeMarkUp.Core;
 using SlimeMarkUp.Core.Extensions.SlimeMarkup;
 using SlimeWrite.Core.Models;
@@ -348,6 +349,7 @@ namespace SlimeWrite.Core
             }
             return isDesktop;
         }
+         
 
 
     }

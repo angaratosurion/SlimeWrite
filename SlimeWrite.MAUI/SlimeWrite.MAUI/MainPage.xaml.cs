@@ -3,6 +3,7 @@ using CommunityToolkit.Maui.Storage;
 using SlimeMarkUp.Core;
 using SlimeWrite.Core;
 using SlimeWrite.Core.Models;
+using SlimeWrite.MAUI.Helpers;
 using SlimeWrite.MAUI.Views;
 using AppInfo = SlimeWrite.Core.Models.AppInfo;
 
@@ -62,7 +63,7 @@ namespace SlimeWrite.MAUI
 var userDataFolder = Path.Combine(FileSystem.AppDataDirectory, core.GetAppInfo().AppName);
 Environment.SetEnvironmentVariable("WEBVIEW2_USER_DATA_FOLDER", userDataFolder);
 #endif
-
+            PermissionManager.RequestAllDeclaredAsync();
 
         }
         private void editor_TextChanged(object? sender, EventArgs e)

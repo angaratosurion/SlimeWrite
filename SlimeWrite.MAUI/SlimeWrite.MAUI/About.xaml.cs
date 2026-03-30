@@ -1,5 +1,6 @@
 using SlimeWrite.Core;
 using SlimeWrite.Core.Models;
+using SlimeWrite.MAUI.Helpers;
 using System.Diagnostics;
 using AppInfo = SlimeWrite.Core.Models.AppInfo;
 

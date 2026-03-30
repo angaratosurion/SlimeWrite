@@ -2,14 +2,20 @@
 
 #if WINDOWS
 using Microsoft.UI.Xaml;
+using SlimeWrite;
+using SlimeWrite.MAUI;
+using SlimeWrite.MAUI.Helpers;
 #endif
 
 #if ANDROID
 using Microsoft.Maui.Platform;
 using Android.App;
+using SlimeWrite;
+using SlimeWrite.MAUI;
+using SlimeWrite.MAUI.Helpers;
 #endif
 
-namespace SlimeWrite.MAUI
+namespace SlimeWrite.MAUI.Helpers
 {
     public static class WindowHelper
     {
