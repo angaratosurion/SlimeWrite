@@ -5,8 +5,6 @@ VisualStudioVersion = 18.4.11612.150
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SlimeWrite.MAUI", "SlimeWrite.MAUI\SlimeWrite.MAUI.csproj", "{A713D3D4-74CE-444E-9128-A0F28ED3812D}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SlimeWrite.Core", "..\..\..\..\..\..\..\CloudFolder\NextCloud\MyPrograms\dotNet\OpenSource\SlimeWrite\SlimeWrite.Core\SlimeWrite.Core\SlimeWrite.Core.csproj", "{E848A719-BC8E-DEDC-9299-9C9D58C2CBB8}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,12 +13,9 @@ Global
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{A713D3D4-74CE-444E-9128-A0F28ED3812D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{A713D3D4-74CE-444E-9128-A0F28ED3812D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A713D3D4-74CE-444E-9128-A0F28ED3812D}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
 		{A713D3D4-74CE-444E-9128-A0F28ED3812D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A713D3D4-74CE-444E-9128-A0F28ED3812D}.Release|Any CPU.Build.0 = Release|Any CPU
-		{E848A719-BC8E-DEDC-9299-9C9D58C2CBB8}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{E848A719-BC8E-DEDC-9299-9C9D58C2CBB8}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{E848A719-BC8E-DEDC-9299-9C9D58C2CBB8}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{E848A719-BC8E-DEDC-9299-9C9D58C2CBB8}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

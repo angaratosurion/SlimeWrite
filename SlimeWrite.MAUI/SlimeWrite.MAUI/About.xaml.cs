@@ -1,8 +1,8 @@
-using SlimeWrite.Core;
-using SlimeWrite.Core.Models;
-using SlimeWrite.MAUI.Helpers;
+using SlimeWrite.MAUI.Core;
+using SlimeWrite.MAUI.Core.Helpers;
+using SlimeWrite.MAUI.Core.Models;
 using System.Diagnostics;
-using AppInfo = SlimeWrite.Core.Models.AppInfo;
+using AppInfo = SlimeWrite.MAUI.Core.Models.AppInfo;
 
 namespace SlimeWrite.MAUI;
 
@@ -38,8 +38,17 @@ public partial class About : ContentPage
 
     private void Close_Click(object sender, EventArgs e)
     {
-          WindowHelper.CloseWindow(this.Window);
+       // this.Navigation.PopToRootAsync();
 
+        Kernel kernel = new Kernel();
+        if (kernel.isDesktopMode())
+        {
+            WindowHelper.CloseWindow(this.Window);
+        }
+        else
+        {
+            WindowHelper.ClosePage(this);
+        }
     }
 
 

@@ -1,6 +1,6 @@
-using SlimeWrite.Core;
-using SlimeWrite.Core.Models;
-using SlimeWrite.MAUI.Helpers;
+using SlimeWrite.MAUI.Core;
+using SlimeWrite.MAUI.Core.Helpers;
+using SlimeWrite.MAUI.Core.Models;
 
 namespace SlimeWrite.MAUI.Views;
 
@@ -32,7 +32,15 @@ public partial class OptionsView : ContentPage
 
     private void Close_Click(object sender, EventArgs e)
     {
-        WindowHelper.CloseWindow(this.Window);
+        Kernel kernel = new Kernel();
+        if (kernel.isDesktopMode())
+        {
+            WindowHelper.CloseWindow(this.Window);
+        }
+        else
+        {
+            WindowHelper.ClosePage(this);
+        }
     }
     private void Save_Click(object sender, EventArgs e)
     {
@@ -46,7 +54,16 @@ public partial class OptionsView : ContentPage
         options.AutoUpdateUsingGithub = this.cbxUseUpdateFromGitHub.IsChecked;
         options.WebViewOrientation = cmbxOrientation.SelectedIndex;
         core.SaveOptions(options);
-        WindowHelper.CloseWindow(this.Window);
+        //  WindowHelper.CloseWindow(this.Window);
+        Kernel kernel = new Kernel();
+        if (kernel.isDesktopMode())
+        {
+            WindowHelper.CloseWindow(this.Window);
+        }
+        else
+        {
+            WindowHelper.ClosePage(this);
+        }
         //Close();
     }
 }

@@ -1,10 +1,10 @@
-﻿using SlimeWrite.Core.Models;
+﻿using SlimeWrite.MAUI.Core.Models;
 using System.Diagnostics;
 using System.Net.Http.Headers;
 using System.Reflection;
 using System.Text.Json;
 
-namespace SlimeWrite.Core
+namespace SlimeWrite.MAUI.Core
 {
     public class Updater
     {

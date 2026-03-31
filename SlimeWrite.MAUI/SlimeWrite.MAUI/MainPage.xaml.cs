@@ -1,11 +1,11 @@
 ﻿
 using CommunityToolkit.Maui.Storage;
 using SlimeMarkUp.Core;
-using SlimeWrite.Core;
-using SlimeWrite.Core.Models;
-using SlimeWrite.MAUI.Helpers;
+using SlimeWrite.MAUI.Core;
+using SlimeWrite.MAUI.Core.Helpers;
+using SlimeWrite.MAUI.Core.Models;
 using SlimeWrite.MAUI.Views;
-using AppInfo = SlimeWrite.Core.Models.AppInfo;
+using AppInfo = SlimeWrite.MAUI.Core.Models.AppInfo;
 
 namespace SlimeWrite.MAUI
 {
@@ -16,7 +16,7 @@ namespace SlimeWrite.MAUI
         private readonly HtmlRenderer _renderer;
         AppInfo appInfo;
 
-        Kernel core = new Kernel();
+      public static   Kernel core = new Kernel();
         double startHeight ,startWidth;
         
         static Options options = new Options
@@ -57,13 +57,21 @@ namespace SlimeWrite.MAUI
 
             }
             initilizeOriantation();
-
+            bool granted = StoragePermissionHelper.CheckAndRequestStoragePermissionAsync().Result;
+            if (!granted)
+            {
+                // Ενημέρωση χρήστη για την ανάγκη άδειας
+                DisplayAlert("Permission Required", "Storage access is required to open and save files.", "OK");
+               // StoragePermissionHelper.OpenAppSettings();
+            }
             //  this.SetGridContentSizes();
 #if WINDOWS
 var userDataFolder = Path.Combine(FileSystem.AppDataDirectory, core.GetAppInfo().AppName);
 Environment.SetEnvironmentVariable("WEBVIEW2_USER_DATA_FOLDER", userDataFolder);
 #endif
-           
+
+
+
 
         }
         private void editor_TextChanged(object? sender, EventArgs e)
@@ -225,7 +233,13 @@ Environment.SetEnvironmentVariable("WEBVIEW2_USER_DATA_FOLDER", userDataFolder);
 
         private void Open_Clicked(object sender, EventArgs e)
         {
-           // PermissionManager.RequestAllDeclaredAsync().RunSynchronously();
+//#if ANDROID
+             //if (!StoragePermissionHelper.HasManageAllFilesPermission())
+            {
+               
+            }
+//#endif
+             
             OpenFile(null);
 
 
@@ -245,11 +259,10 @@ Environment.SetEnvironmentVariable("WEBVIEW2_USER_DATA_FOLDER", userDataFolder);
              }
              else
              {
-                 Application.Current.MainPage.Navigation.PushModalAsync(options);
-             }
-            
-
-            //options.Show();
+                OptionsView optionsMobile = new OptionsView();
+                this.Navigation.PushAsync(optionsMobile);
+            }
+         
 
 
         }
@@ -391,9 +404,12 @@ Environment.SetEnvironmentVariable("WEBVIEW2_USER_DATA_FOLDER", userDataFolder);
             }
             else
             {
-                Application.Current.MainPage.Navigation.PushModalAsync(new About());
+                About aboutMobile = new About();
+                this.Navigation.PushAsync(aboutMobile);
+
 
             }
+
         }
 
         private void InserFilepropps_Click(object sender, EventArgs e)
@@ -599,6 +615,11 @@ Environment.SetEnvironmentVariable("WEBVIEW2_USER_DATA_FOLDER", userDataFolder);
         private void ContentPage_Loaded(object sender, EventArgs e)
         {
            
+        }
+
+        private void ContentPage_Unloaded(object sender, EventArgs e)
+        {
+            Application.Current.Quit();
         }
 
         void OnPanUpdated(object sender, PanUpdatedEventArgs e)

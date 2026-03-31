@@ -2,12 +2,14 @@
 
 using SlimeMarkUp.Core;
 using SlimeMarkUp.Core.Extensions.SlimeMarkup;
-using SlimeWrite.Core.Models;
+using SlimeWrite.MAUI.Core.Helpers;
+using SlimeWrite.MAUI.Core.Models;
 using System.Reflection;
 using System.Text;
 using System.Text.Json;
+using AppInfo = SlimeWrite.MAUI.Core.Models.AppInfo;
 
-namespace SlimeWrite.Core
+namespace SlimeWrite.MAUI.Core
 {
     public class Kernel
     {
@@ -39,23 +41,37 @@ namespace SlimeWrite.Core
         }
         public AppInfo GetAppInfo()
         {
+            try
+            {
+                AppInfo appInfo = new AppInfo();
 
-            AppInfo appInfo = new AppInfo();
+                var asm = Assembly.GetEntryAssembly() ?? Assembly.GetExecutingAssembly();
+                appInfo.AppName = asm.GetCustomAttribute<AssemblyTitleAttribute>()?.Title ??
+                    "SlimeWrite";
+                appInfo.Version = asm.GetName()?.Version?.ToString() ?? "1.0.0";
+                appInfo.Copyright = asm.GetCustomAttribute<AssemblyCopyrightAttribute>()?.
+                    Copyright;
 
-            var asm = Assembly.GetEntryAssembly() ?? Assembly.GetExecutingAssembly();
-            appInfo.AppName = asm.GetCustomAttribute<AssemblyTitleAttribute>()?.Title ??
-                "SlimeWrite";
-            appInfo.Version = asm.GetName()?.Version?.ToString() ?? "1.0.0";
-            appInfo.Copyright = asm.GetCustomAttribute<AssemblyCopyrightAttribute>()?.
-                Copyright;
-
-            appInfo.Description = asm.GetCustomAttribute<AssemblyDescriptionAttribute>()?.
-                Description;
+                appInfo.Description = asm.GetCustomAttribute<AssemblyDescriptionAttribute>()?.
+                    Description;
 
 
 
-            return appInfo;
+                return appInfo;
+            }
+            catch (Exception ex)
+            {
+                System.Diagnostics.Debug.WriteLine(ex.ToString());
+                // Handle exceptions that may occur during reflection
+                Console.WriteLine($"Error retrieving app info: {ex.Message}");
+                return new AppInfo
+                {
+                    AppName = "SlimeWrite",
+                    Version = "1.0.0",
+                };
+            }
         }
+        
         public void SaveOptions(Options options)
         {
             string AppDataPath = this.GetAppdataPath();
@@ -96,7 +112,11 @@ namespace SlimeWrite.Core
         }
         public string OpenFile(string filename)
         {
-            string file = File.ReadAllText(filename, Encoding.UTF8);
+            
+            string file=null;
+            
+                file = File.ReadAllText(filename, Encoding.UTF8);
+           
 
             return file;
         }

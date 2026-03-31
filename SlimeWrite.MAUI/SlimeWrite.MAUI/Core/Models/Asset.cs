@@ -1,4 +1,4 @@
-﻿namespace SlimeWrite.Core.Models
+﻿namespace SlimeWrite.MAUI.Core.Models
 {
     public class Asset
     {
