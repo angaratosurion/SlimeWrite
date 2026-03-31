@@ -37,10 +37,10 @@ ArchitecturesInstallIn64BitMode=x64compatible
 ChangesAssociations=yes
 DefaultGroupName={#MyAppName}
 AllowNoIcons=yes
-LicenseFile=D:\Cloud Folder\NextCloud\My Programs\dotNet\Open Source\SlimeWrite.MAUI\LICENSE
+LicenseFile=D:\Cloud Folder\NextCloud\My Programs\dotNet\Open Source\SlimeWrite\LICENSE
 ; Uncomment the following line to run in non administrative install mode (install for current user only).
 ;PrivilegesRequired=lowest
-OutputDir=D:\Cloud Folder\NextCloud\My Programs\dotNet\Open Source\SlimeWrite.MAUI\SetupOutput
+OutputDir=D:\Cloud Folder\NextCloud\My Programs\dotNet\Open Source\SlimeWrite\SetupOutput
 OutputBaseFilename={#MyAppName}-{#MyAppVersion}
 SolidCompression=yes
 WizardStyle=modern dynamic
@@ -80,8 +80,8 @@ Name: "ukrainian"; MessagesFile: "compiler:Languages\Ukrainian.isl"
 Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{cm:AdditionalIcons}"; Flags: unchecked
 
 [Files]
-Source: "D:\Cloud Folder\NextCloud\My Programs\dotNet\Open Source\SlimeWrite.MAUI\SlimeWrite.MAUI\bin\x64\Release\net10.0-windows7.0\{#MyAppExeName}"; DestDir: "{app}"; Flags: ignoreversion
-Source: "D:\Cloud Folder\NextCloud\My Programs\dotNet\Open Source\SlimeWrite.MAUI\SlimeWrite.MAUI\bin\x64\Release\net10.0-windows7.0\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
+Source: "D:\CloudFolder\NextCloud\MyPrograms\dotNet\OpenSource\SlimeWrite\SlimeWrite.MAUI\SlimeWrite.MAUI\bin\Release\net10.0-windows10.0.19041.0\win-x64\{#MyAppExeName}"; DestDir: "{app}"; Flags: ignoreversion
+Source: "D:\CloudFolder\NextCloud\MyPrograms\dotNet\OpenSource\SlimeWrite\SlimeWrite.MAUI\SlimeWrite.MAUI\bin\Release\net10.0-windows10.0.19041.0\win-x64\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
 
 [Registry]
