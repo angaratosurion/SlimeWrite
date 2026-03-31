@@ -63,7 +63,7 @@ namespace SlimeWrite.MAUI
 var userDataFolder = Path.Combine(FileSystem.AppDataDirectory, core.GetAppInfo().AppName);
 Environment.SetEnvironmentVariable("WEBVIEW2_USER_DATA_FOLDER", userDataFolder);
 #endif
-            PermissionManager.RequestAllDeclaredAsync();
+           
 
         }
         private void editor_TextChanged(object? sender, EventArgs e)
@@ -225,8 +225,9 @@ Environment.SetEnvironmentVariable("WEBVIEW2_USER_DATA_FOLDER", userDataFolder);
 
         private void Open_Clicked(object sender, EventArgs e)
         {
-
+           // PermissionManager.RequestAllDeclaredAsync().RunSynchronously();
             OpenFile(null);
+
 
         }
         private void AppOptions_Click(object sender, EventArgs e)
@@ -468,57 +469,71 @@ Environment.SetEnvironmentVariable("WEBVIEW2_USER_DATA_FOLDER", userDataFolder);
 
             async void NavigateToStringFile(string html)
             {
+                try
+                { 
                 string appname = appInfo.AppName;
-                if (core.isDesktopMode())
-                {
+                    if (core.isDesktopMode())
+                    {
 
-                    var file = Path.Combine(Path.GetTempPath(), appname,
-                        "output.html");
-                    if (Directory.Exists(Path.Combine(Path.GetTempPath(), appname)) == false)
-                    {
-                        Directory.CreateDirectory(Path.Combine(Path.GetTempPath(), appname));
-                    }
-                    File.WriteAllText(file, html);
-                    if (preview != null)
-                    {
-                        preview.Source = file;
+                        var file = Path.Combine(Path.GetTempPath(), appname,
+                            "output.html");
+                        if (Directory.Exists(Path.Combine(Path.GetTempPath(), appname)) == false)
+                        {
+                            Directory.CreateDirectory(Path.Combine(Path.GetTempPath(), appname));
+                        }
+                        File.WriteAllText(file, html);
+                        if (preview != null)
+                        {
+                            preview.Source = file;
 
+                        }
                     }
-                }
-                else
-                {
-                    var file = Path.Combine(FileSystem.CacheDirectory
-                        ,"output.html");
-                    if (Directory.Exists(FileSystem.CacheDirectory) == false)
+                    else
                     {
-                        Directory.CreateDirectory(FileSystem.CacheDirectory);
-                    }
-                    File.WriteAllText(file, html);
-                    if (preview != null)
-                    {
-                        //HtmlWebViewSource source = new HtmlWebViewSource
-                        //{
-                        //    Html = html,
-                        //    BaseUrl = file
-                        //};
-                        //preview.Source = source;
+                        var file = Path.Combine(FileSystem.CacheDirectory
+                            , "output.html");
+                        if (Directory.Exists(FileSystem.CacheDirectory) == false)
+                        {
+                            Directory.CreateDirectory(FileSystem.CacheDirectory);
+                        }
+                        File.WriteAllText(file, html);
+                        if (preview != null)
+                        {
+                            //HtmlWebViewSource source = new HtmlWebViewSource
+                            //{
+                            //    Html = html,
+                            //    BaseUrl = file
+                            //};
+                            //preview.Source = source;
 
-                        // WebView.Settings.AllowFileAccess = true;
-                        //var source   = new UrlWebViewSource { Url = $"file://{file}" };
-                        // preview.Source = source;
+                            // WebView.Settings.AllowFileAccess = true;
+                            //var source   = new UrlWebViewSource { Url = $"file://{file}" };
+                            // preview.Source = source;
 
 #if ANDROID
-                        preview.Dispatcher.Dispatch(() =>
-                        {
-                            Android.Webkit.WebView web = preview.Handler.PlatformView as Android.Webkit.WebView;
-                            web.Settings.AllowFileAccess = true;
-                            web.LoadUrl($"file://{file}");
+                            preview.Dispatcher.Dispatch(() =>
+                            {
 
-                        });
+                                try
+                                {
+                                    Android.Webkit.WebView web = preview.Handler.PlatformView as Android.Webkit.WebView;
+                                    web.Settings.AllowFileAccess = true;
+                                    web.LoadUrl($"file://{file}");
+                                }
+                                catch (Exception ex)
+                                {
+                                }
+                            });
 #endif
 
 
+                        }
                     }
+                    
+                }
+                catch (Exception ex)
+                {
+
                 }
 
 
@@ -581,6 +596,10 @@ Environment.SetEnvironmentVariable("WEBVIEW2_USER_DATA_FOLDER", userDataFolder);
 
         }
 
+        private void ContentPage_Loaded(object sender, EventArgs e)
+        {
+           
+        }
 
         void OnPanUpdated(object sender, PanUpdatedEventArgs e)
         {

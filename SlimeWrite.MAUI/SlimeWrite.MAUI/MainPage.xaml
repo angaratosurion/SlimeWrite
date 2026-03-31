@@ -2,42 +2,9 @@
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              x:Class="SlimeWrite.MAUI.MainPage" SizeChanged="ContentPage_SizeChanged"
+             Loaded="ContentPage_Loaded"
               >
     <VerticalStackLayout Spacing="0">
-        <!--<ContentPage.ToolbarItems >
-        <ToolbarItem IconImageSource="newfile.png" Clicked="New_Clicked"  Order="Primary" 
-                     x:Name="btnNewFile" />
-        <ToolbarItem IconImageSource="openfile.png" Clicked="Open_Clicked" Order="Primary"
-                     x:Name="btnOenFile" />
-        <ToolbarItem IconImageSource="savefile.png" Clicked="Save_Clicked"  Order="Primary"
-                      x:Name="btnSaveFile"/>
-        <ToolbarItem IconImageSource="closefile.png" Clicked="Close_Clicked" Order="Primary"
-                      x:Name="btnCloseFile"/>
-        <ToolbarItem IconImageSource="h1.png" Clicked="H1_Clicked"  Order="Primary"
-                      x:Name="btnH1e"/>
-        <ToolbarItem IconImageSource="h2.png" Clicked="H2_Clicked" Order="Primary" 
-                      x:Name="btnH2"/>
-        <ToolbarItem IconImageSource="bold.png" Clicked="Bold_Clicked" Order="Primary"
-                      x:Name="btnBold"/>
-        <ToolbarItem IconImageSource="italic.png" Clicked="Italic_Clicked" Order="Primary" 
-                      x:Name="btnItalic"/>
-        <ToolbarItem IconImageSource="link.png" Clicked="Link_Clicked" Order="Primary" 
-                      x:Name="btnLink"/>
-        <ToolbarItem IconImageSource="image.png" Clicked="Image_Clicked" Order="Primary" 
-                      x:Name="btnNewFile"/>
-        <ToolbarItem IconImageSource="list.png" Clicked="List_Clicked" Order="Primary" 
-                      x:Name="btnNewFile"/>
-        <ToolbarItem IconImageSource="table.png" Clicked="Table_Clicked" Order="Primary"
-                      x:Name="btnTable"/>
-        <ToolbarItem IconImageSource="blockquote.png" Clicked="Quote_Clicked" Order="Primary"
-                      x:Name="btnQuote"/>
-        <ToolbarItem IconImageSource="fileproperties.png" Clicked="InserFilepropps_Click" Order="Primary"
-                      x:Name="btnFileProperties"/>
-        <ToolbarItem Text="Options" Clicked="AppOptions_Click" Order="Secondary"/>
-        <ToolbarItem Text="About" Clicked="About_Click"  Order="Secondary" />
-    </ContentPage.ToolbarItems>-->
-
-
         <!-- TOOLBAR -->
         <ScrollView Orientation="Horizontal">
 
