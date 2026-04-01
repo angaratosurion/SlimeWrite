@@ -67,7 +67,7 @@ Name: "{autodesktop}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; Tasks: de
 
 [Run]
 Filename: "{app}\{#MyAppExeName}"; Description: "{cm:LaunchProgram,{#StringChange(MyAppName, '&', '&&')}}"; Flags: nowait postinstall skipifsilent
-Filename: "{tmp}\windowsdesktop-runtime-10.0.5-win-x64.exe"; Description: "{cm:LaunchProgram,{#StringChange(MyAppName, '&', '&&')}}"; Flags: nowait postinstall skipifsilent
+Filename: "{tmp}\windowsdesktop-runtime-10.0.5-win-x64.exe"; Description: "{cm:LaunchProgram,{#StringChange("NET 10 Windows RUNTIME", '&', '&&')}}"; Flags: nowait postinstall skipifsilent
 
 [Code]
 procedure InitializeWizard();
