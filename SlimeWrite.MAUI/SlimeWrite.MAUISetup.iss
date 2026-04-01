@@ -85,6 +85,8 @@ Name: "desktopicon"; Description: "{cm:CreateDesktopIcon}"; GroupDescription: "{
 Source: "D:\CloudFolder\NextCloud\MyPrograms\dotNet\OpenSource\SlimeWrite\SlimeWrite.MAUI\SlimeWrite.MAUI\bin\Release\net10.0-windows10.0.19041.0\win-x64\{#MyAppExeName}"; DestDir: "{app}"; Flags: ignoreversion
 Source: "D:\CloudFolder\NextCloud\MyPrograms\dotNet\OpenSource\SlimeWrite\SlimeWrite.MAUI\SlimeWrite.MAUI\bin\Release\net10.0-windows10.0.19041.0\win-x64\*"; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
 ; NOTE: Don't use "Flags: ignoreversion" on any shared system files
+Source: "downnaodandisntallnetruntime.ps1" ; DestDir: "{app}"; Flags: ignoreversion recursesubdirs createallsubdirs
+
 
 [Registry]
 Root: HKA; Subkey: "Software\Classes\{#MyAppAssocExt}\OpenWithProgids"; ValueType: string; ValueName: "{#MyAppAssocKey}"; ValueData: ""; Flags: uninsdeletevalue
@@ -105,6 +107,8 @@ Name: "{autodesktop}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; Tasks: de
 
 [Run]
 Filename: "{app}\{#MyAppExeName}"; Description: "{cm:LaunchProgram,{#StringChange(MyAppName, '&', '&&')}}"; Flags: nowait postinstall skipifsilent
+Filename: "{tmp}\windowsdesktop-runtime-10.0.5-win-x64.exe"; Description: "{cm:LaunchProgram,{#StringChange(MyAppName, '&', '&&')}}"; Flags: nowait postinstall skipifsilent
+
 
 [Code]
 procedure InitializeWizard();
@@ -117,10 +121,21 @@ end;
 
 procedure CurStepChanged(CurStep: TSetupStep);
 begin
-    if CurStep = ssPostInstall then 
+  if CurStep = ssPostInstall then
+  begin
+    // Έλεγχος αν το αρχείο υπάρχει πρώτα
+    if FileExists(ExpandConstant('{tmp}\windowsdesktop-runtime-10.0.5-win-x64.exe')) then
     begin
-        // Copy downloaded files to application directory
-        CopyFile(ExpandConstant('{tmp}\windowsdesktop-runtime-10.0.5-win-x64.exe'), ExpandConstant('{app}\windowsdesktop-runtime-10.0.5-win-x64.exe'), false);
-         
+      if not CopyFile(ExpandConstant('{tmp}\windowsdesktop-runtime-10.0.5-win-x64.exe'), 
+                      ExpandConstant('{app}\windowsdesktop-runtime-10.0.5-win-x64.exe'), 
+                      False) then
+      begin
+        MsgBox('Failed to copy the runtime installer!', mbError, MB_OK);
+      end;
+    end
+    else
+    begin
+      MsgBox('The runtime file does not exist in the temp folder!', mbError, MB_OK);
     end;
+  end;
 end;
