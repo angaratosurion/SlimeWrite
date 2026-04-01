@@ -12,6 +12,8 @@
 #define MyAppAssocExt2 ".md"
 #define MyAppAssocKey StringChange(MyAppAssocName, " ", "") + MyAppAssocExt
 #define MyAppAssocKey2 StringChange(MyAppAssocName, " ", "") + MyAppAssocExt2
+#pragma include __INCLUDE__ + ";" + ReadReg(HKLM, "Software\Mitrich Software\Inno Download Plugin", "InstallDir")
+#include <idp.iss>
 
 [Setup]
 ; NOTE: The value of AppId uniquely identifies this application. Do not use the same AppId value in installers for other applications.
@@ -104,3 +106,21 @@ Name: "{autodesktop}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"; Tasks: de
 [Run]
 Filename: "{app}\{#MyAppExeName}"; Description: "{cm:LaunchProgram,{#StringChange(MyAppName, '&', '&&')}}"; Flags: nowait postinstall skipifsilent
 
+[Code]
+procedure InitializeWizard();
+begin
+    idpAddFile('https://builds.dotnet.microsoft.com/dotnet/WindowsDesktop/10.0.5/windowsdesktop-runtime-10.0.5-win-x64.exe', ExpandConstant('{tmp}\windowsdesktop-runtime-10.0.5-win-x64.exe'));
+     
+
+    idpDownloadAfter(wpReady);
+end;
+
+procedure CurStepChanged(CurStep: TSetupStep);
+begin
+    if CurStep = ssPostInstall then 
+    begin
+        // Copy downloaded files to application directory
+        CopyFile(ExpandConstant('{tmp}\windowsdesktop-runtime-10.0.5-win-x64.exe'), ExpandConstant('{app}\windowsdesktop-runtime-10.0.5-win-x64.exe'), false);
+         
+    end;
+end;
