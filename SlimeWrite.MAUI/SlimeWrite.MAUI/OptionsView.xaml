@@ -2,44 +2,68 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              x:Class="SlimeWrite.MAUI.Views.OptionsView"
-             Title="Options" HeightRequest="200" WidthRequest="850">
-  
-    <StackLayout Orientation="Vertical">
-      <StackLayout Orientation="Horizontal" Margin="4">
-            <StackLayout Orientation="Horizontal" Margin="4">
-                <CheckBox x:Name="cbxUseTextChangedEvent" 
-                  SemanticProperties.Description="Use Text Changed Event"/>
-                <Label Text="Use Text Changed Event" VerticalOptions="Center"/>
+             Title="Options"
+             HeightRequest="200"
+             WidthRequest="850">
 
+    <VerticalStackLayout Padding="10" Spacing="10">
+
+        <!-- FLEXLAYOUT για να μαζεύονται / διπλώνονται -->
+        <FlexLayout Wrap="Wrap"
+                    Direction="Row"
+                    AlignItems="Center"
+                    JustifyContent="Start"
+                     >
+
+            <!-- CheckBox 1 -->
+            <StackLayout Orientation="Horizontal" Spacing="5"  >
+                <CheckBox x:Name="cbxUseTextChangedEvent"
+                          SemanticProperties.Description="Use Text Changed Event"/>
+                <Label x:Name="lblUseTextChangedEvent" 
+                       Text="Use Text Changed Event" />
             </StackLayout>
-            <!--<StackLayout Orientation="Horizontal" Margin="4">
-                <CheckBox x:Name="cbxUseEnterPressedEvent" 
+
+            <!-- CheckBox 2 (μπορεί να ξε-αποσχολιαστεί) -->
+            <!--<StackLayout Orientation="Horizontal" Spacing="5"  >
+                <CheckBox x:Name="cbxUseEnterPressedEvent"
                           SemanticProperties.Description="Use Enter Pressed Event"/>
-                <Label Text="Use Enter Pressed Event" VerticalOptions="Center"/>
+                <Label x:Name="lblUseEnterPressedEvent" Text="Use Enter Pressed Event" VerticalOptions="Center"/>
             </StackLayout>-->
-            <StackLayout Orientation="Horizontal" Margin="4">
+
+            <!-- CheckBox 3 -->
+            <StackLayout Orientation="Horizontal" Spacing="5" >
                 <CheckBox x:Name="cbxUseUpdateFromGitHub"
                           SemanticProperties.Description="Update Using GitHub"/>
-                <Label Text="Update Using GitHub" VerticalOptions="Center"/>
+                <Label x:Name="lblUseUpdateFromGitHub" Text="Update Using GitHub" 
+                      />
             </StackLayout>
-        </StackLayout>
 
-        <Label  Margin="40,0,0,0" x:Name="lblOriantation" IsVisible="Collapse">WebView Orientation</Label>
-      
-      <Picker SelectedIndex="0" x:Name="cmbxOrientation" IsVisible="Collapse">
-        <Picker.Items>
+        </FlexLayout>
+
+        <!-- Orientation -->
+        <Label x:Name="lblOriantation"
+               Text="WebView Orientation"
+               Margin="40,0,0,0"
+               IsVisible="False"/>
+
+        <Picker x:Name="cmbxOrientation"
+                SelectedIndex="0"
+                IsVisible="False">
+            <Picker.Items>
                 <x:String>Horizontal</x:String>
                 <x:String>Vertical</x:String>
-        </Picker.Items>
-      </Picker>
-        <StackLayout Orientation="Horizontal" Margin="10" Spacing="10" x:Name="stLayoutCloseandSave">
+            </Picker.Items>
+        </Picker>
 
-     <!-- <StackLayout Orientation="Horizontal" Margin="50" Spacing="10" x:Name="stLayoutCloseandSave">-->
-            <Button Clicked="Close_Click" Text="Cancel"/>
-             
-            <Button Clicked="Save_Click" Text="Save"/>
-            
-      </StackLayout>
-    </StackLayout>
- 
+        <!-- Buttons -->
+        <HorizontalStackLayout x:Name="stLayoutCloseandSave"
+                               Spacing="10"
+                               Margin="10,0,0,0"
+                               HorizontalOptions="End">
+            <Button x:Name="btnCancel" Clicked="Close_Click" Text="Cancel"/>
+            <Button x:Name="btnSave" Clicked="Save_Click" Text="Save"/>
+        </HorizontalStackLayout>
+
+    </VerticalStackLayout>
+
 </ContentPage>

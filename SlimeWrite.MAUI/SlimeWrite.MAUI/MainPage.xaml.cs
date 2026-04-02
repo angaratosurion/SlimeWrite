@@ -251,12 +251,16 @@ Environment.SetEnvironmentVariable("WEBVIEW2_USER_DATA_FOLDER", userDataFolder);
             var win = new Window(options);
             win.IsMaximizable = false;
             win.IsMinimizable = false;
+             
             win.Height = options.HeightRequest;
             win.Width = options.WidthRequest;
+            
              if (core.isDesktopMode())
              {
-                 Application.Current.OpenWindow(win);
-             }
+                
+                Application.Current.OpenWindow(win);
+                
+            }
              else
              {
                 OptionsView optionsMobile = new OptionsView();
