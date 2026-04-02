@@ -57,13 +57,7 @@ namespace SlimeWrite.MAUI
 
             }
             initilizeOriantation();
-            bool granted = StoragePermissionHelper.CheckAndRequestStoragePermissionAsync().Result;
-            if (!granted)
-            {
-                // Ενημέρωση χρήστη για την ανάγκη άδειας
-                DisplayAlert("Permission Required", "Storage access is required to open and save files.", "OK");
-               // StoragePermissionHelper.OpenAppSettings();
-            }
+            
             //  this.SetGridContentSizes();
 #if WINDOWS
 var userDataFolder = Path.Combine(FileSystem.AppDataDirectory, core.GetAppInfo().AppName);

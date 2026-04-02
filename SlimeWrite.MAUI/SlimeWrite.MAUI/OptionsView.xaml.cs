@@ -17,7 +17,12 @@ public partial class OptionsView : ContentPage
         cmbxOrientation.SelectedIndex = options.WebViewOrientation;
         cbxUseUpdateFromGitHub.IsChecked = options.AutoUpdateUsingGithub;
         this.cmbxOrientation.WidthRequest = this.WidthRequest - 50;
-       
+#if ANDROID
+        this.btnSetPerimitions.IsVisible = true;
+          
+#endif
+
+
 
 #if DEBUG
         this.cmbxOrientation.IsVisible = true;
@@ -65,5 +70,17 @@ public partial class OptionsView : ContentPage
             WindowHelper.ClosePage(this);
         }
         //Close();
+    }
+
+    private void btnSetPerimitions_Clicked(object sender, EventArgs e)
+    {
+        bool granted = StoragePermissionHelper.CheckAndRequestStoragePermissionAsync().Result;
+        if (!granted)
+        {
+            // Ενημέρωση χρήστη για την ανάγκη άδειας
+            DisplayAlert("Permission Required", "Storage access is required to open and save files.", "OK");
+            // StoragePermissionHelper.OpenAppSettings();
+        }
+
     }
 }

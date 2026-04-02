@@ -37,6 +37,7 @@
                 <Label x:Name="lblUseUpdateFromGitHub" Text="Update Using GitHub" 
                       />
             </StackLayout>
+            <Button x:Name="btnSetPerimitions" Clicked="btnSetPerimitions_Clicked" IsVisible="False"/>
 
         </FlexLayout>
 
