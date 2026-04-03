@@ -35,7 +35,7 @@
   <PropertyGroup Condition="'$(TargetFramework)' == 'net10.0-android' and '$(Configuration)' == 'Release'">
     
     <!-- APK αντί για AAB -->
-    <AndroidPackageFormat>apk</AndroidPackageFormat>
+    <AndroidPackageFormat>aab</AndroidPackageFormat>
 
     <!-- Signing -->
     <AndroidKeyStore>true</AndroidKeyStore>
@@ -47,6 +47,16 @@
     <!-- Συμβατότητα συσκευών -->
     <AndroidSupportedAbis>arm64-v8a;armeabi-v7a</AndroidSupportedAbis>
 
+  </PropertyGroup>
+  <PropertyGroup Condition="'$(TargetFramework)' == 'net10.0-android' and '$(Configuration)' == 'Debug'">
+    <AndroidPackageFormat>apk</AndroidPackageFormat>
+
+    <!-- Signing -->
+    <AndroidKeyStore>true</AndroidKeyStore>
+    <AndroidSigningKeyStore>my-release-key.keystore</AndroidSigningKeyStore>
+    <AndroidSigningKeyAlias>slimewrite</AndroidSigningKeyAlias>
+    <AndroidSigningStorePass>serres1984</AndroidSigningStorePass>
+    <AndroidSigningKeyPass>serres1984</AndroidSigningKeyPass>
   </PropertyGroup>
 
   <ItemGroup>
