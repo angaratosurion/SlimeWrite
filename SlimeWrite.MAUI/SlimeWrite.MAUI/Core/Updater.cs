@@ -30,8 +30,31 @@ namespace SlimeWrite.MAUI.Core
                 if (ver > appVer)
                 {
 
-                    var asset = release.assets.FirstOrDefault(a => a.name.EndsWith(".exe"));
 
+#if ANDROID
+
+var asset = release.assets.FirstOrDefault(a => a.name.EndsWith(".apk"));
+
+  if (asset != null)
+                    {
+                        var bytes = await client.GetByteArrayAsync(asset.browser_download_url);
+                        var file = Path.Combine(Path.Combine(Path.GetTempPath(),
+                            "SlimeWrite"), "latst.exe");
+                        if (!File.Exists(file))
+                        {
+
+
+                            await File.WriteAllBytesAsync(file, bytes);
+                        }
+                        else
+                        {
+                            File.Delete(file);
+                        }
+                        Process.Start(file);
+                    }
+
+#else
+                    var asset = release.assets.FirstOrDefault(a => a.name.EndsWith(".exe"));
                     if (asset != null)
                     {
                         var bytes = await client.GetByteArrayAsync(asset.browser_download_url);
@@ -49,6 +72,9 @@ namespace SlimeWrite.MAUI.Core
                         }
                         Process.Start(file);
                     }
+
+#endif
+
                 }
             }
         }
