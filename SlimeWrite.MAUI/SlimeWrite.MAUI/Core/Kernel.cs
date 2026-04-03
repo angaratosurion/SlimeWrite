@@ -32,7 +32,7 @@ namespace SlimeWrite.MAUI.Core
                 {
                     UseTextChangedEvent = true,
                     UseEnterPressed = false,
-                    WebViewOrientation = 0,
+                    WebViewOrientation = 1,
                     AutoUpdateUsingGithub = true
                 };
             }

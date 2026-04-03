@@ -3,8 +3,9 @@
              xmlns:toolkit="http://schemas.microsoft.com/dotnet/2022/maui/toolkit"
              x:Class="SlimeWrite.MAUI.Views.OptionsView"
              Title="Options"
-             HeightRequest="200"
+             HeightRequest="600"
              WidthRequest="850">
+   <!--HeightRequest="200"-->
 
     <VerticalStackLayout Padding="10" Spacing="10">
 
@@ -37,14 +38,16 @@
                 <Label x:Name="lblUseUpdateFromGitHub" Text="Update Using GitHub" 
                       />
             </StackLayout>
-            <Button x:Name="btnSetPerimitions" Clicked="btnSetPerimitions_Clicked" IsVisible="False"/>
+            
 
         </FlexLayout>
+        <Button x:Name="btnSetPerimitions" Clicked="btnSetPerimitions_Clicked" 
+                Text ="Set Perissions" IsVisible="False" Margin="10,0,0,0"/>
 
         <!-- Orientation -->
         <Label x:Name="lblOriantation"
                Text="WebView Orientation"
-               Margin="40,0,0,0"
+               Margin="90,0,0,0"
                IsVisible="False"/>
 
         <Picker x:Name="cmbxOrientation"
@@ -59,8 +62,8 @@
         <!-- Buttons -->
         <HorizontalStackLayout x:Name="stLayoutCloseandSave"
                                Spacing="10"
-                               Margin="10,0,0,0"
-                               HorizontalOptions="End">
+                               Margin="100,0,0,0"
+                               HorizontalOptions="End" VerticalOptions="End">
             <Button x:Name="btnCancel" Clicked="Close_Click" Text="Cancel"/>
             <Button x:Name="btnSave" Clicked="Save_Click" Text="Save"/>
         </HorizontalStackLayout>

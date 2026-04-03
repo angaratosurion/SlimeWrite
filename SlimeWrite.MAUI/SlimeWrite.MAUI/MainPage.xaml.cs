@@ -30,7 +30,7 @@ namespace SlimeWrite.MAUI
             InitializeComponent();
             appInfo = core.GetAppInfo();
             options = core.GetOptions();
-            Loadeditor();
+         //   Loadeditor();
 
 
 
@@ -56,7 +56,7 @@ namespace SlimeWrite.MAUI
                 updater.DownloadLatestRelease();
 
             }
-            initilizeOriantation();
+          //  initilizeOriantation();
             
             //  this.SetGridContentSizes();
 #if WINDOWS
@@ -618,6 +618,25 @@ Environment.SetEnvironmentVariable("WEBVIEW2_USER_DATA_FOLDER", userDataFolder);
         private void ContentPage_Unloaded(object sender, EventArgs e)
         {
             Application.Current.Quit();
+        }
+
+        private void ContentPage_Appearing(object sender, EventArgs e)
+        {
+            base.OnAppearing();
+
+            try
+            {
+                Loadeditor();
+                initilizeOriantation();
+
+                if (editor != null)
+                    editor.Text = _markdown;
+            }
+            catch (Exception ex)
+            {
+                DisplayAlert("Error", ex.ToString(), "OK");
+            }
+
         }
 
         void OnPanUpdated(object sender, PanUpdatedEventArgs e)
