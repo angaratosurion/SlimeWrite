@@ -24,7 +24,10 @@ namespace SlimeWrite.MAUI
             //UseTextChangedEvent = true,
             //UseEnterPressed = false
         };
-
+        public Editor Editor  {
+            get { return editor; }
+        }
+        public WebView Preview { get { return preview; } }
         public MainPage()
         {
             InitializeComponent();
