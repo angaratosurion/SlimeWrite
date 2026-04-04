@@ -74,7 +74,7 @@ Environment.SetEnvironmentVariable("WEBVIEW2_USER_DATA_FOLDER", userDataFolder);
         private void editor_TextChanged(object? sender, EventArgs e)
         {
             _markdown = editor.Text;//?? "";
-            editor.Text = editor.Text.Replace("\r", "\n");
+          //  editor.Text = editor.Text.Replace("\r", "\n");
             Updatepreview(editor.Text);
         }
 
@@ -164,20 +164,23 @@ Environment.SetEnvironmentVariable("WEBVIEW2_USER_DATA_FOLDER", userDataFolder);
                 //        //}
                 //    }
                 //});
-
+               
                 if (res != null)
                 {
+                    editor.TextChanged += null;
                     var file = core.OpenFile(res.FullPath);
                     //  editor.ClearAll();
                     editor.Text = file;
 
-
+                    Loadeditor();
                 }
             }
             else
             {
+                editor.TextChanged += null;
                 var file = core.OpenFile(filename);
                 editor.Text = file;
+                Loadeditor();
             }
             ChangeWindowsTitle(filename);
             //Updatepreview(editor.Text);
