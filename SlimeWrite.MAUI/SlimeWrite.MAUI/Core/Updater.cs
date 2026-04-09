@@ -8,7 +8,7 @@ namespace SlimeWrite.MAUI.Core
 {
     public class Updater
     {
-
+        Kernel kernel = new Kernel();
         public async Task DownloadLatestRelease()
         {
             var asm = Assembly.GetEntryAssembly() ?? Assembly.GetExecutingAssembly();
@@ -38,8 +38,8 @@ var asset = release.assets.FirstOrDefault(a => a.name.EndsWith(".apk"));
   if (asset != null)
                     {
                         var bytes = await client.GetByteArrayAsync(asset.browser_download_url);
-                        var file = Path.Combine(Path.Combine(Path.GetTempPath(),
-                            "SlimeWrite"), "latst.exe");
+                        var file = Path.Combine(kernel.GetAppdataPath(),
+                             "latst.apk");
                         if (!File.Exists(file))
                         {
 

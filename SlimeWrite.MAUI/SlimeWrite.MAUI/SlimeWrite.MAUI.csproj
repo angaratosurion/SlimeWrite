@@ -15,6 +15,7 @@
     <ApplicationVersion>$(AssemblyVersion)</ApplicationVersion>
     <Version>0.1.4.0</Version>
     <AssemblyVersion>0.1.4.0</AssemblyVersion>
+    <WindowsPackageType>None</WindowsPackageType>
   </PropertyGroup>
 
   <!-- Android Debug/Release -->
