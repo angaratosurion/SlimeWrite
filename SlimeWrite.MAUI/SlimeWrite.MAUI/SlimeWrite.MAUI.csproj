@@ -16,6 +16,7 @@
     <Version>0.1.4.0</Version>
     <AssemblyVersion>0.1.4.0</AssemblyVersion>
     <WindowsPackageType>None</WindowsPackageType>
+    <Configurations>Debug;Release;GithubDebug;GithubRelease</Configurations>
   </PropertyGroup>
 
   <!-- Android Debug/Release -->
@@ -45,7 +46,23 @@
     <MauiFont Include="Resources\Fonts\*" />
     <MauiAsset Include="Resources\Raw\**" LogicalName="%(RecursiveDir)%(Filename)%(Extension)" />
   </ItemGroup>
+  <ItemGroup Condition="'$(Configuration)'=='GithubRelease' Or '$(Configuration)'=='GithubDebug'">
+    <AndroidManifest Include="Platforms/Android/AndroidManifest.Github.xml" />
+  </ItemGroup>
 
+  <PropertyGroup Condition="'$(Configuration)'=='GithubRelease'">
+    <ApplicationId>com.angaratosurion.slimewrite.maui.github</ApplicationId>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='GithubRelease|net10.0-android|AnyCPU'">
+    <AndroidKeyStore>True</AndroidKeyStore>
+    <PublishTrimmed>True</PublishTrimmed>
+    <AndroidEnableProfiledAot>True</AndroidEnableProfiledAot>
+  </PropertyGroup>
+
+  <PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='GithubDebug|net10.0-android|AnyCPU'">
+    <DebugSymbols>True</DebugSymbols>
+  </PropertyGroup>
   <ItemGroup>
     <PackageReference Include="CommunityToolkit.Maui" Version="14.0.1" />
     <PackageReference Include="Microsoft.Maui.Controls" Version="10.0.51" />

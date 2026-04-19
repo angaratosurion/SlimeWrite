@@ -42,7 +42,7 @@
 
         </FlexLayout>
         <Button x:Name="btnSetPerimitions" Clicked="btnSetPerimitions_Clicked" 
-                Text ="Set Perissions" IsVisible="False" Margin="10,0,0,0"/>
+                Text ="Set Perissions" IsVisible="False" Margin="20,0,0,0"/>
 
         <!-- Orientation -->
         <Label x:Name="lblOriantation"

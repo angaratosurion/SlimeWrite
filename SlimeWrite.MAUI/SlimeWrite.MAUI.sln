@@ -8,14 +8,23 @@ EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
+		GithubDebug|Any CPU = GithubDebug|Any CPU
+		GithubRelease|Any CPU = GithubRelease|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{A713D3D4-74CE-444E-9128-A0F28ED3812D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{A713D3D4-74CE-444E-9128-A0F28ED3812D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A713D3D4-74CE-444E-9128-A0F28ED3812D}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{A713D3D4-74CE-444E-9128-A0F28ED3812D}.GithubDebug|Any CPU.ActiveCfg = GithubDebug|Any CPU
+		{A713D3D4-74CE-444E-9128-A0F28ED3812D}.GithubDebug|Any CPU.Build.0 = GithubDebug|Any CPU
+		{A713D3D4-74CE-444E-9128-A0F28ED3812D}.GithubDebug|Any CPU.Deploy.0 = GithubDebug|Any CPU
+		{A713D3D4-74CE-444E-9128-A0F28ED3812D}.GithubRelease|Any CPU.ActiveCfg = GithubRelease|Any CPU
+		{A713D3D4-74CE-444E-9128-A0F28ED3812D}.GithubRelease|Any CPU.Build.0 = GithubRelease|Any CPU
+		{A713D3D4-74CE-444E-9128-A0F28ED3812D}.GithubRelease|Any CPU.Deploy.0 = GithubRelease|Any CPU
 		{A713D3D4-74CE-444E-9128-A0F28ED3812D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A713D3D4-74CE-444E-9128-A0F28ED3812D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A713D3D4-74CE-444E-9128-A0F28ED3812D}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
