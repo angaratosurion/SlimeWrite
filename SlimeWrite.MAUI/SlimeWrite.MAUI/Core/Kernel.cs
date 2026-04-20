@@ -58,7 +58,7 @@ namespace SlimeWrite.MAUI.Core
                 if (Android.App.Application.Context.PackageName.EndsWith("github"))
                 {
 
-                    appInfo.AppName += "[ GitHub Release ]";
+                    appInfo.AppName = appInfo.AppName.Replace("-GitHubRelease", " [ GitHub Release ]");
                 }
 #endif
 

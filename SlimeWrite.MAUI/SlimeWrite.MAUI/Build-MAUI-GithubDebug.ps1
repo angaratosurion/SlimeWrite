@@ -11,7 +11,7 @@ if (-Not (Test-Path $projectPath)) {
 # Καθαρισμός φακέλων bin και obj
 Write-Host "Καθαρισμός φακέλων bin και obj..." -ForegroundColor Cyan
 $projectFolder = Split-Path $projectPath -Parent
-Remove-Item -LiteralPath (Join-Path $projectFolder "bin") -Recurse -Force -ErrorAction SilentlyContinue
+Remove-Item -LiteralPath (Join-Path $projectFolder "bin\GitHub") -Recurse -Force -ErrorAction SilentlyContinue
 Remove-Item -LiteralPath (Join-Path $projectFolder "obj") -Recurse -Force -ErrorAction SilentlyContinue
 
 # Restore NuGet packages
@@ -30,7 +30,7 @@ $targets = @(
 # Build για κάθε target
 foreach ($target in $targets) {
     Write-Host "Κάνουμε rebuild για target $target ..." -ForegroundColor Green
-    dotnet build "`"$projectPath`"" -f $target -c GithubGithubDebug
+    dotnet build "`"$projectPath`"" -f $target -c Debug
 }
 
 Write-Host "Ολοκληρώθηκε!" -ForegroundColor Yellow
