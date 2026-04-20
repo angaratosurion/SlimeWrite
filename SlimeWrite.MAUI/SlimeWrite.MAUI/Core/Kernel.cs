@@ -54,6 +54,13 @@ namespace SlimeWrite.MAUI.Core
 
                 appInfo.Description = asm.GetCustomAttribute<AssemblyDescriptionAttribute>()?.
                     Description;
+#if ANDROID
+                if (Android.App.Application.Context.PackageName.EndsWith("github"))
+                {
+
+                    appInfo.AppName += "[ GitHub Release ]";
+                }
+#endif
 
 
 

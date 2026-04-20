@@ -5,26 +5,31 @@ VisualStudioVersion = 18.4.11612.150
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SlimeWrite.MAUI", "SlimeWrite.MAUI\SlimeWrite.MAUI.csproj", "{A713D3D4-74CE-444E-9128-A0F28ED3812D}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SlimeWrite.MAUI-GitHubRelease", "SlimeWrite.MAUI\SlimeWrite.MAUI-GitHubRelease.csproj", "{7EEE6C0B-E413-ECE9-0A7B-D20C25627D17}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{E04B0C78-FED8-4F0E-88DD-EB9597CCEA3D}"
+	ProjectSection(SolutionItems) = preProject
+		Directory.Build.props = Directory.Build.props
+	EndProjectSection
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
-		GithubDebug|Any CPU = GithubDebug|Any CPU
-		GithubRelease|Any CPU = GithubRelease|Any CPU
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{A713D3D4-74CE-444E-9128-A0F28ED3812D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
 		{A713D3D4-74CE-444E-9128-A0F28ED3812D}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A713D3D4-74CE-444E-9128-A0F28ED3812D}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
-		{A713D3D4-74CE-444E-9128-A0F28ED3812D}.GithubDebug|Any CPU.ActiveCfg = GithubDebug|Any CPU
-		{A713D3D4-74CE-444E-9128-A0F28ED3812D}.GithubDebug|Any CPU.Build.0 = GithubDebug|Any CPU
-		{A713D3D4-74CE-444E-9128-A0F28ED3812D}.GithubDebug|Any CPU.Deploy.0 = GithubDebug|Any CPU
-		{A713D3D4-74CE-444E-9128-A0F28ED3812D}.GithubRelease|Any CPU.ActiveCfg = GithubRelease|Any CPU
-		{A713D3D4-74CE-444E-9128-A0F28ED3812D}.GithubRelease|Any CPU.Build.0 = GithubRelease|Any CPU
-		{A713D3D4-74CE-444E-9128-A0F28ED3812D}.GithubRelease|Any CPU.Deploy.0 = GithubRelease|Any CPU
 		{A713D3D4-74CE-444E-9128-A0F28ED3812D}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A713D3D4-74CE-444E-9128-A0F28ED3812D}.Release|Any CPU.Build.0 = Release|Any CPU
 		{A713D3D4-74CE-444E-9128-A0F28ED3812D}.Release|Any CPU.Deploy.0 = Release|Any CPU
+		{7EEE6C0B-E413-ECE9-0A7B-D20C25627D17}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{7EEE6C0B-E413-ECE9-0A7B-D20C25627D17}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{7EEE6C0B-E413-ECE9-0A7B-D20C25627D17}.Debug|Any CPU.Deploy.0 = Debug|Any CPU
+		{7EEE6C0B-E413-ECE9-0A7B-D20C25627D17}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{7EEE6C0B-E413-ECE9-0A7B-D20C25627D17}.Release|Any CPU.Build.0 = Release|Any CPU
+		{7EEE6C0B-E413-ECE9-0A7B-D20C25627D17}.Release|Any CPU.Deploy.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

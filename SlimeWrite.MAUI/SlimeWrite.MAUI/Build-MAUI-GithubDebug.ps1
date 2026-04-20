@@ -1,7 +1,7 @@
 # Αρχείο: Build-MAUI.ps1
 
 # Σωστό path του .csproj
-$projectPath = "D:\Cloud Folder\NextCloud\My Programs\dotNet\Open Source\SlimeWrite\SlimeWrite.MAUI\SlimeWrite.MAUI\SlimeWrite.MAUI.csproj"
+$projectPath = "D:\Cloud Folder\NextCloud\My Programs\dotNet\Open Source\SlimeWrite\SlimeWrite.MAUI\SlimeWrite.MAUI\SlimeWrite.MAUI-GitHubRelease.csproj"
 
 if (-Not (Test-Path $projectPath)) {
     Write-Host "Το project file δεν βρέθηκε:" $projectPath -ForegroundColor Red
