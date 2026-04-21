@@ -12,7 +12,7 @@
 
     <ApplicationTitle>SlimeWrite.MAUI</ApplicationTitle>
     <ApplicationId>com.angaratosurion.slimewrite.maui.github</ApplicationId>
-    <BaseOutputPath>bin\GitHub</BaseOutputPath>
+     
     <!--
     <ApplicationDisplayVersion>$(AssemblyVersion)</ApplicationDisplayVersion>
     <ApplicationVersion>$(AssemblyVersion)</ApplicationVersion> -->
@@ -75,6 +75,15 @@
     <MauiImage Include="Resources\Images\*" />
     <MauiFont Include="Resources\Fonts\*" />
     <MauiAsset Include="Resources\Raw\**" LogicalName="%(RecursiveDir)%(Filename)%(Extension)" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <Compile Include="..\SlimeWrite.MAUI\About.xaml.cs" Link="About.xaml.cs" />
+    <Compile Include="..\SlimeWrite.MAUI\App.xaml.cs" Link="App.xaml.cs" />
+    <Compile Include="..\SlimeWrite.MAUI\AppShell.xaml.cs" Link="AppShell.xaml.cs" />
+    <Compile Include="..\SlimeWrite.MAUI\MainPage.xaml.cs" Link="MainPage.xaml.cs" />
+    <Compile Include="..\SlimeWrite.MAUI\MauiProgram.cs" Link="MauiProgram.cs" />
+    <Compile Include="..\SlimeWrite.MAUI\OptionsView.xaml.cs" Link="OptionsView.xaml.cs" />
   </ItemGroup>
  
   <ItemGroup>

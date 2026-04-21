@@ -8,13 +8,13 @@
     <TargetAndroidVersion>34</TargetAndroidVersion>
     <WindowsPackageType>None</WindowsPackageType>
     <Version>0.1.4.0</Version>
-    <AssemblyVersion>0.1.4.0</AssemblyVersion>
+    <AssemblyVersion>0140</AssemblyVersion>
     <Configurations>Debug;Release</Configurations>
      </PropertyGroup>
       <PropertyGroup Condition="$([MSBuild]::IsOSPlatform('windows'))">
-    <TargetFrameworks>$(TargetFrameworks);net10.0-windows10.0.19041.0</TargetFrameworks>
+   <!-- <TargetFrameworks>$(TargetFrameworks)</TargetFrameworks>-->
     <Version>0.1.4.0</Version>
-    <AssemblyVersion>0.1.4.0</AssemblyVersion>
+    <AssemblyVersion>0140</AssemblyVersion>
     <FileVersion>$(AssemblyVersion)</FileVersion>
   </PropertyGroup>
 

@@ -2,6 +2,7 @@
   "profiles": {
     "Windows Machine": {
       "commandName": "Project",
+      "commandLineArgs": "\"D:\\CloudFolder\\NextCloud\\MyPrograms\\dotNet\\OpenSource\\SlimeWrite\\test files\\input.txt\"",
       "nativeDebugging": false
     }
   }

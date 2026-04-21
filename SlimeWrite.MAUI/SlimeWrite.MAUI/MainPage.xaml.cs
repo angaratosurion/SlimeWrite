@@ -181,6 +181,7 @@ Environment.SetEnvironmentVariable("WEBVIEW2_USER_DATA_FOLDER", userDataFolder);
                 var file = core.OpenFile(filename);
                 editor.Text = file;
                 Loadeditor();
+
             }
             ChangeWindowsTitle(filename);
             //Updatepreview(editor.Text);
