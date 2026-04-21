@@ -44,6 +44,13 @@
                 <Label x:Name="lblSegmentedLoading" Text="Segmented Loading" 
           />
             </StackLayout>
+            <StackLayout Orientation="Horizontal" Spacing="5" >
+              
+                <Label x:Name="lblMaxSegmentLength" Text="Max Segment Length" 
+/>
+                <Editor x:Name="txtMaxSegmentLength" Keyboard="Numeric" 
+                        WidthRequest="100" Margin="10,0,0,0"/>
+                </StackLayout>
 
 
         </FlexLayout>

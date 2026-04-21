@@ -17,6 +17,8 @@ public partial class OptionsView : ContentPage
         cmbxOrientation.SelectedIndex = options.WebViewOrientation;
         cbxUseUpdateFromGitHub.IsChecked = options.AutoUpdateUsingGithub;
         this.cmbxOrientation.WidthRequest = this.WidthRequest - 50;
+        this.cbxSegmentedLoading.IsChecked = options.SegmentedLoading;
+        this.txtMaxSegmentLength.Text = Convert.ToString(options.MaxSegmentLength);
 #if ANDROID
         this.btnSetPerimitions.IsVisible = true;
           
@@ -67,6 +69,7 @@ public partial class OptionsView : ContentPage
         options.AutoUpdateUsingGithub = this.cbxUseUpdateFromGitHub.IsChecked;
         options.WebViewOrientation = cmbxOrientation.SelectedIndex;
         options.SegmentedLoading = this.cbxSegmentedLoading.IsChecked;
+         options.MaxSegmentLength = int.Parse(this.txtMaxSegmentLength.Text);
         core.SaveOptions(options);
         //  WindowHelper.CloseWindow(this.Window);
         Kernel kernel = new Kernel();

@@ -204,7 +204,15 @@ Environment.SetEnvironmentVariable("WEBVIEW2_USER_DATA_FOLDER", userDataFolder);
                         MainThread.BeginInvokeOnMainThread(() =>
                         {
                             string file = null;
-                            char[] buffer = new char[1024 * 1024];  // 1MB buffer
+                            char[] buffer; // 1MB buffer 
+                            if (options.MaxSegmentLength > 0)
+                            {
+                                buffer = new char[options.MaxSegmentLength * 1024];
+                            }
+                            else
+                            {
+                                buffer = new char[1024 * 1024];
+                            }
                             var reader = new StreamReader(filename, Encoding.UTF8);
                             int bytesRead;
                             //ReadAllText(filename, Encoding.UTF8);//
