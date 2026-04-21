@@ -3,6 +3,8 @@ using SlimeMarkUp.Core;
 using SlimeWrite.MAUI.Core;
 using SlimeWrite.MAUI.Core.Models;
 using SlimeWrite.MAUI.Views;
+using System.Text;
+
 //using static System.Net.Mime.MediaTypeNames;
 using AppInfo = SlimeWrite.MAUI.Core.Models.AppInfo;
 
@@ -46,11 +48,11 @@ namespace SlimeWrite.MAUI
             //Updatepreview(_markdown);
             ChangeWindowsTitle(null);
 
-            string[] args = Environment.GetCommandLineArgs();
-            if (args.Length > 1)
-            {
-                OpenFile(args[1]);
-            }
+            //string[] args = Environment.GetCommandLineArgs();
+            //if (args.Length > 1)
+            //{
+            //    OpenFile(args[1]);
+            //}
             if (options.AutoUpdateUsingGithub)
             {
 
@@ -167,29 +169,30 @@ Environment.SetEnvironmentVariable("WEBVIEW2_USER_DATA_FOLDER", userDataFolder);
                 if (res != null)
                 {
 
-                    editor.TextChanged += null;
-                    if (options.SegmentedLoading)
-                    { 
-                        Thread thread= new Thread(() =>
-                        {
-                        core.OpenSegmentedFile(res.FullPath, ref editor)
-                            ;
-                        });
-                        thread.Start();
+                    //editor.TextChanged += null;
+                    //if (options.SegmentedLoading)
+                    //{ 
+                    //    Thread thread= new Thread(() =>
+                    //    {
+                    //    core.OpenSegmentedFile(res.FullPath, ref editor)
+                    //        ;
+                    //    });
+                    //    thread.Start();
 
-                    }
-                    else
-                    {
-                        var file = core.OpenFile(res.FullPath);
-                        //  editor.ClearAll();
-                        editor.Text = file;
-                    }
+                    //}
+                    //else
+                    //{
+                    //    var file = core.OpenFile(res.FullPath);
+                    //    //  editor.ClearAll();
+                    //    editor.Text = file;
+                    //}
 
-                    Loadeditor();
+                    //Loadeditor();
+                    filename = res.FileName;
                 }
             }
-            else
-            {
+            //else
+            //{
                 editor.TextChanged += null;
                 if (options.SegmentedLoading)
                 {
@@ -197,10 +200,21 @@ Environment.SetEnvironmentVariable("WEBVIEW2_USER_DATA_FOLDER", userDataFolder);
                     {
                        // core.OpenSegmentedFile(filename, ref editor)
                         ;
-                        string filecont = core.OpenFile(filename);
+                        //string filecont = core.OpenFile(filename);
                         MainThread.BeginInvokeOnMainThread(() =>
                         {
-                            editor.Text = filecont;
+                            string file = null;
+                            char[] buffer = new char[1024 * 1024];  // 1MB buffer
+                            var reader = new StreamReader(filename, Encoding.UTF8);
+                            int bytesRead;
+                            //ReadAllText(filename, Encoding.UTF8);//
+                            editor .Text = ""; // Καθαρίζει το Text πριν ξεκινήσει η ανάγνωση
+                            while ((bytesRead = reader.Read(buffer, 0, buffer.Length)) > 0)
+                            {
+                                string chunk = new string(buffer, 0, bytesRead);
+                                editor.Text += chunk;
+                                //Task.Delay(50); // Καθυστερεί λίγο την ανανέωση του UI
+                            }
                         });
 
                     });
@@ -214,7 +228,7 @@ Environment.SetEnvironmentVariable("WEBVIEW2_USER_DATA_FOLDER", userDataFolder);
                 }
                 Loadeditor();
 
-            }
+           // }
             ChangeWindowsTitle(filename);
             //Updatepreview(editor.Text);
             //editor.TextChanged += editor_TextChanged;
@@ -651,7 +665,12 @@ Environment.SetEnvironmentVariable("WEBVIEW2_USER_DATA_FOLDER", userDataFolder);
 
         private void ContentPage_Loaded(object sender, EventArgs e)
         {
-           
+            string[] args = Environment.GetCommandLineArgs();
+            if (args.Length > 1)
+            {
+                OpenFile(args[1]);
+            }
+
         }
 
         private void ContentPage_Unloaded(object sender, EventArgs e)
@@ -667,9 +686,14 @@ Environment.SetEnvironmentVariable("WEBVIEW2_USER_DATA_FOLDER", userDataFolder);
             {
                 Loadeditor();
                 initilizeOriantation();
+                string[] args = Environment.GetCommandLineArgs();
+                //if (args.Length > 1)
+                //{
+                //    OpenFile(args[1]);
+                //}
 
-              /*  if (editor != null)
-                    editor.Text = _markdown;*/
+                /*  if (editor != null)
+                      editor.Text = _markdown;*/
             }
             catch (Exception ex)
             {
