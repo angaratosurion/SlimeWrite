@@ -38,7 +38,13 @@
                 <Label x:Name="lblUseUpdateFromGitHub" Text="Update Using GitHub" 
                       />
             </StackLayout>
-            
+            <StackLayout Orientation="Horizontal" Spacing="5" >
+                <CheckBox x:Name="cbxSegmentedLoading"
+              SemanticProperties.Description="Segmented Loading"/>
+                <Label x:Name="lblSegmentedLoading" Text="Segmented Loading" 
+          />
+            </StackLayout>
+
 
         </FlexLayout>
         <Button x:Name="btnSetPerimitions" Clicked="btnSetPerimitions_Clicked" 

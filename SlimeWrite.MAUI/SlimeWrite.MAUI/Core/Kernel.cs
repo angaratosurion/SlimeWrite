@@ -1,8 +1,5 @@
-﻿
-
-using SlimeMarkUp.Core;
+﻿using SlimeMarkUp.Core;
 using SlimeMarkUp.Core.Extensions.SlimeMarkup;
-using SlimeWrite.MAUI.Core.Helpers;
 using SlimeWrite.MAUI.Core.Models;
 using System.Reflection;
 using System.Text;
@@ -126,6 +123,26 @@ namespace SlimeWrite.MAUI.Core
            
 
             return file;
+        }
+        public   void  OpenSegmentedFile(string filename,ref Editor editorText)
+        {
+
+            string file = null;
+            char[] buffer = new char[1024 * 1024];  // 1MB buffer
+            var reader = new StreamReader(filename, Encoding.UTF8);
+            int bytesRead;
+            //ReadAllText(filename, Encoding.UTF8);//
+            editorText.Text=""; // Καθαρίζει το Text πριν ξεκινήσει η ανάγνωση
+            while ((bytesRead = reader.Read(buffer, 0, buffer.Length)) > 0)
+            {
+                string chunk = new string(buffer, 0, bytesRead);
+                editorText.Text += chunk;
+                  //Task.Delay(50); // Καθυστερεί λίγο την ανανέωση του UI
+            }
+
+
+
+            //return file;
         }
         public void SaveFile(string filename, string content)
         {

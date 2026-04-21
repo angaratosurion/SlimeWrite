@@ -1,17 +1,16 @@
-﻿
-using CommunityToolkit.Maui.Storage;
+﻿using CommunityToolkit.Maui.Storage;
 using SlimeMarkUp.Core;
 using SlimeWrite.MAUI.Core;
-using SlimeWrite.MAUI.Core.Helpers;
 using SlimeWrite.MAUI.Core.Models;
 using SlimeWrite.MAUI.Views;
+//using static System.Net.Mime.MediaTypeNames;
 using AppInfo = SlimeWrite.MAUI.Core.Models.AppInfo;
 
 namespace SlimeWrite.MAUI
 {
     public partial class MainPage : ContentPage
     {
-        string _markdown = "#Καλημέρα";
+       // string _markdown = "#Καλημέρα";
         private readonly MarkupParser _parser;
         private readonly HtmlRenderer _renderer;
         AppInfo appInfo;
@@ -43,7 +42,7 @@ namespace SlimeWrite.MAUI
             _renderer = new HtmlRenderer();
 
 
-            editor.Text = _markdown;
+            //editor.Text = _markdown;
             //Updatepreview(_markdown);
             ChangeWindowsTitle(null);
 
@@ -73,7 +72,7 @@ Environment.SetEnvironmentVariable("WEBVIEW2_USER_DATA_FOLDER", userDataFolder);
         }
         private void editor_TextChanged(object? sender, EventArgs e)
         {
-            _markdown = editor.Text;//?? "";
+            //_markdown = editor.Text;//?? "";
           //  editor.Text = editor.Text.Replace("\r", "\n");
             Updatepreview(editor.Text);
         }
@@ -135,7 +134,7 @@ Environment.SetEnvironmentVariable("WEBVIEW2_USER_DATA_FOLDER", userDataFolder);
         // ---------------- Toolbar buttons ---------------- //
         private async void OpenFile(string filename)
         {
-            PickOptions options = new PickOptions
+            PickOptions fileoptions = new PickOptions
             {
                 PickerTitle = "Open Markdown or SlimeMarkup file",
                 //FileTypes = new FilePickerFileType(new Dictionary<DevicePlatform, IEnumerable<string>>
@@ -151,7 +150,7 @@ Environment.SetEnvironmentVariable("WEBVIEW2_USER_DATA_FOLDER", userDataFolder);
             if (filename == null)
             {
 
-                var res = await FilePicker.Default.PickAsync(options);
+                var res = await FilePicker.Default.PickAsync(fileoptions);
                 //var res = await this.StorageProvider.OpenFilePickerAsync(new FilePickerOpenOptions
                 //{
                 //    AllowMultiple = false,
@@ -167,10 +166,24 @@ Environment.SetEnvironmentVariable("WEBVIEW2_USER_DATA_FOLDER", userDataFolder);
                
                 if (res != null)
                 {
+
                     editor.TextChanged += null;
-                    var file = core.OpenFile(res.FullPath);
-                    //  editor.ClearAll();
-                    editor.Text = file;
+                    if (options.SegmentedLoading)
+                    { 
+                        Thread thread= new Thread(() =>
+                        {
+                        core.OpenSegmentedFile(res.FullPath, ref editor)
+                            ;
+                        });
+                        thread.Start();
+
+                    }
+                    else
+                    {
+                        var file = core.OpenFile(res.FullPath);
+                        //  editor.ClearAll();
+                        editor.Text = file;
+                    }
 
                     Loadeditor();
                 }
@@ -178,8 +191,27 @@ Environment.SetEnvironmentVariable("WEBVIEW2_USER_DATA_FOLDER", userDataFolder);
             else
             {
                 editor.TextChanged += null;
-                var file = core.OpenFile(filename);
-                editor.Text = file;
+                if (options.SegmentedLoading)
+                {
+                    Thread thread = new Thread(() =>
+                    {
+                       // core.OpenSegmentedFile(filename, ref editor)
+                        ;
+                        string filecont = core.OpenFile(filename);
+                        MainThread.BeginInvokeOnMainThread(() =>
+                        {
+                            editor.Text = filecont;
+                        });
+
+                    });
+                    thread.Start();
+
+                }
+                else
+                {
+                    var file = core.OpenFile(filename);
+                    editor.Text = file;
+                }
                 Loadeditor();
 
             }
@@ -259,7 +291,7 @@ Environment.SetEnvironmentVariable("WEBVIEW2_USER_DATA_FOLDER", userDataFolder);
              if (core.isDesktopMode())
              {
                 
-                Application.Current.OpenWindow(win);
+                Microsoft.Maui.Controls.Application.Current.OpenWindow(win);
                 
             }
              else
@@ -462,7 +494,7 @@ Environment.SetEnvironmentVariable("WEBVIEW2_USER_DATA_FOLDER", userDataFolder);
         {
             //if (e == Key.Enter)
             {
-                _markdown = editor.Text;//?? "";
+                //_markdown = editor.Text;//?? "";
                 Updatepreview(editor.Text);
             }
         }
@@ -624,7 +656,7 @@ Environment.SetEnvironmentVariable("WEBVIEW2_USER_DATA_FOLDER", userDataFolder);
 
         private void ContentPage_Unloaded(object sender, EventArgs e)
         {
-            Application.Current.Quit();
+            Microsoft.Maui.Controls.Application.Current.Quit();
         }
 
         private void ContentPage_Appearing(object sender, EventArgs e)
@@ -636,8 +668,8 @@ Environment.SetEnvironmentVariable("WEBVIEW2_USER_DATA_FOLDER", userDataFolder);
                 Loadeditor();
                 initilizeOriantation();
 
-                if (editor != null)
-                    editor.Text = _markdown;
+              /*  if (editor != null)
+                    editor.Text = _markdown;*/
             }
             catch (Exception ex)
             {

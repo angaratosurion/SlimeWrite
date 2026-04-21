@@ -66,6 +66,7 @@ public partial class OptionsView : ContentPage
         options.UseTextChangedEvent = this.cbxUseTextChangedEvent.IsChecked  ;
         options.AutoUpdateUsingGithub = this.cbxUseUpdateFromGitHub.IsChecked;
         options.WebViewOrientation = cmbxOrientation.SelectedIndex;
+        options.SegmentedLoading = this.cbxSegmentedLoading.IsChecked;
         core.SaveOptions(options);
         //  WindowHelper.CloseWindow(this.Window);
         Kernel kernel = new Kernel();
