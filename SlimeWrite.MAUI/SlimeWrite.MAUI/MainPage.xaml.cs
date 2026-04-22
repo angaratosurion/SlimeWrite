@@ -196,33 +196,37 @@ Environment.SetEnvironmentVariable("WEBVIEW2_USER_DATA_FOLDER", userDataFolder);
                 editor.TextChanged += null;
                 if (options.SegmentedLoading)
                 {
+
                     Thread thread = new Thread(() =>
                     {
                        // core.OpenSegmentedFile(filename, ref editor)
                         ;
                         //string filecont = core.OpenFile(filename);
+                        string filecont=null;
+                        char[] buffer; // 1MB buffer 
+                        if (options.MaxSegmentLength > 0)
+                        {
+                            buffer = new char[options.MaxSegmentLength * 1024];
+                        }
+                        else
+                        {
+                            buffer = new char[1024 * 1024];
+                        }
+                        var reader = new StreamReader(filename, Encoding.UTF8);
+                        int bytesRead;
+                        //ReadAllText(filename, Encoding.UTF8);//
+                     //   editor.Text = ""; // Καθαρίζει το Text πριν ξεκινήσει η ανάγνωση
+                        while ((bytesRead = reader.Read(buffer, 0, buffer.Length)) > 0)
+                        {
+                            string chunk = new string(buffer, 0, bytesRead);
+                            filecont += chunk;
+                            Task.Delay(50); // Καθυστερεί λίγο την ανανέωση του UI
+                        }
                         MainThread.BeginInvokeOnMainThread(() =>
                         {
-                            string file = null;
-                            char[] buffer; // 1MB buffer 
-                            if (options.MaxSegmentLength > 0)
-                            {
-                                buffer = new char[options.MaxSegmentLength * 1024];
-                            }
-                            else
-                            {
-                                buffer = new char[1024 * 1024];
-                            }
-                            var reader = new StreamReader(filename, Encoding.UTF8);
-                            int bytesRead;
-                            //ReadAllText(filename, Encoding.UTF8);//
-                            editor .Text = ""; // Καθαρίζει το Text πριν ξεκινήσει η ανάγνωση
-                            while ((bytesRead = reader.Read(buffer, 0, buffer.Length)) > 0)
-                            {
-                                string chunk = new string(buffer, 0, bytesRead);
-                                editor.Text += chunk;
-                                //Task.Delay(50); // Καθυστερεί λίγο την ανανέωση του UI
-                            }
+                            // string file = null;
+                            editor.Text = filecont;
+                            
                         });
 
                     });
