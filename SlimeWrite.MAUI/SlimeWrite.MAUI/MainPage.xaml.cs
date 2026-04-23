@@ -1,10 +1,12 @@
 ﻿using CommunityToolkit.Maui.Storage;
 using SlimeMarkUp.Core;
 using SlimeWrite.MAUI.Core;
-using SlimeWrite.MAUI.Core.Interfaces;
-using SlimeWrite.MAUI.Core.Models;
+ using SlimeWrite.MAUI.Core.Models;
+#if ANDROID
 using SlimeWrite.MAUI.Platforms.Android;
+#endif
 using SlimeWrite.MAUI.Views;
+using SSlimeWrite.MAUI.Platforms.Android;
 using System.Text;
 
 //using static System.Net.Mime.MediaTypeNames;

@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-namespace SlimeWrite.MAUI.Core.Interfaces
+namespace SlimeWrite.MAUI.Platforms.Android
 {
     #if ANDROID
 
