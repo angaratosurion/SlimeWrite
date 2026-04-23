@@ -1,8 +1,9 @@
 ﻿using CommunityToolkit.Maui;
 using Microsoft.Extensions.Logging;
 using SlimeWrite.MAUI.Core;
-using SlimeWrite.MAUI.Core.Interfaces;
+#if ANDROID
 using SlimeWrite.MAUI.Platforms.Android;
+#endif
 
 namespace SlimeWrite.MAUI
 {

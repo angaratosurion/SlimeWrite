@@ -1,15 +1,18 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
-<manifest xmlns:android="http://schemas.android.com/apk/res/android" android:versionCode="4">
+<manifest xmlns:android="http://schemas.android.com/apk/res/android" android:versionCode="4"
+          xmlns:tools="http://schemas.android.com/tools" >
 	<application android:allowBackup="true" android:icon="@mipmap/appicon" android:supportsRtl="true"></application>
 	<uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
 	<uses-permission android:name="android.permission.INTERNET" />
 	<!-- Required only if your app needs to access images or photos that other apps created -->
-	<!--<uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />-->
+	<uses-permission android:name="android.permission.READ_MEDIA_IMAGES" tools:node="remove" />
 	<!-- Required only if your app needs to access videos that other apps created -->
-	<!--<uses-permission android:name="android.permission.READ_MEDIA_VIDEO" />-->
+	-<uses-permission android:name="android.permission.READ_MEDIA_VIDEO" tools:node="remove" />
 	<!-- Required only if your app needs to access audio files that other apps created -->
-	<!--<uses-permission android:name="android.permission.READ_MEDIA_AUDIO" />-->
+	<uses-permission android:name="android.permission.READ_MEDIA_AUDIO" tools:node="remove" />
 	<!--<uses-permission android:name="android.permission.ACCESS_MEDIA_LOCATION" />-->
 	<!--<uses-permission android:name="android.permission.MANAGE_EXTERNAL_STORAGE" />-->
 	<!--<uses-permission android:name="android.permission.MANAGE_MEDIA" />-->
+  <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" tools:node="remove"/>
+  <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" tools:node="remove"/>
 </manifest>

@@ -2,9 +2,7 @@
 using Android.App;
 using Android.Content;
 using Android.Provider;
-using Microsoft.Maui.ApplicationModel;
-using SlimeWrite.MAUI.Core.Interfaces;
-using Application = Android.App.Application;
+using SlimeWrite.MAUI.Platforms.Android;
 
 namespace SlimeWrite.MAUI.Core
 {
