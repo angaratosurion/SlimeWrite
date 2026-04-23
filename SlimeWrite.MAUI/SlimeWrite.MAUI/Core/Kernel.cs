@@ -6,10 +6,13 @@ using System.Text;
 using System.Text.Json;
 using AppInfo = SlimeWrite.MAUI.Core.Models.AppInfo;
 
+
+
 namespace SlimeWrite.MAUI.Core
 {
     public class Kernel
     {
+
         public Options GetOptions()
         {
             Options options;

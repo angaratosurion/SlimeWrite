@@ -1,7 +1,9 @@
 ﻿using CommunityToolkit.Maui.Storage;
 using SlimeMarkUp.Core;
 using SlimeWrite.MAUI.Core;
+using SlimeWrite.MAUI.Core.Interfaces;
 using SlimeWrite.MAUI.Core.Models;
+using SlimeWrite.MAUI.Platforms.Android;
 using SlimeWrite.MAUI.Views;
 using System.Text;
 
@@ -136,73 +138,50 @@ Environment.SetEnvironmentVariable("WEBVIEW2_USER_DATA_FOLDER", userDataFolder);
         // ---------------- Toolbar buttons ---------------- //
         private async void OpenFile(string filename)
         {
-            PickOptions fileoptions = new PickOptions
-            {
-                PickerTitle = "Open Markdown or SlimeMarkup file",
-                //FileTypes = new FilePickerFileType(new Dictionary<DevicePlatform, IEnumerable<string>>
-                //{
-                //    { DevicePlatform.WinUI, new[] { "*.*", "*.md", "*.smd" } },
-                //    { DevicePlatform.Android, new[] { "*/*", "text/markdown", "application/octet-stream" } },
-                //    { DevicePlatform.iOS, new[] { "*/*", "public.plain-text" } },
-                //    { DevicePlatform.MacCatalyst, new[] { "*/*", "public.plain-text" } }
-                //})
-            };
+            
 
             //editor.TextChanged -= editor_TextChanged;
             if (filename == null)
             {
+#if ANDROID
+                var picker = MauiApplication.Current.Services.GetService<IFilePickerService>();
 
+                var result = await picker.PickFileAsync();
+
+                if (result.stream != null)
+                {
+                    filename = result.name;
+                }
+
+#endif
+#if WINDOWS
+          PickOptions fileoptions = new PickOptions
+            {
+                PickerTitle = "Open Markdown or SlimeMarkup file",
+
+            };
                 var res = await FilePicker.Default.PickAsync(fileoptions);
-                //var res = await this.StorageProvider.OpenFilePickerAsync(new FilePickerOpenOptions
-                //{
-                //    AllowMultiple = false,
-                //    Title = "Open Markdown or SlimeMarkup file",
-                //    FileTypeFilter = new List<FilePickerFileType>
-                //    {
-                //        //new FilePickerFileType("Markdown or SlimeMarkup")
-                //        //{
-                //        //    Patterns = new List<string> { "*.*", "*.md", "*.smd" }
-                //        //}
-                //    }
-                //});
-               
+
+
                 if (res != null)
                 {
 
-                    //editor.TextChanged += null;
-                    //if (options.SegmentedLoading)
-                    //{ 
-                    //    Thread thread= new Thread(() =>
-                    //    {
-                    //    core.OpenSegmentedFile(res.FullPath, ref editor)
-                    //        ;
-                    //    });
-                    //    thread.Start();
 
-                    //}
-                    //else
-                    //{
-                    //    var file = core.OpenFile(res.FullPath);
-                    //    //  editor.ClearAll();
-                    //    editor.Text = file;
-                    //}
-
-                    //Loadeditor();
                     filename = res.FileName;
+
                 }
-            }
-            //else
-            //{
+#endif
+
                 editor.TextChanged += null;
                 if (options.SegmentedLoading)
                 {
 
                     Thread thread = new Thread(() =>
                     {
-                       // core.OpenSegmentedFile(filename, ref editor)
+                        // core.OpenSegmentedFile(filename, ref editor)
                         ;
                         //string filecont = core.OpenFile(filename);
-                        string filecont=null;
+                        string filecont = null;
                         char[] buffer; // 1MB buffer 
                         if (options.MaxSegmentLength > 0)
                         {
@@ -215,7 +194,7 @@ Environment.SetEnvironmentVariable("WEBVIEW2_USER_DATA_FOLDER", userDataFolder);
                         var reader = new StreamReader(filename, Encoding.UTF8);
                         int bytesRead;
                         //ReadAllText(filename, Encoding.UTF8);//
-                     //   editor.Text = ""; // Καθαρίζει το Text πριν ξεκινήσει η ανάγνωση
+                        //   editor.Text = ""; // Καθαρίζει το Text πριν ξεκινήσει η ανάγνωση
                         while ((bytesRead = reader.Read(buffer, 0, buffer.Length)) > 0)
                         {
                             string chunk = new string(buffer, 0, bytesRead);
@@ -226,7 +205,7 @@ Environment.SetEnvironmentVariable("WEBVIEW2_USER_DATA_FOLDER", userDataFolder);
                         {
                             // string file = null;
                             editor.Text = filecont;
-                            
+
                         });
 
                     });
@@ -240,39 +219,24 @@ Environment.SetEnvironmentVariable("WEBVIEW2_USER_DATA_FOLDER", userDataFolder);
                 }
                 Loadeditor();
 
-           // }
-            ChangeWindowsTitle(filename);
-            //Updatepreview(editor.Text);
-            //editor.TextChanged += editor_TextChanged;
 
+                ChangeWindowsTitle(filename);
+                //Updatepreview(editor.Text);
+                //editor.TextChanged += editor_TextChanged;
+
+            }
         }
         private async Task SaveFile()
         {
-            //PickOptions options = new PickOptions
-            //{
-            //    PickerTitle = "Save Markdown or SlimeMarkup file",
-            //    FileTypes = new FilePickerFileType(new Dictionary<DevicePlatform, IEnumerable<string>>
-            //    {
-            //        { DevicePlatform.WinUI, new[] { "*.*", "*.md", "*.smd" } },
-            //        { DevicePlatform.Android, new[] { "*/*", "text/markdown", "application/octet-stream" } },
-            //        { DevicePlatform.iOS, new[] { "*/*", "public.plain-text" } },
-            //        { DevicePlatform.MacCatalyst, new[] { "*/*", "public.plain-text" } }
-            //    })
-            //};
+           
 
             MemoryStream stream = new MemoryStream();
             StreamWriter streamWriter = new StreamWriter(stream);
             streamWriter.Write(editor.Text);
             streamWriter.Flush();
-            
+#if WINDOWS
             var res = await FileSaver.Default.SaveAsync("",stream);
-            streamWriter.Close();
-            streamWriter.Dispose();
-            
-            stream.Close();
-            stream.Dispose();
-
-            if (res != null)
+             if (res != null)
             {
                // core.SaveFile(res.FullPath, editor.Text);
 
@@ -280,6 +244,24 @@ Environment.SetEnvironmentVariable("WEBVIEW2_USER_DATA_FOLDER", userDataFolder);
 
 
             }
+             streamWriter.Close();
+            streamWriter.Dispose();
+            
+            stream.Close();
+            stream.Dispose();
+            
+#endif
+#if ANDROID
+
+            var service = MauiApplication.Current.Services.GetService<FileSaveService>();
+
+            await service.SaveAsync(stream, "myfile.txt");
+
+
+#endif
+           
+
+           
 
         }
         private void New_Clicked(object sender, EventArgs e)

@@ -78,4 +78,8 @@
     <PackageReference Include="SlimeMarkUp.Core" Version="0.1.8.9" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="Core\Interfaces\" />
+  </ItemGroup>
+
 </Project>
