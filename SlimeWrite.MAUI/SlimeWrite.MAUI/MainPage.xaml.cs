@@ -146,20 +146,20 @@ Environment.SetEnvironmentVariable("WEBVIEW2_USER_DATA_FOLDER", userDataFolder);
             //editor.TextChanged -= editor_TextChanged;
             if (filename == null)
             {
-#if ANDROID
-                var picker = MauiApplication.Current.Services.GetService<IFilePickerService>();
+//#if ANDROID
+//                var picker = MauiApplication.Current.Services.GetService<IFilePickerService>();
 
-                var result = await picker.PickFileAsync();
+//                var result = await picker.PickFileAsync();
 
-                if (result.stream != null)
-                {
-                    filename = result.name;
-                    stream= result.stream;
+//                if (result.stream != null)
+//                {
+//                    filename = result.name;
+//                    stream= result.stream;
 
-                }
+//                }
 
-#endif
-#if WINDOWS
+//#endif
+//#if WINDOWS
           PickOptions fileoptions = new PickOptions
             {
                 PickerTitle = "Open Markdown or SlimeMarkup file",
@@ -172,10 +172,11 @@ Environment.SetEnvironmentVariable("WEBVIEW2_USER_DATA_FOLDER", userDataFolder);
                 {
 
 
-                    filename = res.FileName;
+                    filename = res.FullPath;
+                    
 
                 }
-#endif
+//#endif
 
                 editor.TextChanged += null;
                 if (options.SegmentedLoading)
@@ -196,7 +197,7 @@ Environment.SetEnvironmentVariable("WEBVIEW2_USER_DATA_FOLDER", userDataFolder);
                         {
                             buffer = new char[1024 * 1024];
                         }
-                        var reader = new StreamReader(stream, Encoding.UTF8);
+                        var reader = new StreamReader(res.FullPath, Encoding.UTF8);
                         int bytesRead;
                         //ReadAllText(filename, Encoding.UTF8);//
                         //   editor.Text = ""; // Καθαρίζει το Text πριν ξεκινήσει η ανάγνωση
