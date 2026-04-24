@@ -19,6 +19,7 @@ namespace SlimeWrite.MAUI
         private readonly MarkupParser _parser;
         private readonly HtmlRenderer _renderer;
         AppInfo appInfo;
+       
 
       public static   Kernel core = new Kernel();
         double startHeight ,startWidth;
@@ -37,6 +38,7 @@ namespace SlimeWrite.MAUI
             InitializeComponent();
             appInfo = core.GetAppInfo();
             options = core.GetOptions();
+            
          //   Loadeditor();
 
 
@@ -137,9 +139,9 @@ Environment.SetEnvironmentVariable("WEBVIEW2_USER_DATA_FOLDER", userDataFolder);
         }
 
         // ---------------- Toolbar buttons ---------------- //
-        private async void OpenFile(string filename)
+        public   async void OpenFile(string filename)
         {
-            
+            Stream stream = null;
 
             //editor.TextChanged -= editor_TextChanged;
             if (filename == null)
@@ -152,6 +154,8 @@ Environment.SetEnvironmentVariable("WEBVIEW2_USER_DATA_FOLDER", userDataFolder);
                 if (result.stream != null)
                 {
                     filename = result.name;
+                    stream= result.stream;
+
                 }
 
 #endif
@@ -192,7 +196,7 @@ Environment.SetEnvironmentVariable("WEBVIEW2_USER_DATA_FOLDER", userDataFolder);
                         {
                             buffer = new char[1024 * 1024];
                         }
-                        var reader = new StreamReader(filename, Encoding.UTF8);
+                        var reader = new StreamReader(stream, Encoding.UTF8);
                         int bytesRead;
                         //ReadAllText(filename, Encoding.UTF8);//
                         //   editor.Text = ""; // Καθαρίζει το Text πριν ξεκινήσει η ανάγνωση
@@ -235,13 +239,25 @@ Environment.SetEnvironmentVariable("WEBVIEW2_USER_DATA_FOLDER", userDataFolder);
             StreamWriter streamWriter = new StreamWriter(stream);
             streamWriter.Write(editor.Text);
             streamWriter.Flush();
+
+
+
+
 #if WINDOWS
-            var res = await FileSaver.Default.SaveAsync("",stream);
+             PickOptions pickOptions = new PickOptions();
+            pickOptions.FileTypes = new FilePickerFileType(new Dictionary<DevicePlatform, IEnumerable<string>>
+            {
+                { DevicePlatform.WinUI, new[] { ".md", ".markdown", ".smark" } },
+                { DevicePlatform.Android, new[] { "text/markdown", "text/plain" } },
+                { DevicePlatform.iOS, new[] { "public.plain-text", "net.daringfireball.markdown" } },
+                { DevicePlatform.MacCatalyst, new[] { "public.plain-text", "net.daringfireball.markdown" } }
+            });
+              var res = await FilePicker.Default.PickAsync(pickOptions);
              if (res != null)
             {
-               // core.SaveFile(res.FullPath, editor.Text);
+               // core.SaveFile(res.FileName, editor.Text);
 
-                ChangeWindowsTitle(res.FilePath);
+                ChangeWindowsTitle(res.FileName);
 
 
             }
