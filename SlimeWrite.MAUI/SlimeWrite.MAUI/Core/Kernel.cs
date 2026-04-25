@@ -12,7 +12,7 @@ namespace SlimeWrite.MAUI.Core
 {
     public class Kernel
     {
-
+        DocumentManager documentManager = new DocumentManager();
         public Options GetOptions()
         {
             Options options;
@@ -258,15 +258,20 @@ namespace SlimeWrite.MAUI.Core
         }
         public string Image_Marked(string selectedtext,string filename, DocumentInfo documentInfo )
         {
-            string ap;
+            string ap,image="";
+             if ( documentInfo !=null)
+            {
+                this.documentManager.AddFileToDocumentParentDirectory(documentInfo, filename);
+                image= Path.GetFileName(filename);  
+            }
             if (selectedtext != null)
             {
                 ap = selectedtext.Replace(selectedtext, "![" + selectedtext +
-                "](image.png){ width = 100 height = 200}");
+                "](.\\"+image +"){ width = 100 height = 200}");
             }
             else
             {
-                ap = "![alt](image.png){width=100 height=200}";
+                ap = "![alt](.\\"+image +"){width=100 height=200}";
             }
             return ap;
 

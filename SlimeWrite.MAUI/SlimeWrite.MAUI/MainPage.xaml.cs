@@ -1,4 +1,5 @@
 ﻿//using CommunityToolkit.Maui.Storage;
+using Java.Nio.FileNio.Attributes;
 using SlimeMarkUp.Core;
 using SlimeWrite.MAUI.Core;
 using SlimeWrite.MAUI.Core.Models;
@@ -19,7 +20,8 @@ namespace SlimeWrite.MAUI
         private readonly MarkupParser _parser;
         private readonly HtmlRenderer _renderer;
         AppInfo appInfo;
-       
+       DcomentManager dcomentManager = new DcomentManager();
+        DocumentInfo documentInfo;
 
       public static   Kernel core = new Kernel();
         double startHeight ,startWidth;
@@ -227,6 +229,10 @@ Environment.SetEnvironmentVariable("WEBVIEW2_USER_DATA_FOLDER", userDataFolder);
 
 
                 ChangeWindowsTitle(filename);
+                this.documentInfo = new DocumentInfo();
+                documentInfo.FullPath = filename;
+                documentInfo.ParentDirectory= Path.GetDirectoryName(filename);
+                documentInfo.Name= Path.GetFileName(filename);
                 //Updatepreview(editor.Text);
                 //editor.TextChanged += editor_TextChanged;
 
@@ -419,7 +425,24 @@ Environment.SetEnvironmentVariable("WEBVIEW2_USER_DATA_FOLDER", userDataFolder);
             //}
             //else
             //{
-            editor.Text += core.Image_Marked(null,null);
+            string imagename="";
+            PickOptions fileoptions = new PickOptions
+            {
+                PickerTitle = "Open Markdown or SlimeMarkup file",
+
+            };
+            var res =   FilePicker.Default.PickAsync(fileoptions).Result;
+
+
+            if (res != null)
+            {
+
+
+                imagename = res.FullPath;
+
+
+            }
+            editor.Text += core.Image_Marked(null,imagename,documentInfo);
             //}
         }
 
