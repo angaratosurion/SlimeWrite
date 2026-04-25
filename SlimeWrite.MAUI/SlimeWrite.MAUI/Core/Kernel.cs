@@ -256,6 +256,21 @@ namespace SlimeWrite.MAUI.Core
             return ap;
 
         }
+        public string Image_Marked(string selectedtext,string filename, DocumentInfo documentInfo )
+        {
+            string ap;
+            if (selectedtext != null)
+            {
+                ap = selectedtext.Replace(selectedtext, "![" + selectedtext +
+                "](image.png){ width = 100 height = 200}");
+            }
+            else
+            {
+                ap = "![alt](image.png){width=100 height=200}";
+            }
+            return ap;
+
+        }
         public string CodeBlock_Marked(string selectedtext)
         {
             string ap;
@@ -381,6 +396,38 @@ namespace SlimeWrite.MAUI.Core
 
             return AppDataPath;
         }
+        public string GetTempfolderPath()
+        {
+
+            string ap=""; 
+            string appname = this.GetAppInfo().AppName; 
+            if (this.isDesktopMode())
+            {
+
+                ap = Path.Combine(Path.GetTempPath(), appname,
+                    "output.html");
+                if (Directory.Exists(Path.Combine(Path.GetTempPath(), appname)) == false)
+                {
+                    Directory.CreateDirectory(Path.Combine(Path.GetTempPath(), appname));
+                }
+                
+
+            else
+                {
+                   ap= FileSystem.CacheDirectory;
+                    if (Directory.Exists(FileSystem.CacheDirectory) == false)
+                    {
+                        Directory.CreateDirectory(FileSystem.CacheDirectory);
+                    }
+                    
+                }
+
+            }
+            return ap;
+
+        }
+
+
         public bool isDesktopMode()
         {
             bool isDesktop = false;

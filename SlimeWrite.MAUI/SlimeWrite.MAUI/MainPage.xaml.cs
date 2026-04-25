@@ -80,7 +80,7 @@ Environment.SetEnvironmentVariable("WEBVIEW2_USER_DATA_FOLDER", userDataFolder);
         private void editor_TextChanged(object? sender, EventArgs e)
         {
             //_markdown = editor.Text;//?? "";
-          //  editor.Text = editor.Text.Replace("\r", "\n");
+            editor.Text = editor.Text.Replace("\r", "\n");
             Updatepreview(editor.Text);
         }
 
@@ -419,7 +419,7 @@ Environment.SetEnvironmentVariable("WEBVIEW2_USER_DATA_FOLDER", userDataFolder);
             //}
             //else
             //{
-            editor.Text += core.Image_Marked(null);
+            editor.Text += core.Image_Marked(null,null);
             //}
         }
 
@@ -546,46 +546,29 @@ Environment.SetEnvironmentVariable("WEBVIEW2_USER_DATA_FOLDER", userDataFolder);
                 try
                 { 
                 string appname = appInfo.AppName;
-                    if (core.isDesktopMode())
-                    {
-
-                        var file = Path.Combine(Path.GetTempPath(), appname,
+                    var file = Path.Combine(core.GetTempfolderPath(),
                             "output.html");
-                        if (Directory.Exists(Path.Combine(Path.GetTempPath(), appname)) == false)
-                        {
-                            Directory.CreateDirectory(Path.Combine(Path.GetTempPath(), appname));
-                        }
+                  
                         File.WriteAllText(file, html);
+                        if (preview != null)
+                        {
+                        //HtmlWebViewSource source = new HtmlWebViewSource
+                        //{
+                        //    Html = html,
+                        //    BaseUrl = file
+                        //};
+                        //preview.Source = source;
+
+                        // WebView.Settings.AllowFileAccess = true;
+                        //var source   = new UrlWebViewSource { Url = $"file://{file}" };
+                        // preview.Source = source;
                         if (preview != null)
                         {
                             preview.Source = file;
 
                         }
-                    }
-                    else
-                    {
-                        var file = Path.Combine(FileSystem.CacheDirectory
-                            , "output.html");
-                        if (Directory.Exists(FileSystem.CacheDirectory) == false)
-                        {
-                            Directory.CreateDirectory(FileSystem.CacheDirectory);
-                        }
-                        File.WriteAllText(file, html);
-                        if (preview != null)
-                        {
-                            //HtmlWebViewSource source = new HtmlWebViewSource
-                            //{
-                            //    Html = html,
-                            //    BaseUrl = file
-                            //};
-                            //preview.Source = source;
-
-                            // WebView.Settings.AllowFileAccess = true;
-                            //var source   = new UrlWebViewSource { Url = $"file://{file}" };
-                            // preview.Source = source;
-
 #if ANDROID
-                            preview.Dispatcher.Dispatch(() =>
+                        preview.Dispatcher.Dispatch(() =>
                             {
 
                                 try
@@ -602,7 +585,7 @@ Environment.SetEnvironmentVariable("WEBVIEW2_USER_DATA_FOLDER", userDataFolder);
 
 
                         }
-                    }
+                    
                     
                 }
                 catch (Exception ex)
