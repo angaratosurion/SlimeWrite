@@ -390,29 +390,29 @@ namespace SlimeWrite.MAUI.Core
         {
 
             string ap=""; 
-            string appname = this.GetAppInfo().AppName; 
-            if (this.isDesktopMode())
+            string appname = this.GetAppInfo().AppName;
+           // if (this.isDesktopMode())
             {
 
-                ap = Path.Combine(Path.GetTempPath(), appname,
-                    "output.html");
-                if (Directory.Exists(Path.Combine(Path.GetTempPath(), appname)) == false)
+                ap = Path.Combine(this.GetAppdataPath(), "Cache");
+                if (Directory.Exists(Path.Combine(this.GetAppdataPath(), "Cache")) == false)
                 {
-                    Directory.CreateDirectory(Path.Combine(Path.GetTempPath(), appname));
+                    Directory.CreateDirectory(Path.Combine(this.GetAppdataPath(), "Cache"));
                 }
-                
 
-            else
-                {
-                   ap= FileSystem.CacheDirectory;
-                    if (Directory.Exists(FileSystem.CacheDirectory) == false)
-                    {
-                        Directory.CreateDirectory(FileSystem.CacheDirectory);
-                    }
-                    
-                }
 
             }
+            //else
+            //    {
+            //        ap = Path.Combine(this.GetAppdataPath(), "Cache");
+            //        if (Directory.Exists(Path.Combine(this.GetAppdataPath(), "Cache")) == false)
+            //        {
+            //            Directory.CreateDirectory(Path.Combine(this.GetAppdataPath(), "Cache"));
+            //        }
+                    
+            //    }
+
+           // }
             return ap;
 
         }

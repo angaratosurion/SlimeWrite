@@ -69,11 +69,12 @@ namespace SlimeWrite.MAUI
                 updater.DownloadLatestRelease();
 
             }
-          //  initilizeOriantation();
-            
+            //  initilizeOriantation();
+
             //  this.SetGridContentSizes();
+
 #if WINDOWS
-var userDataFolder = Path.Combine(FileSystem.AppDataDirectory, core.GetAppInfo().AppName);
+var userDataFolder = core.GetAppdataPath();
 Environment.SetEnvironmentVariable("WEBVIEW2_USER_DATA_FOLDER", userDataFolder);
 #endif
 
