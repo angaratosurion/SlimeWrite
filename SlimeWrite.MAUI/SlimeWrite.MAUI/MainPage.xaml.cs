@@ -252,7 +252,7 @@ Environment.SetEnvironmentVariable("WEBVIEW2_USER_DATA_FOLDER", userDataFolder);
 
 
 
-#if WINDOWS
+//#if WINDOWS
              PickOptions pickOptions = new PickOptions();
             pickOptions.FileTypes = new FilePickerFileType(new Dictionary<DevicePlatform, IEnumerable<string>>
             {
@@ -264,33 +264,34 @@ Environment.SetEnvironmentVariable("WEBVIEW2_USER_DATA_FOLDER", userDataFolder);
               var res = await FilePicker.Default.PickAsync(pickOptions);
              if (res != null)
             {
-               // core.SaveFile(res.FileName, editor.Text);
-               documentInfo.FullPath = res.FullPath;
-                documentInfo.ParentDirectory = Path.GetDirectoryName(res.FullPath);
-                documentInfo.Name = Path.GetFileName(res.FullPath);
-                 documentManager.SaveDocument(documentInfo, res.FullPath);
+                // core.SaveFile(res.FileName, editor.Text);
+                documentManager.SaveDocument(documentInfo, res.FullPath, stream);
+                //documentInfo.FullPath = res.FullPath;
+                //documentInfo.ParentDirectory = Path.GetDirectoryName(res.FullPath);
+                //documentInfo.Name = Path.GetFileName(res.FullPath);
+               
                 ChangeWindowsTitle(res.FileName);
-
+                var doc =documentInfo;
 
             }
-             streamWriter.Close();
+            streamWriter.Close();
             streamWriter.Dispose();
-            
+
             stream.Close();
             stream.Dispose();
-            
-#endif
-//#if ANDROID
 
-//            var service = MauiApplication.Current.Services.GetService<FileSaveService>();
+            //#endif
+            //#if ANDROID
 
-//            await service.SaveAsync(stream, "myfile.txt");
+            //            var service = MauiApplication.Current.Services.GetService<FileSaveService>();
+
+            //            await service.SaveAsync(stream, "myfile.txt");
 
 
-//#endif
-           
+            //#endif
 
-           
+
+
 
         }
         private async void New_Clicked(object sender, EventArgs e)

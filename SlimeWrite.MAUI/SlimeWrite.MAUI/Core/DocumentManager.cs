@@ -1,8 +1,4 @@
 ﻿using SlimeWrite.MAUI.Core.Models;
-using System;
-using System.Collections.Generic;
-using System.Text;
-using static System.Net.Mime.MediaTypeNames;
 
 namespace SlimeWrite.MAUI.Core
 {
@@ -59,20 +55,32 @@ namespace SlimeWrite.MAUI.Core
             File.Copy(filePath, destinationPath, true);
 
         }
-        public void SaveDocument(DocumentInfo document, string savePath)
+        public void SaveDocument(DocumentInfo document, string savePath,Stream stream)
         {
-            if (Directory.Exists(document.ParentDirectory))
+            if (Directory.Exists(document.ParentDirectory) && stream != null)
             {
+                string destinationPath = Path.Combine(Path.GetDirectoryName(savePath),
+                        Path.GetFileNameWithoutExtension(savePath));
+                Directory.CreateDirectory(destinationPath);
+
                 foreach (string file in Directory.GetFiles(document.ParentDirectory))
                 {
                     string fileName = Path.GetFileName(file);
-                    string destinationPath = Path.Combine(savePath,
-                        Path.GetFileNameWithoutExtension(fileName));
+                    
                     if (!Path.HasExtension(".html"))
                     {
                         File.Copy(file, destinationPath, true);
                     }
+                    
+                    
                 }
+                StreamReader streamReader = new StreamReader(stream);
+                File.WriteAllTextAsync(document.FullPath, streamReader.ReadToEnd());
+                stream.Close();
+                streamReader.Close();
+                document.FullPath = savePath;
+                document.ParentDirectory = destinationPath;
+                document.Name = Path.GetFileName(savePath);
 
             }
         }
