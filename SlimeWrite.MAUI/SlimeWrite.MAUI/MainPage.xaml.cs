@@ -1,5 +1,6 @@
 ﻿//using CommunityToolkit.Maui.Storage;
-using Java.Nio.FileNio.Attributes;
+using CommunityToolkit.Maui.Core;
+using CommunityToolkit.Maui.Extensions;
 using SlimeMarkUp.Core;
 using SlimeWrite.MAUI.Core;
 using SlimeWrite.MAUI.Core.Models;
@@ -11,6 +12,7 @@ using System.Text;
 
 //using static System.Net.Mime.MediaTypeNames;
 using AppInfo = SlimeWrite.MAUI.Core.Models.AppInfo;
+using Options = SlimeWrite.MAUI.Core.Models.Options;
 
 namespace SlimeWrite.MAUI
 {
@@ -20,7 +22,7 @@ namespace SlimeWrite.MAUI
         private readonly MarkupParser _parser;
         private readonly HtmlRenderer _renderer;
         AppInfo appInfo;
-       DcomentManager dcomentManager = new DcomentManager();
+       DocumentManager documentManager = new DocumentManager();
         DocumentInfo documentInfo;
 
       public static   Kernel core = new Kernel();
@@ -288,11 +290,27 @@ Environment.SetEnvironmentVariable("WEBVIEW2_USER_DATA_FOLDER", userDataFolder);
            
 
         }
-        private void New_Clicked(object sender, EventArgs e)
+        private async void New_Clicked(object sender, EventArgs e)
         {
-
+            
+          
             editor.Text = "";
-            ChangeWindowsTitle(null);
+            var popup = new CreateNewDocumentPopUp();
+
+
+
+            IPopupResult <string> result = (IPopupResult<string>)await Application.Current.MainPage.ShowPopupAsync(popup);
+ 
+            if (result != null)
+            {
+                string folderName = result.Result;
+
+
+
+                documentInfo = documentManager.CreateNewDocument(folderName);
+                ChangeWindowsTitle(documentInfo.Name);
+
+            }
 
         }
 
@@ -415,23 +433,16 @@ Environment.SetEnvironmentVariable("WEBVIEW2_USER_DATA_FOLDER", userDataFolder);
             //  }
         }
 
-        private void Image_Clicked(object sender, EventArgs e)
+        private async void Image_Clicked(object sender, EventArgs e)
         {
-            //if (editor.SelectedText != null
-            //    && editor.SelectedText != String.Empty)
-            //{
-            //    string selectedtext = editor.SelectedText;
-            //    editor.SelectedText = core.Image_Marked(selectedtext);
-            //}
-            //else
-            //{
+            
             string imagename="";
             PickOptions fileoptions = new PickOptions
             {
-                PickerTitle = "Open Markdown or SlimeMarkup file",
+                PickerTitle = "Select An Image File",
 
             };
-            var res =   FilePicker.Default.PickAsync(fileoptions).Result;
+            var res = await FilePicker.Default.PickAsync(fileoptions);
 
 
             if (res != null)
@@ -569,27 +580,24 @@ Environment.SetEnvironmentVariable("WEBVIEW2_USER_DATA_FOLDER", userDataFolder);
                 try
                 { 
                 string appname = appInfo.AppName;
-                    var file = Path.Combine(core.GetTempfolderPath(),
-                            "output.html");
+                    string file = "";
+                     if ( documentInfo != null)
+                    {
+                        file = Path.Combine(documentInfo.ParentDirectory, "output.html");
+                    }
+                     else
+                    {
+                        file =Path.Combine(core.GetTempfolderPath(),
+                          "output.html");
+                    }
                   
                         File.WriteAllText(file, html);
                         if (preview != null)
                         {
-                        //HtmlWebViewSource source = new HtmlWebViewSource
-                        //{
-                        //    Html = html,
-                        //    BaseUrl = file
-                        //};
-                        //preview.Source = source;
-
-                        // WebView.Settings.AllowFileAccess = true;
-                        //var source   = new UrlWebViewSource { Url = $"file://{file}" };
-                        // preview.Source = source;
-                        if (preview != null)
-                        {
+                       
                             preview.Source = file;
 
-                        }
+                      
 #if ANDROID
                         preview.Dispatcher.Dispatch(() =>
                             {

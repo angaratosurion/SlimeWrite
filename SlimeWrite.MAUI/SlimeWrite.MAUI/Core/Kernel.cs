@@ -241,22 +241,7 @@ namespace SlimeWrite.MAUI.Core
             return ap;
 
         }
-        public string Image_Marked(string selectedtext)
-        {
-            string ap;
-            if (selectedtext != null)
-            {
-                ap = selectedtext.Replace(selectedtext, "![" + selectedtext +
-                "](image.png){ width = 100 height = 200}");
-            }
-            else
-            {
-                ap = "![alt](image.png){width=100 height=200}";
-            }
-            return ap;
-
-        }
-        public string Image_Marked(string selectedtext,string filename, DocumentInfo documentInfo )
+       public string Image_Marked(string selectedtext,string filename, DocumentInfo documentInfo )
         {
             string ap,image="";
              if ( documentInfo !=null)
@@ -264,15 +249,15 @@ namespace SlimeWrite.MAUI.Core
                 this.documentManager.AddFileToDocumentParentDirectory(documentInfo, filename);
                 image= Path.GetFileName(filename);  
             }
-            if (selectedtext != null)
-            {
-                ap = selectedtext.Replace(selectedtext, "![" + selectedtext +
-                "](.\\"+image +"){ width = 100 height = 200}");
-            }
-            else
-            {
-                ap = "![alt](.\\"+image +"){width=100 height=200}";
-            }
+            //if (selectedtext != null)
+            //{
+            //    ap = selectedtext.Replace(selectedtext, "![" + selectedtext +
+            //    "](.\\"+image +"){ width = 100 height = 200}");
+            //}
+            //else
+            //{
+                ap = "!![alt]("+image +"){width=100 height=200}";
+            //}
             return ap;
 
         }

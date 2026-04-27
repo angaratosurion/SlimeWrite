@@ -82,4 +82,10 @@
     <Folder Include="Core\Interfaces\" />
   </ItemGroup>
 
+  <ItemGroup>
+    <MauiXaml Update="CreateNewPopUp.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </MauiXaml>
+  </ItemGroup>
+
 </Project>

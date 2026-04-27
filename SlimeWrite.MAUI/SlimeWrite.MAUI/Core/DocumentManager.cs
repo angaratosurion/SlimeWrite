@@ -8,7 +8,7 @@ namespace SlimeWrite.MAUI.Core
 {
     public class DocumentManager
     {
-        Kernel core = new Kernel();
+        
         public DocumentInfo CreateNewDocument(string name)
         {
             DocumentInfo ap = new DocumentInfo();
@@ -16,7 +16,7 @@ namespace SlimeWrite.MAUI.Core
             {
                 string ext = Path.GetExtension(name);
                 ap.Name = name;
-                string path = Path.Combine(core.GetTempfolderPath(),
+                string path = Path.Combine(MainPage.core.GetTempfolderPath(),
                     Path.GetFileNameWithoutExtension(name));
                 if (Directory.Exists(path))
                 {
@@ -30,13 +30,17 @@ namespace SlimeWrite.MAUI.Core
             else
             {
                 ap.Name = name;
-                string path = Path.Combine(core.GetTempfolderPath(),
+                string path = Path.Combine(MainPage.core.GetTempfolderPath(),
                 name);
                 if (Directory.Exists(path))
                 {
                     Directory.Delete(path, true);
                     Directory.CreateDirectory(path);
 
+                }
+                else
+                {
+                    Directory.CreateDirectory(path);
                 }
                 ap.ParentDirectory = path;
                 ap.FullPath = Path.Combine(path, name + ".smd");
@@ -54,6 +58,23 @@ namespace SlimeWrite.MAUI.Core
             string destinationPath = Path.Combine(document.ParentDirectory, fileName);
             File.Copy(filePath, destinationPath, true);
 
+        }
+        public void SaveDocument(DocumentInfo document, string savePath)
+        {
+            if (Directory.Exists(document.ParentDirectory))
+            {
+                foreach (string file in Directory.GetFiles(document.ParentDirectory))
+                {
+                    string fileName = Path.GetFileName(file);
+                    string destinationPath = Path.Combine(savePath,
+                        Path.GetFileNameWithoutExtension(fileName));
+                    if (!Path.HasExtension(".html"))
+                    {
+                        File.Copy(file, destinationPath, true);
+                    }
+                }
+
+            }
         }
     }
 }
