@@ -256,7 +256,7 @@ namespace SlimeWrite.MAUI.Core
             //}
             //else
             //{
-                ap = "!![alt]("+image +"){width=100 height=200}";
+                ap = "!!alt!!("+image +"){width=100 height=200}";
             //}
             return ap;
 

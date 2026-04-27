@@ -265,7 +265,10 @@ Environment.SetEnvironmentVariable("WEBVIEW2_USER_DATA_FOLDER", userDataFolder);
              if (res != null)
             {
                // core.SaveFile(res.FileName, editor.Text);
-
+               documentInfo.FullPath = res.FullPath;
+                documentInfo.ParentDirectory = Path.GetDirectoryName(res.FullPath);
+                documentInfo.Name = Path.GetFileName(res.FullPath);
+                 documentManager.SaveDocument(documentInfo, res.FullPath);
                 ChangeWindowsTitle(res.FileName);
 
 
@@ -277,14 +280,14 @@ Environment.SetEnvironmentVariable("WEBVIEW2_USER_DATA_FOLDER", userDataFolder);
             stream.Dispose();
             
 #endif
-#if ANDROID
+//#if ANDROID
 
-            var service = MauiApplication.Current.Services.GetService<FileSaveService>();
+//            var service = MauiApplication.Current.Services.GetService<FileSaveService>();
 
-            await service.SaveAsync(stream, "myfile.txt");
+//            await service.SaveAsync(stream, "myfile.txt");
 
 
-#endif
+//#endif
            
 
            
