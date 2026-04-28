@@ -62,22 +62,23 @@ namespace SlimeWrite.MAUI.Core
                 string destinationPath = Path.Combine(Path.GetDirectoryName(savePath),
                         Path.GetFileNameWithoutExtension(savePath));
                 Directory.CreateDirectory(destinationPath);
-
-                foreach (string file in Directory.GetFiles(document.ParentDirectory))
+                File.Move(savePath, destinationPath,true);
+                var files = Directory.GetFiles(document.ParentDirectory);
+                foreach (string file in files)
                 {
                     string fileName = Path.GetFileName(file);
                     
                     //if (!Path.HasExtension(".html"))
                     {
-                        File.Copy(file, Path.Combine(destinationPath, fileName), true);
+                        File.Copy(file, destinationPath, true);
                     }
                     
                     
                 }
-                StreamReader streamReader = new StreamReader(stream);
-                File.WriteAllTextAsync(document.FullPath, streamReader.ReadToEnd());
-                stream.Close();
-                streamReader.Close();
+                //StreamReader streamReader = new StreamReader(stream);
+                //File.WriteAllTextAsync(document.FullPath, streamReader.ReadToEnd());
+                //stream.Close();
+                //streamReader.Close();
                 document.FullPath = savePath;
                 document.ParentDirectory = destinationPath;
                 document.Name = Path.GetFileName(savePath);
