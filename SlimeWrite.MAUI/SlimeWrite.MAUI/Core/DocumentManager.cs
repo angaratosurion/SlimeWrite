@@ -67,9 +67,9 @@ namespace SlimeWrite.MAUI.Core
                 {
                     string fileName = Path.GetFileName(file);
                     
-                    if (!Path.HasExtension(".html"))
+                    //if (!Path.HasExtension(".html"))
                     {
-                        File.Copy(file, destinationPath, true);
+                        File.Copy(file, Path.Combine(destinationPath, fileName), true);
                     }
                     
                     
@@ -83,6 +83,14 @@ namespace SlimeWrite.MAUI.Core
                 document.Name = Path.GetFileName(savePath);
 
             }
+        }
+        public void CloseDocument(DocumentInfo document)
+        {
+            if (Directory.Exists(document.ParentDirectory))
+            {
+                Directory.Delete(Path.Combine(document.ParentDirectory, "output.html"), true);
+            }
+            document = null;
         }
     }
 }

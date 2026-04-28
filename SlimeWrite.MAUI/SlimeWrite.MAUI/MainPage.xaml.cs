@@ -1,6 +1,7 @@
 ﻿//using CommunityToolkit.Maui.Storage;
 using CommunityToolkit.Maui.Core;
 using CommunityToolkit.Maui.Extensions;
+using CommunityToolkit.Maui.Storage;
 using SlimeMarkUp.Core;
 using SlimeWrite.MAUI.Core;
 using SlimeWrite.MAUI.Core.Models;
@@ -262,16 +263,17 @@ Environment.SetEnvironmentVariable("WEBVIEW2_USER_DATA_FOLDER", userDataFolder);
                 { DevicePlatform.iOS, new[] { "public.plain-text", "net.daringfireball.markdown" } },
                 { DevicePlatform.MacCatalyst, new[] { "public.plain-text", "net.daringfireball.markdown" } }
             });
-              var res = await FilePicker.Default.PickAsync(pickOptions);
+            var res= await FileSaver.Default.SaveAsync(documentInfo.FullPath,stream);
+           // var res = await FilePicker.Default.PickAsync(pickOptions);
              if (res != null)
-            {
+            { 
                 // core.SaveFile(res.FileName, editor.Text);
-                documentManager.SaveDocument(documentInfo, res.FullPath, stream);
+                documentManager.SaveDocument(documentInfo, res.FilePath, stream);
                 //documentInfo.FullPath = res.FullPath;
                 //documentInfo.ParentDirectory = Path.GetDirectoryName(res.FullPath);
                 //documentInfo.Name = Path.GetFileName(res.FullPath);
                
-                ChangeWindowsTitle(res.FileName);
+                ChangeWindowsTitle(res.FilePath);
                 var doc =documentInfo;
 
             }
@@ -357,6 +359,8 @@ Environment.SetEnvironmentVariable("WEBVIEW2_USER_DATA_FOLDER", userDataFolder);
         {
             editor.Text = "";
             ChangeWindowsTitle(null);
+            documentManager.CloseDocument(documentInfo);
+             documentInfo = null;
 
         }
         private void Save_Clicked(object sender, EventArgs e)
