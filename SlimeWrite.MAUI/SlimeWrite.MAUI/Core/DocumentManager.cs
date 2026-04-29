@@ -59,30 +59,31 @@ namespace SlimeWrite.MAUI.Core
         {
             if (Directory.Exists(document.ParentDirectory) && stream != null)
             {
-                string destinationPath = Path.Combine(Path.GetDirectoryName(savePath),
-                        Path.GetFileNameWithoutExtension(savePath));
+                string destinationPath = Path.Combine(
+                    Path.GetDirectoryName(savePath),
+                    Path.GetFileNameWithoutExtension(savePath));
+
                 Directory.CreateDirectory(destinationPath);
-                File.Move(savePath, destinationPath,true);
+
+                string destinationFile = Path.Combine(destinationPath, Path.GetFileName(savePath));
+                File.Move(savePath, destinationFile, true);
+
                 var files = Directory.GetFiles(document.ParentDirectory);
+
                 foreach (string file in files)
                 {
                     string fileName = Path.GetFileName(file);
-                    
-                    //if (!Path.HasExtension(".html"))
-                    {
-                        File.Copy(file, destinationPath, true);
-                    }
-                    
-                    
-                }
-                //StreamReader streamReader = new StreamReader(stream);
-                //File.WriteAllTextAsync(document.FullPath, streamReader.ReadToEnd());
-                //stream.Close();
-                //streamReader.Close();
-                document.FullPath = savePath;
-                document.ParentDirectory = destinationPath;
-                document.Name = Path.GetFileName(savePath);
 
+                    if (Path.GetExtension(file).ToLower() != ".html")
+                    {
+                        string destFile = Path.Combine(destinationPath, fileName);
+                        File.Move(file, destFile, true); // ή Copy αν θες αντίγραφα
+                    }
+                }
+
+                document.FullPath = destinationFile;
+                document.ParentDirectory = destinationPath;
+                document.Name = Path.GetFileName(destinationFile);
             }
         }
         public void CloseDocument(DocumentInfo document)
