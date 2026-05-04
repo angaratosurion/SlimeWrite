@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFrameworks>net10.0-android;net10.0-ios;net10.0-maccatalyst</TargetFrameworks>
+    <TargetFrameworks>net10.0-android</TargetFrameworks>
     <OutputType>Exe</OutputType>
     <RootNamespace>SlimeWrite.MAUI</RootNamespace>
     <UseMaui>true</UseMaui>
@@ -36,11 +36,15 @@
   </PropertyGroup> -->
 
   <!-- ✅ Android ONLY Release Signing -->
+  <PropertyGroup >
+    <AndroidManifest>Platforms\Android\AndroidManifest.Github.xml</AndroidManifest>
+  </PropertyGroup>
 
   <PropertyGroup Condition="'$(TargetFramework)' == 'net10.0-android' and '$(Configuration)' == 'Release'">
 
     <!-- APK αντί για AAB -->
     <AndroidPackageFormat>apk</AndroidPackageFormat>
+    <AndroidManifest>Platforms\Android\AndroidManifest.Github.xml</AndroidManifest>
   </PropertyGroup>
     
     
