@@ -44,5 +44,6 @@
     <AndroidSigningKeyAlias>slimewrite</AndroidSigningKeyAlias>
     <AndroidSigningStorePass>serres1984</AndroidSigningStorePass>
     <AndroidSigningKeyPass>serres1984</AndroidSigningKeyPass>
+    <AndroidLinkMode>None</AndroidLinkMode>
   </PropertyGroup>
 </Project>
