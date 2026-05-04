@@ -7,14 +7,14 @@
     <SupportedOSPlatformVersion Condition="$([MSBuild]::GetTargetPlatformIdentifier('$(TargetFramework)')) == 'android'">21.0</SupportedOSPlatformVersion>
     <TargetAndroidVersion>34</TargetAndroidVersion>
     <WindowsPackageType>None</WindowsPackageType>
-    <Version>0.1.4.0</Version>
-    <AssemblyVersion>0140</AssemblyVersion>
+    <Version>0.1.5.0</Version>
+    <AssemblyVersion>0.1.5.0</AssemblyVersion>
     <Configurations>Debug;Release</Configurations>
      </PropertyGroup>
       <PropertyGroup Condition="$([MSBuild]::IsOSPlatform('windows'))">
    <!-- <TargetFrameworks>$(TargetFrameworks)</TargetFrameworks>-->
-    <Version>0.1.4.0</Version>
-    <AssemblyVersion>0140</AssemblyVersion>
+    <Version>0.1.5.0</Version>
+    <AssemblyVersion>0.1.5.0</AssemblyVersion>
     <FileVersion>$(AssemblyVersion)</FileVersion>
   </PropertyGroup>
 
@@ -33,6 +33,7 @@
 
     <!-- Συμβατότητα συσκευών -->
     <AndroidSupportedAbis>arm64-v8a;armeabi-v7a</AndroidSupportedAbis>
+    <AndroidLinkMode>None</AndroidLinkMode>
 
   </PropertyGroup>
   <PropertyGroup Condition="'$(TargetFramework)' == 'net10.0-android' and '$(Configuration)' == 'Debug'">
