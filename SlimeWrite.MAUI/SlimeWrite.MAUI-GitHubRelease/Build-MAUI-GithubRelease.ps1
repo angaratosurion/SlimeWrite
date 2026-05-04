@@ -11,7 +11,7 @@ if (-Not (Test-Path $projectPath)) {
 # Καθαρισμός φακέλων bin και obj
 Write-Host "Καθαρισμός φακέλων bin και obj..." -ForegroundColor Cyan
 $projectFolder = Split-Path $projectPath -Parent
-Remove-Item -LiteralPath (Join-Path $projectFolder "bin\GitHub") -Recurse -Force -ErrorAction SilentlyContinue
+Remove-Item -LiteralPath (Join-Path $projectFolder "bin\") -Recurse -Force -ErrorAction SilentlyContinue
 Remove-Item -LiteralPath (Join-Path $projectFolder "obj") -Recurse -Force -ErrorAction SilentlyContinue
 
 # Restore NuGet packages
