@@ -76,21 +76,19 @@
     <MauiFont Include="Resources\Fonts\*" />
     <MauiAsset Include="Resources\Raw\**" LogicalName="%(RecursiveDir)%(Filename)%(Extension)" />
   </ItemGroup>
-
-  <ItemGroup>
-    <Compile Include="..\SlimeWrite.MAUI\About.xaml.cs" Link="About.xaml.cs" />
-    <Compile Include="..\SlimeWrite.MAUI\App.xaml.cs" Link="App.xaml.cs" />
-    <Compile Include="..\SlimeWrite.MAUI\AppShell.xaml.cs" Link="AppShell.xaml.cs" />
-    <Compile Include="..\SlimeWrite.MAUI\MainPage.xaml.cs" Link="MainPage.xaml.cs" />
-    <Compile Include="..\SlimeWrite.MAUI\MauiProgram.cs" Link="MauiProgram.cs" />
-    <Compile Include="..\SlimeWrite.MAUI\OptionsView.xaml.cs" Link="OptionsView.xaml.cs" />
-  </ItemGroup>
  
   <ItemGroup>
     <PackageReference Include="CommunityToolkit.Maui" Version="14.0.1" />
     <PackageReference Include="Microsoft.Maui.Controls" Version="10.0.51" />
     <PackageReference Include="Microsoft.Extensions.Logging.Debug" Version="10.0.5" />
     <PackageReference Include="SlimeMarkUp.Core" Version="0.1.8.9" />
+  </ItemGroup>
+ 
+  <ItemGroup>
+    <Page Include="..\SlimeWrite.MAUI\About.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <Link>About.xaml</Link>
+    </Page>
   </ItemGroup>
   
 </Project>
