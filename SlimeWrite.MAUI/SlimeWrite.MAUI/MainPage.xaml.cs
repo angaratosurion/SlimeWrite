@@ -705,6 +705,7 @@ Environment.SetEnvironmentVariable("WEBVIEW2_USER_DATA_FOLDER", userDataFolder);
 
         private void ContentPage_Unloaded(object sender, EventArgs e)
         {
+            core.ClearTempFolder();
             Microsoft.Maui.Controls.Application.Current.Quit();
         }
 

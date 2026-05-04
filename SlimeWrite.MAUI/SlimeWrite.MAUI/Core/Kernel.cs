@@ -433,7 +433,25 @@ namespace SlimeWrite.MAUI.Core
             }
             return isDesktop;
         }
-         
+        public void ClearTempFolder()
+        {
+            string tempFolderPath = this.GetTempfolderPath();
+            if (Directory.Exists(tempFolderPath))
+            {
+                try
+                {
+                    Directory.Delete(tempFolderPath, true);
+                    Directory.CreateDirectory(tempFolderPath);
+                }
+                catch (Exception ex)
+                {
+                    System.Diagnostics.Debug.WriteLine(ex.ToString());
+                    // Handle exceptions that may occur during directory deletion
+                    Console.WriteLine($"Error clearing temp folder: {ex.Message}");
+                }
+            }
+        }
+
 
 
     }
