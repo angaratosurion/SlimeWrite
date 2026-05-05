@@ -82,7 +82,7 @@ namespace SlimeWrite.MAUI.Core
                 };
             }
         }
-        
+
         public void SaveOptions(Options options)
         {
             string AppDataPath = this.GetAppdataPath();
@@ -123,15 +123,15 @@ namespace SlimeWrite.MAUI.Core
         }
         public string OpenFile(string filename)
         {
-            
-            string file=null;
-            
-                file = File.ReadAllText(filename, Encoding.UTF8);
-           
+
+            string file = null;
+
+            file = File.ReadAllText(filename, Encoding.UTF8);
+
 
             return file;
         }
-        public   void  OpenSegmentedFile(string filename,ref Editor editorText)
+        public void OpenSegmentedFile(string filename, ref Editor editorText)
         {
 
             string file = null;
@@ -139,12 +139,12 @@ namespace SlimeWrite.MAUI.Core
             var reader = new StreamReader(filename, Encoding.UTF8);
             int bytesRead;
             //ReadAllText(filename, Encoding.UTF8);//
-            editorText.Text=""; // Καθαρίζει το Text πριν ξεκινήσει η ανάγνωση
+            editorText.Text = ""; // Καθαρίζει το Text πριν ξεκινήσει η ανάγνωση
             while ((bytesRead = reader.Read(buffer, 0, buffer.Length)) > 0)
             {
                 string chunk = new string(buffer, 0, bytesRead);
                 editorText.Text += chunk;
-                  //Task.Delay(50); // Καθυστερεί λίγο την ανανέωση του UI
+                //Task.Delay(50); // Καθυστερεί λίγο την ανανέωση του UI
             }
 
 
@@ -235,7 +235,7 @@ namespace SlimeWrite.MAUI.Core
             {
                 this.ErrorLog(ex);
                 return null;
-            }   
+            }
 
         }
         public string Link_Marked(string selectedtext)
@@ -640,5 +640,6 @@ namespace SlimeWrite.MAUI.Core
 
         }
 
+    }
 }
 
