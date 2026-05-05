@@ -5,8 +5,12 @@ using System.Reflection;
 using System.Text;
 using System.Text.Json;
 using AppInfo = SlimeWrite.MAUI.Core.Models.AppInfo;
+using Environment = System.Environment;
 
+#if ANDROID
 
+using Android.OS;
+#endif
 
 namespace SlimeWrite.MAUI.Core
 {
@@ -214,247 +218,427 @@ namespace SlimeWrite.MAUI.Core
         }
         public string Strikethrough_Marked(string selectedtext)
         {
-            string ap;
-            if (selectedtext != null)
+            try
             {
-                ap = selectedtext.Replace(selectedtext, "~~" + selectedtext + "~~");
+                string ap;
+                if (selectedtext != null)
+                {
+                    ap = selectedtext.Replace(selectedtext, "~~" + selectedtext + "~~");
+                }
+                else
+                {
+                    ap = "~~Strikethrough Text~~";
+                }
+                return ap;
             }
-            else
+            catch (Exception ex)
             {
-                ap = "~~Strikethrough Text~~";
-            }
-            return ap;
+                this.ErrorLog(ex);
+                return null;
+            }   
 
         }
         public string Link_Marked(string selectedtext)
         {
-            string ap;
-            if (selectedtext != null)
+            try
             {
-                ap = selectedtext.Replace(selectedtext,
-                "[" + selectedtext + "](url){target=_blank rel=nofollow}");
+                string ap;
+                if (selectedtext != null)
+                {
+                    ap = selectedtext.Replace(selectedtext,
+                    "[" + selectedtext + "](url){target=_blank rel=nofollow}");
+                }
+                else
+                {
+                    ap = "[text](url){target=_blank rel=nofollow}";
+                }
+                return ap;
             }
-            else
+            catch (Exception ex)
             {
-                ap = "[text](url){target=_blank rel=nofollow}";
+                this.ErrorLog(ex);
+                return null;
+
             }
-            return ap;
 
         }
-       public string Image_Marked(string selectedtext,string filename, DocumentInfo documentInfo )
+        public string Image_Marked(string selectedtext, string filename, DocumentInfo documentInfo)
         {
-            string ap,image="";
-             if ( documentInfo !=null)
+            try
             {
-                this.documentManager.AddFileToDocumentParentDirectory(documentInfo, filename);
-                image= Path.GetFileName(filename);  
+                string ap, image = "";
+                if (documentInfo != null)
+                {
+                    this.documentManager.AddFileToDocumentParentDirectory(documentInfo, filename);
+                    image = Path.GetFileName(filename);
+                }
+                //if (selectedtext != null)
+                //{
+                //    ap = selectedtext.Replace(selectedtext, "![" + selectedtext +
+                //    "](.\\"+image +"){ width = 100 height = 200}");
+                //}
+                //else
+                //{
+                ap = "!!alt!!(" + image + "){width=100 height=200}";
+                //}
+                return ap;
             }
-            //if (selectedtext != null)
-            //{
-            //    ap = selectedtext.Replace(selectedtext, "![" + selectedtext +
-            //    "](.\\"+image +"){ width = 100 height = 200}");
-            //}
-            //else
-            //{
-                ap = "!!alt!!("+image +"){width=100 height=200}";
-            //}
-            return ap;
+            catch (Exception ex)
+            {
+                this.ErrorLog(ex);
+                return null;
 
+            }
         }
         public string CodeBlock_Marked(string selectedtext)
         {
-            string ap;
-            if (selectedtext != null)
+            try
             {
-                ap = selectedtext.Replace(selectedtext, "`\n" + selectedtext + "\n`");
+                string ap;
+                if (selectedtext != null)
+                {
+                    ap = selectedtext.Replace(selectedtext, "`\n" + selectedtext + "\n`");
+                }
+                else
+                {
+                    ap = "`\nCode Block\n`";
+                }
+                return ap;
             }
-            else
+            catch (Exception ex)
             {
-                ap = "`\nCode Block\n`";
+                this.ErrorLog(ex);
+                return null;
+
             }
-            return ap;
 
         }
         public string Quote_Marked(string selectedtext)
         {
-            string ap;
-            if (selectedtext != null)
+            try
             {
-                ap = selectedtext.Replace(selectedtext, "\n>" + selectedtext + "\n");
+                string ap;
+                if (selectedtext != null)
+                {
+                    ap = selectedtext.Replace(selectedtext, "\n>" + selectedtext + "\n");
+                }
+                else
+                {
+                    ap = "\n> quote\n";
+                }
+                return ap;
             }
-            else
+            catch (Exception ex)
             {
-                ap = "\n> quote\n";
+                this.ErrorLog(ex);
+                return null;
             }
-            return ap;
 
         }
         public string List_Marked(string selectedtext)
         {
-            string ap;
-            //if (selectedtext != null)
-            //{
-            //    ap = selectedtext.Replace(selectedtext, "\n- " + selectedtext + "\n");
-            //}
-            //else
-            //{
-            ap = "\n- item 1\n- item 2\n";
-            //}
-            return ap;
+            try
+            {
+                string ap;
+                //if (selectedtext != null)
+                //{
+                //    ap = selectedtext.Replace(selectedtext, "\n- " + selectedtext + "\n");
+                //}
+                //else
+                //{
+                ap = "\n- item 1\n- item 2\n";
+                //}
+                return ap;
+            }
+            catch (Exception ex)
+            {
+                this.ErrorLog(ex);
+                return null;
+
+            }
         }
         public string Table_Marked(string selectedtext)
         {
-            string ap;
-            //if (selectedtext != null)
-            //{
-            //    ap = selectedtext.Replace(selectedtext, "\n| Header 1 | Header 2 |\n| --- | --- |\n| Cell 1 | Cell 2 |\n");
-            //}
-            //else
-            //{
-            ap = "\n" + """
+            try
+            {
+                string ap;
+                //if (selectedtext != null)
+                //{
+                //    ap = selectedtext.Replace(selectedtext, "\n| Header 1 | Header 2 |\n| --- | --- |\n| Cell 1 | Cell 2 |\n");
+                //}
+                //else
+                //{
+                ap = "\n" + """
         | Col1 | Col2 |
         |------|------|
         | A    | B    |
         | C    | D    |
         """;
-            //}
-            return ap;
+                //}
+                return ap;
+            }
+            catch (Exception ex)
+            {
+                this.ErrorLog(ex);
+                return null;
+
+            }
 
         }
         public string HorizontalRule_Marked()
         {
-            return "\n---\n";
+            try
+            {
+                return "\n---\n";
+            }
+            catch (Exception ex)
+            {
+                this.ErrorLog(ex);
+                return null;
+
+            }
         }
         public string EscapeChars_Marked(string selectedtext)
         {
-            string ap;
-            if (selectedtext != null)
+            try
             {
-                ap = selectedtext.Replace(selectedtext, @"\" + selectedtext + @"\");
+                string ap;
+                if (selectedtext != null)
+                {
+                    ap = selectedtext.Replace(selectedtext, @"\" + selectedtext + @"\");
+                }
+                else
+                {
+                    ap = @"\ Escaped Text\";
+                }
+                return ap;
             }
-            else
+            catch (Exception ex)
             {
-                ap = @"\ Escaped Text\";
+                this.ErrorLog(ex);
+                return null;
             }
-            return ap;
         }
         public string IncludeCSS_Marked(string selectedtext)
         {
-            string ap;
-            if (selectedtext != null)
+            try
             {
-                ap = selectedtext.Replace(selectedtext, "\n<!-- include style:" + selectedtext + "-->\n");
+                string ap;
+                if (selectedtext != null)
+                {
+                    ap = selectedtext.Replace(selectedtext, "\n<!-- include style:" + selectedtext + "-->\n");
+                }
+                else
+                {
+                    ap = "\n<!-- include style: style.css -->\n";
+                }
+                return ap;
             }
-            else
+            catch (Exception ex)
             {
-                ap = "\n<!-- include style: style.css -->\n";
+                this.ErrorLog(ex);
+                return null;
             }
-            return ap;
         }
         public string IncludeScript_Marked(string selectedtext)
         {
-            string ap;
-            if (selectedtext != null)
+            try
             {
-                ap = selectedtext.Replace(selectedtext, "\n<!-- include script:" + selectedtext + "-->\n");
+                string ap;
+                if (selectedtext != null)
+                {
+                    ap = selectedtext.Replace(selectedtext, "\n<!-- include script:" + selectedtext + "-->\n");
+                }
+                else
+                {
+                    ap = "\n<!-- include script: script.js -->\n";
+                }
+                return ap;
             }
-            else
+            catch (Exception ex)
             {
-                ap = "\n<!-- include script: script.js -->\n";
+                this.ErrorLog(ex);
+                return null;
             }
-            return ap;
 
 
         }
         public string GetAppdataPath()
         {
-            string AppDataPath;
-            if (this.isDesktopMode())
+            try
             {
-                AppDataPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
-                    GetAppInfo().AppName);
-            }
-            else
-            {
-                AppDataPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData));
-            }
+                string AppDataPath;
+                if (this.isDesktopMode())
+                {
+                    AppDataPath = Path.Combine(System.Environment.GetFolderPath(Environment.SpecialFolder.ApplicationData),
+                        GetAppInfo().AppName);
+                }
+                else
+                {
+                    AppDataPath = Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData));
+                }
 
-            if (Directory.Exists(AppDataPath) == false)
-            {
-                Directory.CreateDirectory(AppDataPath);
-            }
+                if (Directory.Exists(AppDataPath) == false)
+                {
+                    Directory.CreateDirectory(AppDataPath);
+                }
 
-            return AppDataPath;
+                return AppDataPath;
+            }
+            catch (Exception ex)
+            {
+                this.ErrorLog(ex);
+                return null;
+            }
         }
         public string GetTempfolderPath()
         {
-
-            string ap=""; 
-            string appname = this.GetAppInfo().AppName;
-           // if (this.isDesktopMode())
+            try
             {
-
-                ap = Path.Combine(this.GetAppdataPath(), "Cache");
-                if (Directory.Exists(Path.Combine(this.GetAppdataPath(), "Cache")) == false)
+                string ap = "";
+                string appname = this.GetAppInfo().AppName;
+                // if (this.isDesktopMode())
                 {
-                    Directory.CreateDirectory(Path.Combine(this.GetAppdataPath(), "Cache"));
-                }
 
+                    ap = Path.Combine(this.GetAppdataPath(), "Cache");
+                    if (Directory.Exists(Path.Combine(this.GetAppdataPath(), "Cache")) == false)
+                    {
+                        Directory.CreateDirectory(Path.Combine(this.GetAppdataPath(), "Cache"));
+                    }
+
+
+                }
+                //else
+                //    {
+                //        ap = Path.Combine(this.GetAppdataPath(), "Cache");
+                //        if (Directory.Exists(Path.Combine(this.GetAppdataPath(), "Cache")) == false)
+                //        {
+                //            Directory.CreateDirectory(Path.Combine(this.GetAppdataPath(), "Cache"));
+                //        }
+
+                //    }
+
+                // }
+                return ap;
+            }
+            catch (Exception ex)
+            {
+                this.ErrorLog(ex);
+                return null;
 
             }
-            //else
-            //    {
-            //        ap = Path.Combine(this.GetAppdataPath(), "Cache");
-            //        if (Directory.Exists(Path.Combine(this.GetAppdataPath(), "Cache")) == false)
-            //        {
-            //            Directory.CreateDirectory(Path.Combine(this.GetAppdataPath(), "Cache"));
-            //        }
-                    
-            //    }
 
-           // }
-            return ap;
+        }
+        public string GetLogsFolderPath()
+        {
+            try
+            {
+                string ap = "";
+                string appname = this.GetAppInfo().AppName;
+                if (this.isDesktopMode())
+                {
+                    ap = Path.Combine(this.GetAppdataPath(), "Logs");
+                    if (Directory.Exists(Path.Combine(this.GetAppdataPath(), "Logs")) == false)
+                    {
+                        Directory.CreateDirectory(Path.Combine(this.GetAppdataPath(), "Logs"));
+                    }
 
+                }
+
+                else
+                {
+#if ANDROID
+
+
+                    string apppath = Path.Combine(Android.OS.Environment.ExternalStorageDirectory.
+                        AbsolutePath,
+                        appname);
+
+
+                    ap = Path.Combine(apppath, "Logs");
+#endif
+
+                }
+                return ap;
+            }
+            catch (Exception ex)
+            {
+                this.ErrorLog(ex);
+                return null;
+
+            }
         }
 
 
         public bool isDesktopMode()
         {
-            bool isDesktop = false;
+            try
+            {
+                bool isDesktop = false;
 
 
-            if (OperatingSystem.IsAndroid() || OperatingSystem.IsIOS())
-            {
-                isDesktop = false;
+                if (OperatingSystem.IsAndroid() || OperatingSystem.IsIOS())
+                {
+                    isDesktop = false;
+                }
+                else if (OperatingSystem.IsWindows() || OperatingSystem.IsLinux() || OperatingSystem.IsMacOS())
+                {
+                    isDesktop = true;
+                }
+                return isDesktop;
             }
-            else if (OperatingSystem.IsWindows() || OperatingSystem.IsLinux() || OperatingSystem.IsMacOS())
+            catch (Exception ex)
             {
-                isDesktop = true;
+                this.ErrorLog(ex);
+                return false;
+
             }
-            return isDesktop;
         }
         public void ClearTempFolder()
         {
-            string tempFolderPath = this.GetTempfolderPath();
-            if (Directory.Exists(tempFolderPath))
+            try
             {
-                try
+                string tempFolderPath = this.GetTempfolderPath();
+                if (Directory.Exists(tempFolderPath))
                 {
-                    Directory.Delete(tempFolderPath, true);
-                    Directory.CreateDirectory(tempFolderPath);
-                }
-                catch (Exception ex)
-                {
-                    System.Diagnostics.Debug.WriteLine(ex.ToString());
-                    // Handle exceptions that may occur during directory deletion
-                    Console.WriteLine($"Error clearing temp folder: {ex.Message}");
+                    try
+                    {
+                        Directory.Delete(tempFolderPath, true);
+                        Directory.CreateDirectory(tempFolderPath);
+                    }
+                    catch (Exception ex)
+                    {
+                        System.Diagnostics.Debug.WriteLine(ex.ToString());
+                        // Handle exceptions that may occur during directory deletion
+                        Console.WriteLine($"Error clearing temp folder: {ex.Message}");
+                    }
                 }
             }
+            catch (Exception ex)
+            {
+                this.ErrorLog(ex);
+
+            }
         }
+        public void ErrorLog(Exception ex)
+        {
+            string logsFolderPath = this.GetLogsFolderPath();
+            string logFilePath = Path.Combine(logsFolderPath, $"log_{DateTime.Now:dd-MM-yyyy}.txt");
+            string logEntry = $"[{DateTime.Now:ddd/MM/yyyy HH:mm:ss}] {ex.ToString()}\n";
+            try
+            {
+                File.AppendAllText(logFilePath, logEntry);
+            }
+            catch (Exception logEx)
+            {
+                System.Diagnostics.Debug.WriteLine(logEx.ToString());
+                // Handle exceptions that may occur during logging
+                Console.WriteLine($"Error writing to log file: {logEx.Message}");
+            }
 
 
 
-    }
+        }
 
 }
 
