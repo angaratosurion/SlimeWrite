@@ -2,7 +2,7 @@
 ; Non-commercial use only
 
 #define MyAppName "SlimeWrite.MAUI"
-#define MyAppVersion "0.1.5.0"
+#define MyAppVersion "0.1.5.5"
 #define MyAppPublisher "Angarato Surion"
 #define MyAppURL "https://github.com/angaratosurion/SlimeWrite"
 #define MyAppExeName "SlimeWrite.MAUI.exe"
