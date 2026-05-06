@@ -19,29 +19,38 @@ namespace SlimeWrite.MAUI.Core
         DocumentManager documentManager = new DocumentManager();
         public Options GetOptions()
         {
-            Options options;
-            string AppDataPath = this.GetAppdataPath();
-            //GetAppInfo().AppName);
-            if (File.Exists(Path.Combine(AppDataPath, "appsettings.json")))
+            try
             {
-                using (StreamReader r = new StreamReader(Path.Combine(AppDataPath, "appsettings.json")))
+                Options options;
+                string AppDataPath = this.GetAppdataPath();
+                //GetAppInfo().AppName);
+                if (File.Exists(Path.Combine(AppDataPath, "appsettings.json")))
                 {
-                    string json = r.ReadToEnd();
-                    options = JsonSerializer.Deserialize<Options>(json);
+                    using (StreamReader r = new StreamReader(Path.Combine(AppDataPath, "appsettings.json")))
+                    {
+                        string json = r.ReadToEnd();
+                        options = JsonSerializer.Deserialize<Options>(json);
+                    }
                 }
-            }
-            else
-            {
-                options = new Options
+                else
                 {
-                    UseTextChangedEvent = true,
-                    UseEnterPressed = false,
-                    WebViewOrientation = 1,
-                    AutoUpdateUsingGithub = true
-                };
+                    options = new Options
+                    {
+                        UseTextChangedEvent = true,
+                        UseEnterPressed = false,
+                        WebViewOrientation = 1,
+                        AutoUpdateUsingGithub = true
+                    };
+                }
+                this.SaveOptions(options);
+                return options;
             }
-            this.SaveOptions(options);
-            return options;
+            catch (Exception ex)
+            {
+                this.ErrorLog(ex);
+                return null;
+            }
+
         }
         public AppInfo GetAppInfo()
         {
@@ -75,6 +84,7 @@ namespace SlimeWrite.MAUI.Core
                 System.Diagnostics.Debug.WriteLine(ex.ToString());
                 // Handle exceptions that may occur during reflection
                 Console.WriteLine($"Error retrieving app info: {ex.Message}");
+                this.ErrorLog(ex);
                 return new AppInfo
                 {
                     AppName = "SlimeWrite",
@@ -85,19 +95,30 @@ namespace SlimeWrite.MAUI.Core
 
         public void SaveOptions(Options options)
         {
-            string AppDataPath = this.GetAppdataPath();
-            string json = JsonSerializer.Serialize(options, new JsonSerializerOptions
+            try
             {
-                WriteIndented = true
-            });
-            File.WriteAllText(Path.Combine(AppDataPath, "appsettings.json"), json);
+                string AppDataPath = this.GetAppdataPath();
+                string json = JsonSerializer.Serialize(options, new JsonSerializerOptions
+                {
+                    WriteIndented = true
+                });
+                File.WriteAllText(Path.Combine(AppDataPath, "appsettings.json"), json);
+            }
+            catch (Exception ex)
+            {
+                this.ErrorLog(ex);
+               // return null;
+            }
+
 
         }
         public MarkupParser InitializeParser()
         {
-            MarkupParser _parser;
+            try
+            {
+                MarkupParser _parser;
 
-            _parser = new MarkupParser(new List<IBlockMarkupExtension>
+                _parser = new MarkupParser(new List<IBlockMarkupExtension>
             {
                 new HeaderExtension(),
                 new ImageExtension(),
@@ -117,103 +138,175 @@ namespace SlimeWrite.MAUI.Core
             });
 
 
-            return _parser;
+                return _parser;
+            }
+            catch (Exception ex)
+            {
+                this.ErrorLog(ex);
+                return null;
+            }
+
 
 
         }
         public string OpenFile(string filename)
         {
 
-            string file = null;
+            try
+            {
 
-            file = File.ReadAllText(filename, Encoding.UTF8);
+                string file = null;
+
+                file = File.ReadAllText(filename, Encoding.UTF8);
 
 
-            return file;
+                return file;
+            }
+            catch (Exception ex)
+            {
+                this.ErrorLog(ex);
+                return null;
+            }
+
         }
         public void OpenSegmentedFile(string filename, ref Editor editorText)
         {
-
-            string file = null;
-            char[] buffer = new char[1024 * 1024];  // 1MB buffer
-            var reader = new StreamReader(filename, Encoding.UTF8);
-            int bytesRead;
-            //ReadAllText(filename, Encoding.UTF8);//
-            editorText.Text = ""; // Καθαρίζει το Text πριν ξεκινήσει η ανάγνωση
-            while ((bytesRead = reader.Read(buffer, 0, buffer.Length)) > 0)
+            try
             {
-                string chunk = new string(buffer, 0, bytesRead);
-                editorText.Text += chunk;
-                //Task.Delay(50); // Καθυστερεί λίγο την ανανέωση του UI
+
+                string file = null;
+                char[] buffer = new char[1024 * 1024];  // 1MB buffer
+                var reader = new StreamReader(filename, Encoding.UTF8);
+                int bytesRead;
+                //ReadAllText(filename, Encoding.UTF8);//
+                editorText.Text = ""; // Καθαρίζει το Text πριν ξεκινήσει η ανάγνωση
+                while ((bytesRead = reader.Read(buffer, 0, buffer.Length)) > 0)
+                {
+                    string chunk = new string(buffer, 0, bytesRead);
+                    editorText.Text += chunk;
+                    //Task.Delay(50); // Καθυστερεί λίγο την ανανέωση του UI
+                }
+
+
+
             }
-
-
+            catch (Exception ex)
+            {
+                this.ErrorLog(ex);
+               // return null;
+            }
 
             //return file;
         }
         public void SaveFile(string filename, string content)
         {
-            File.WriteAllText(filename, content, Encoding.UTF8);
+
+            try
+            {
+                File.WriteAllText(filename, content, Encoding.UTF8);
+            }
+            catch (Exception ex)
+            {
+                this.ErrorLog(ex);
+                //return null;
+            }
+
         }
         public string H1_Marked(string selectedtext)
         {
-            string ap;
-
-            if (selectedtext != null)
+            try
             {
+                string ap;
 
-                ap = selectedtext.Replace(selectedtext, "#" + selectedtext + "\n");
+                if (selectedtext != null)
+                {
 
+                    ap = selectedtext.Replace(selectedtext, "#" + selectedtext + "\n");
+
+                }
+                else
+                {
+                    ap = "#Heading 1\n";
+                }
+
+                return ap;
             }
-            else
+            catch (Exception ex)
             {
-                ap = "#Heading 1\n";
+                this.ErrorLog(ex);
+                return null;
             }
 
-            return ap;
         }
         public string H2_Marked(string selectedtext)
         {
-            string ap;
 
-            if (selectedtext != null)
+            try
             {
+                string ap;
 
-                ap = selectedtext.Replace(selectedtext, "\n## " + selectedtext + "\n");
+                if (selectedtext != null)
+                {
 
+                    ap = selectedtext.Replace(selectedtext, "\n## " + selectedtext + "\n");
+
+                }
+                else
+                {
+                    ap = "\n## Heading 2\n";
+                }
+
+                return ap;
             }
-            else
+            catch (Exception ex)
             {
-                ap = "\n## Heading 2\n";
+                this.ErrorLog(ex);
+                return null;
             }
-
-            return ap;
         }
         public string Bold_Marked(string selectedtext)
         {
-            string ap;
-            if (selectedtext != null)
+            try
             {
-                ap = selectedtext.Replace(selectedtext, "**" + selectedtext + "**");
+                string ap;
+                if (selectedtext != null)
+                {
+                    ap = selectedtext.Replace(selectedtext, "**" + selectedtext + "**");
+                }
+                else
+                {
+                    ap = "**Bold Text**";
+                }
+                return ap;
             }
-            else
+            catch (Exception ex)
             {
-                ap = "**Bold Text**";
+                this.ErrorLog(ex);
+                return null;
             }
-            return ap;
+
         }
         public string Italic_Marked(string selectedtext)
         {
-            string ap;
-            if (selectedtext != null)
+            try
             {
-                ap = selectedtext.Replace(selectedtext, "*" + selectedtext + "*");
+                string ap;
+                if (selectedtext != null)
+                {
+                    ap = selectedtext.Replace(selectedtext, "*" + selectedtext + "*");
+                }
+                else
+                {
+                    ap = "*Italic Text*";
+                }
+                return ap;
             }
-            else
+            catch (Exception ex)
             {
-                ap = "*Italic Text*";
+                this.ErrorLog(ex);
+                return null;
             }
-            return ap;
+
 
         }
         public string Strikethrough_Marked(string selectedtext)

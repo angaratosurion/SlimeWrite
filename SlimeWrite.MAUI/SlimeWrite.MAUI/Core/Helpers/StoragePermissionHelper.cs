@@ -17,6 +17,7 @@ namespace SlimeWrite.MAUI.Core.Helpers
         /// </summary>
         public static async Task<bool> CheckAndRequestStoragePermissionAsync()
         {
+            try {
 #if ANDROID
             if (Build.VERSION.SdkInt >= BuildVersionCodes.R)
             {
@@ -43,10 +44,18 @@ namespace SlimeWrite.MAUI.Core.Helpers
                 return statusRead == PermissionStatus.Granted && statusWrite == PermissionStatus.Granted;
             }
 #else
-            // Άλλες πλατφόρμες δεν απαιτούν
-            return true;
+                // Άλλες πλατφόρμες δεν απαιτούν
+                return true;
 #endif
+            }
+            catch (Exception ex)
+            {
+                MainPage.core.ErrorLog(ex);
+
+                 return false;
+            }
         }
+
 
 #if ANDROID
         /// <summary>
@@ -54,12 +63,23 @@ namespace SlimeWrite.MAUI.Core.Helpers
         /// </summary>
         public static void OpenAppSettings()
         {
+         try
+         {
             var context = Android.App.Application.Context;
             Intent intent = new Intent(Android.Provider.Settings.ActionApplicationDetailsSettings);
             intent.SetData(Android.Net.Uri.Parse($"package:{context.PackageName}"));
             intent.SetFlags(ActivityFlags.NewTask);
             context.StartActivity(intent);
+            }
+             catch (Exception ex)
+            { 
+                MainPage.core.ErrorLog(ex);
+                
+                 
+            }
         }
 #endif
+
     }
 }
+

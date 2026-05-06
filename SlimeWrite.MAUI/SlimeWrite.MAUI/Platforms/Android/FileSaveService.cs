@@ -18,48 +18,75 @@ namespace SlimeWrite.MAUI.Platforms.Android
 
         public Task<bool> SaveAsync(Stream stream, string suggestedName)
         {
-            _stream = stream;
-            _tcs = new TaskCompletionSource<(Uri, bool)>();
+            try
+            {
+                _stream = stream;
+                _tcs = new TaskCompletionSource<(Uri, bool)>();
 
-            var activity = Platform.CurrentActivity;
+                var activity = Platform.CurrentActivity;
 
-            var intent = new Intent(Intent.ActionCreateDocument);
-            intent.AddCategory(Intent.CategoryOpenable);
-            intent.SetType("*/*");
-            intent.PutExtra(Intent.ExtraTitle, suggestedName);
+                var intent = new Intent(Intent.ActionCreateDocument);
+                intent.AddCategory(Intent.CategoryOpenable);
+                intent.SetType("*/*");
+                intent.PutExtra(Intent.ExtraTitle, suggestedName);
 
-            activity.StartActivityForResult(intent, RequestCode);
+                activity.StartActivityForResult(intent, RequestCode);
 
-            return WaitForResult();
+                return WaitForResult();
+            }
+            catch (Exception ex)
+            {
+                MainPage.core.ErrorLog(ex);
+
+                return null;
+            }
         }
 
         public async Task<bool> WaitForResult()
-        {
-            var result = await _tcs.Task;
+        {  try
+            {
+                var result = await _tcs.Task;
 
-            if (!result.ok || result.uri == null)
+                if (!result.ok || result.uri == null)
+                    return false;
+
+                var activity = Platform.CurrentActivity;
+
+                using var output = activity.ContentResolver.OpenOutputStream(result.uri);
+                await _stream.CopyToAsync(output);
+
+                return true;
+            
+            }
+            catch (Exception ex)
+            {
+                MainPage.core.ErrorLog(ex);
                 return false;
 
-            var activity = Platform.CurrentActivity;
-
-            using var output = activity.ContentResolver.OpenOutputStream(result.uri);
-            await _stream.CopyToAsync(output);
-
-            return true;
+            }
         }
 
         public void OnResult(int requestCode, Result resultCode, Intent data)
         {
-            if (requestCode != RequestCode)
-                return;
+            try
+            {
+                if (requestCode != RequestCode)
+                    return;
 
-            if (resultCode == Result.Ok && data?.Data != null)
-            {
-                _tcs.TrySetResult((data.Data, true));
+                if (resultCode == Result.Ok && data?.Data != null)
+                {
+                    _tcs.TrySetResult((data.Data, true));
+                }
+                else
+                {
+                    _tcs.TrySetResult((null, false));
+                }
             }
-            else
+            catch (Exception ex)
             {
-                _tcs.TrySetResult((null, false));
+                MainPage.core.ErrorLog(ex);
+
+                
             }
         }
     }

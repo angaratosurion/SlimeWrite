@@ -11,17 +11,26 @@ public partial class About : ContentPage
     AppInfo appInfo;
     public About()
     {
-        InitializeComponent();
-        
-        appInfo = new Kernel().GetAppInfo();
+        try
+        {
+            InitializeComponent();
 
-        AppNameText.Text = appInfo.AppName;
-        VersionText.Text = $"Version {appInfo.Version}";
-        CopyRightText.Text = "© " + DateTime.Now.Year + " " + appInfo.Copyright;
-        DescriptionText.Text = appInfo.Description;
+            appInfo = new Kernel().GetAppInfo();
 
- 
-        
+            AppNameText.Text = appInfo.AppName;
+            VersionText.Text = $"Version {appInfo.Version}";
+            CopyRightText.Text = "© " + DateTime.Now.Year + " " + appInfo.Copyright;
+            DescriptionText.Text = appInfo.Description;
+        }
+        catch (Exception ex)
+        {
+            MainPage.core.ErrorLog(ex);
+
+             
+        }
+
+
+
     }
     private void WebsiteHyperlink_Click(object sender, EventArgs e)
     {
@@ -31,23 +40,33 @@ public partial class About : ContentPage
         }
         catch (Exception ex)
         {
-            //MessageBox.Show(this, $"Couldn't open thee Web Site: {ex.Message}",
-            //    "Error", MessageBoxButton.OK, MessageBoxImage.Error);
+            MainPage.core.ErrorLog(ex);
+
+            
         }
     }
 
     private void Close_Click(object sender, EventArgs e)
     {
-       // this.Navigation.PopToRootAsync();
+        try
+        {
+            // this.Navigation.PopToRootAsync();
 
-        Kernel kernel = new Kernel();
-        if (kernel.isDesktopMode())
-        {
-            WindowHelper.CloseWindow(this.Window);
+            Kernel kernel = new Kernel();
+            if (kernel.isDesktopMode())
+            {
+                WindowHelper.CloseWindow(this.Window);
+            }
+            else
+            {
+                WindowHelper.ClosePage(this);
+            }
         }
-        else
+        catch (Exception ex)
         {
-            WindowHelper.ClosePage(this);
+            MainPage.core.ErrorLog(ex);
+
+             
         }
     }
 

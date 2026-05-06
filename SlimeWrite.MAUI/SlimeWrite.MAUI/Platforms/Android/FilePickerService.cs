@@ -13,44 +13,62 @@ namespace SlimeWrite.MAUI.Core
 
         public Task<(Stream stream, string name)> PickFileAsync()
         {
-            _tcs = new TaskCompletionSource<(Stream, string)>();
+            try
+            {
+                _tcs = new TaskCompletionSource<(Stream, string)>();
 
-            var activity = Platform.CurrentActivity;
+                var activity = Platform.CurrentActivity;
 
-            var intent = new Intent(Intent.ActionOpenDocument);
-            intent.AddCategory(Intent.CategoryOpenable);
-            intent.SetType("*/*");
+                var intent = new Intent(Intent.ActionOpenDocument);
+                intent.AddCategory(Intent.CategoryOpenable);
+                intent.SetType("*/*");
 
-            activity.StartActivityForResult(intent, 1001);
+                activity.StartActivityForResult(intent, 1001);
 
-            return _tcs.Task;
+                return _tcs.Task;
+            }
+            catch (Exception ex)
+            {
+                MainPage.core.ErrorLog(ex);
+
+                return null;
+            }
         }
 
         public void OnActivityResult(int requestCode, Result resultCode, Intent data)
         {
-            if (requestCode == 1001 && resultCode == Result.Ok)
+            try
             {
-                var uri = data?.Data;
-
-                if (uri != null)
+                if (requestCode == 1001 && resultCode == Result.Ok)
                 {
-                    var activity = Platform.CurrentActivity;
-                    var stream = activity.ContentResolver.OpenInputStream(uri);
+                    var uri = data?.Data;
 
-                    string name = "file";
-
-                    var cursor = activity.ContentResolver.Query(uri, null, null, null, null);
-                    if (cursor != null && cursor.MoveToFirst())
+                    if (uri != null)
                     {
-                        int index = cursor.GetColumnIndex(OpenableColumns.DisplayName);
-                        if (index >= 0)
-                            name = cursor.GetString(index);
+                        var activity = Platform.CurrentActivity;
+                        var stream = activity.ContentResolver.OpenInputStream(uri);
 
-                        cursor.Close();
+                        string name = "file";
+
+                        var cursor = activity.ContentResolver.Query(uri, null, null, null, null);
+                        if (cursor != null && cursor.MoveToFirst())
+                        {
+                            int index = cursor.GetColumnIndex(OpenableColumns.DisplayName);
+                            if (index >= 0)
+                                name = cursor.GetString(index);
+
+                            cursor.Close();
+                        }
+
+                        _tcs.TrySetResult((stream, name));
                     }
-
-                    _tcs.TrySetResult((stream, name));
                 }
+            }
+            catch (Exception ex)
+            {
+                MainPage.core.ErrorLog(ex);
+
+                 
             }
         }
     }

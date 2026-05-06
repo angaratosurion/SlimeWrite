@@ -6,12 +6,30 @@ namespace SlimeWrite.MAUI
     {
         public App()
         {
-            InitializeComponent();
+            //try
+            //{
+                InitializeComponent();
+            //}
+            ////catch (Exception ex)
+            ////{
+            ////    MainPage.core.ErrorLog(ex);
+
+                
+            ////}
         }
 
         protected override Window CreateWindow(IActivationState? activationState)
         {
-            return new Window(new AppShell());
+            //try
+            //{
+                return new Window(new AppShell());
+            //}
+            //catch (Exception ex)
+            //{
+            //    MainPage.core.ErrorLog(ex);
+
+            //    return null;
+            //}
         }
     }
 }

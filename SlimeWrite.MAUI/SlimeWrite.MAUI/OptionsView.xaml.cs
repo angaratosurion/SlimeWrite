@@ -10,15 +10,17 @@ public partial class OptionsView : ContentPage
     Options options;
     public OptionsView()
     {
-        InitializeComponent();
-        options= core.GetOptions();
-       // this.cbxUseEnterPressedEvent.IsChecked = options.UseEnterPressed;
-        this.cbxUseTextChangedEvent.IsChecked = options.UseTextChangedEvent;
-        cmbxOrientation.SelectedIndex = options.WebViewOrientation;
-        cbxUseUpdateFromGitHub.IsChecked = options.AutoUpdateUsingGithub;
-        this.cmbxOrientation.WidthRequest = this.WidthRequest - 50;
-        this.cbxSegmentedLoading.IsChecked = options.SegmentedLoading;
-        this.txtMaxSegmentLength.Text = Convert.ToString(options.MaxSegmentLength);
+        try
+        {
+            InitializeComponent();
+            options = core.GetOptions();
+            // this.cbxUseEnterPressedEvent.IsChecked = options.UseEnterPressed;
+            this.cbxUseTextChangedEvent.IsChecked = options.UseTextChangedEvent;
+            cmbxOrientation.SelectedIndex = options.WebViewOrientation;
+            cbxUseUpdateFromGitHub.IsChecked = options.AutoUpdateUsingGithub;
+            this.cmbxOrientation.WidthRequest = this.WidthRequest - 50;
+            this.cbxSegmentedLoading.IsChecked = options.SegmentedLoading;
+            this.txtMaxSegmentLength.Text = Convert.ToString(options.MaxSegmentLength);
 #if ANDROID
         this.btnSetPerimitions.IsVisible = true;
           
@@ -27,71 +29,105 @@ public partial class OptionsView : ContentPage
 
 
 #if DEBUG
-        this.cmbxOrientation.IsVisible = true;
-        this.lblOriantation.IsVisible = true;
-         this.stLayoutCloseandSave.Margin = new Thickness(50, 0, 0, 0);
-        if (core.isDesktopMode())
-        {
-            this.HeightRequest = 300;
-        }
-        else
-        {
-            this.HeightRequest = new GridLength(500,
-                GridUnitType.Star).Value;
-        }
+            this.cmbxOrientation.IsVisible = true;
+            this.lblOriantation.IsVisible = true;
+            this.stLayoutCloseandSave.Margin = new Thickness(50, 0, 0, 0);
+            if (core.isDesktopMode())
+            {
+                this.HeightRequest = 300;
+            }
+            else
+            {
+                this.HeightRequest = new GridLength(500,
+                    GridUnitType.Star).Value;
+            }
 
 
 #endif
+        }
+        catch (Exception ex)
+        {
+            MainPage.core.ErrorLog(ex);
+
+             
+        }
 
     }
 
     private void Close_Click(object sender, EventArgs e)
     {
-        Kernel kernel = new Kernel();
-        if (kernel.isDesktopMode())
+        try
         {
-            WindowHelper.CloseWindow(this.Window);
+            Kernel kernel = new Kernel();
+            if (kernel.isDesktopMode())
+            {
+                WindowHelper.CloseWindow(this.Window);
+            }
+            else
+            {
+                WindowHelper.ClosePage(this);
+            }
         }
-        else
+        catch (Exception ex)
         {
-            WindowHelper.ClosePage(this);
+            MainPage.core.ErrorLog(ex);
+
+            
         }
     }
     private void Save_Click(object sender, EventArgs e)
     {
-         if (options == null)
+        try
         {
-            options = new Options();
+            if (options == null)
+            {
+                options = new Options();
+            }
+
+            // options.UseEnterPressed = this.cbxUseEnterPressedEvent.IsChecked  ;
+            options.UseTextChangedEvent = this.cbxUseTextChangedEvent.IsChecked;
+            options.AutoUpdateUsingGithub = this.cbxUseUpdateFromGitHub.IsChecked;
+            options.WebViewOrientation = cmbxOrientation.SelectedIndex;
+            options.SegmentedLoading = this.cbxSegmentedLoading.IsChecked;
+            options.MaxSegmentLength = int.Parse(this.txtMaxSegmentLength.Text);
+            core.SaveOptions(options);
+            //  WindowHelper.CloseWindow(this.Window);
+            Kernel kernel = new Kernel();
+            if (kernel.isDesktopMode())
+            {
+                WindowHelper.CloseWindow(this.Window);
+            }
+            else
+            {
+                WindowHelper.ClosePage(this);
+            }
+            //Close();
         }
-          
-        // options.UseEnterPressed = this.cbxUseEnterPressedEvent.IsChecked  ;
-        options.UseTextChangedEvent = this.cbxUseTextChangedEvent.IsChecked  ;
-        options.AutoUpdateUsingGithub = this.cbxUseUpdateFromGitHub.IsChecked;
-        options.WebViewOrientation = cmbxOrientation.SelectedIndex;
-        options.SegmentedLoading = this.cbxSegmentedLoading.IsChecked;
-         options.MaxSegmentLength = int.Parse(this.txtMaxSegmentLength.Text);
-        core.SaveOptions(options);
-        //  WindowHelper.CloseWindow(this.Window);
-        Kernel kernel = new Kernel();
-        if (kernel.isDesktopMode())
+        catch (Exception ex)
         {
-            WindowHelper.CloseWindow(this.Window);
+            MainPage.core.ErrorLog(ex);
+
+            
         }
-        else
-        {
-            WindowHelper.ClosePage(this);
-        }
-        //Close();
     }
 
     private void btnSetPerimitions_Clicked(object sender, EventArgs e)
     {
-        bool granted = StoragePermissionHelper.CheckAndRequestStoragePermissionAsync().Result;
-        if (!granted)
+        try
         {
-            // Ενημέρωση χρήστη για την ανάγκη άδειας
-            DisplayAlert("Permission Required", "Storage access is required to open and save files.", "OK");
-            // StoragePermissionHelper.OpenAppSettings();
+            bool granted = StoragePermissionHelper.CheckAndRequestStoragePermissionAsync().Result;
+            if (!granted)
+            {
+                // Ενημέρωση χρήστη για την ανάγκη άδειας
+                DisplayAlert("Permission Required", "Storage access is required to open and save files.", "OK");
+                // StoragePermissionHelper.OpenAppSettings();
+            }
+        }
+        catch (Exception ex)
+        {
+            MainPage.core.ErrorLog(ex);
+
+           // return null;
         }
 
     }

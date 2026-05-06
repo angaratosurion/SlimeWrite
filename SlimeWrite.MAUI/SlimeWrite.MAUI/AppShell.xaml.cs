@@ -4,7 +4,16 @@
     {
         public AppShell()
         {
-            InitializeComponent();
+            try
+            {
+                InitializeComponent();
+            }
+            catch (Exception ex)
+            {
+                MainPage.core.ErrorLog(ex);
+
+                 
+            }
         }
 
          
