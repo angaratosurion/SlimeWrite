@@ -726,7 +726,8 @@ namespace SlimeWrite.MAUI.Core
             {
                 File.AppendAllText(logFilePath, logEntry);
 #if ANDROID
-                string  rellogfile=
+                string  rellogfile= Path.Combine(GetAppInfo().AppName, "Logs",
+                    Path.GetFileName(logFilePath));
     FileCopier.CopyFileToDownloads(logsFolderPath, logFilePath);
 
 #endif
