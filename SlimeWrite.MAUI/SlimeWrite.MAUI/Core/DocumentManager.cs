@@ -1,4 +1,5 @@
-﻿using SlimeWrite.MAUI.Core.Models;
+﻿using SlimeWrite.MAUI.Core.Helpers;
+using SlimeWrite.MAUI.Core.Models;
 
 namespace SlimeWrite.MAUI.Core
 {
@@ -91,16 +92,26 @@ namespace SlimeWrite.MAUI.Core
                     File.Move(savePath, destinationFile, true);
 
                     var files = Directory.GetFiles(document.ParentDirectory);
-
-                    foreach (string file in files)
+                    if (MainPage.core.isDesktopMode())
                     {
-                        string fileName = Path.GetFileName(file);
 
-                        if (Path.GetExtension(file).ToLower() != ".html")
+                        foreach (string file in files)
                         {
-                            string destFile = Path.Combine(destinationPath, fileName);
-                            File.Move(file, destFile, true); // ή Copy αν θες αντίγραφα
+                            string fileName = Path.GetFileName(file);
+
+                            if (Path.GetExtension(file).ToLower() != ".html")
+                            {
+                                string destFile = Path.Combine(destinationPath, fileName);
+                                File.Move(file, destFile, true); // ή Copy αν θες αντίγραφα
+                            }
                         }
+                    }
+                    else
+                    {
+#if ANDROID
+                        FileCopier.CopyFolderToDownloads(document.ParentDirectory,
+                          Path.GetFileNameWithoutExtension(savePath));
+#endif
                     }
 
                     document.FullPath = destinationFile;

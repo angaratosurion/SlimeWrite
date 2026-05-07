@@ -29,18 +29,20 @@ public partial class OptionsView : ContentPage
 
 
 #if DEBUG
-            this.cmbxOrientation.IsVisible = true;
+           /* this.cmbxOrientation.IsVisible = true;
             this.lblOriantation.IsVisible = true;
             this.stLayoutCloseandSave.Margin = new Thickness(50, 0, 0, 0);
             if (core.isDesktopMode())
             {
-                this.HeightRequest = 300;
+                this.HeightRequest = 300*5;
             }
             else
             {
-                this.HeightRequest = new GridLength(500,
+                this.HeightRequest = new GridLength(500*2,
                     GridUnitType.Star).Value;
             }
+
+            */
 
 
 #endif

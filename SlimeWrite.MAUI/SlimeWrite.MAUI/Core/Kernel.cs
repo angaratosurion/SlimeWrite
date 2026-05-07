@@ -6,6 +6,8 @@ using System.Text;
 using System.Text.Json;
 using AppInfo = SlimeWrite.MAUI.Core.Models.AppInfo;
 using Environment = System.Environment;
+using SlimeWrite.MAUI.Core.Helpers;
+
 
 #if ANDROID
 
@@ -643,12 +645,14 @@ namespace SlimeWrite.MAUI.Core
 #if ANDROID
 
 
-                    string apppath = Path.Combine(Android.OS.Environment.ExternalStorageDirectory.
-                        AbsolutePath,
-                        appname);
+                    string apppath = this.GetAppdataPath();
 
 
                     ap = Path.Combine(apppath, "Logs");
+                    if (Directory.Exists(ap) == false)
+                    {
+                        Directory.CreateDirectory(ap);
+                    }
 #endif
 
                 }
@@ -721,6 +725,11 @@ namespace SlimeWrite.MAUI.Core
             try
             {
                 File.AppendAllText(logFilePath, logEntry);
+#if ANDROID
+                string  rellogfile=
+    FileCopier.CopyFileToDownloads(logsFolderPath, logFilePath);
+
+#endif
             }
             catch (Exception logEx)
             {
