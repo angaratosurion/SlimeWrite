@@ -25,6 +25,15 @@ namespace SlimeWrite.MAUI
 #if ANDROID
             builder.Services.AddSingleton<IFilePickerService, FilePickerService>();
             builder.Services.AddSingleton<FileSaveService>();
+            AppDomain.CurrentDomain.UnhandledException += (s, e) =>
+{
+    Android.Util.Log.Error("CRASH", e.ExceptionObject.ToString());
+};
+
+TaskScheduler.UnobservedTaskException += (s, e) =>
+{
+    Android.Util.Log.Error("TASK", e.Exception.ToString());
+};
 #endif
 
 #if DEBUG
@@ -40,5 +49,6 @@ namespace SlimeWrite.MAUI
                 return null;
             }
         }
+
     }
 }

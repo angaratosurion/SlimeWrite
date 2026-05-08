@@ -12,6 +12,11 @@
 
     <ApplicationTitle>SlimeWrite.MAUI</ApplicationTitle>
     <ApplicationId>com.angaratosurion.slimewrite.maui</ApplicationId>
+    <PublishTrimmed>false</PublishTrimmed>
+    <RunAOTCompilation>false</RunAOTCompilation>
+    <EnableLLVM>false</EnableLLVM>
+    <AndroidLinkMode>None</AndroidLinkMode>
+  <EmbedAssembliesIntoApk>true</EmbedAssembliesIntoApk>
     <!--
     <ApplicationDisplayVersion>$(AssemblyVersion)</ApplicationDisplayVersion>
     <ApplicationVersion>$(AssemblyVersion)</ApplicationVersion>-->
