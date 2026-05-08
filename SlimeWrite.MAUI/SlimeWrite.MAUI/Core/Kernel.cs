@@ -200,20 +200,7 @@ namespace SlimeWrite.MAUI.Core
 
             //return file;
         }
-        public void SaveFile(string filename, string content)
-        {
-
-            try
-            {
-                File.WriteAllText(filename, content, Encoding.UTF8);
-            }
-            catch (Exception ex)
-            {
-                this.ErrorLog(ex);
-                //return null;
-            }
-
-        }
+        
         public string H1_Marked(string selectedtext)
         {
             try
@@ -724,10 +711,16 @@ namespace SlimeWrite.MAUI.Core
             string logEntry = $"[{DateTime.Now:ddd/MM/yyyy HH:mm:ss}] {ex.ToString()}\n";
             try
             {
+               
                 File.AppendAllText(logFilePath, logEntry);
 #if ANDROID
-                string  rellogfile= Path.Combine(GetAppInfo().AppName, "Logs",
-                    Path.GetFileName(logFilePath));
+                //string  rellogfile= Path.Combine(GetAppInfo().AppName, "Logs",
+                //    Path.GetFileName(logFilePath));
+                //    string relogdir = Path.GetDirectoryName(rellogfile);
+                //     if (Directory.Exists(relogdir) == false)
+                //     {
+                //        Directory.CreateDirectory(relogdir);
+                //     }
     FileCopier.CopyFileToDownloads(logsFolderPath, logFilePath);
 
 #endif

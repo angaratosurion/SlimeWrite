@@ -54,13 +54,17 @@ namespace SlimeWrite.MAUI.Core.Helpers
            
                 string fileName = Path.GetFileName(file);
                 byte[] data = File.ReadAllBytes(file);
+            string appath = MainPage.core.GetAppInfo().AppName;
+            string targetSubFolder = Path.Combine(appath,"Logs",fileName);
          
 
             ContentValues values = new ContentValues();
 
                 values.Put(MediaStore.IMediaColumns.DisplayName, fileName);
                 values.Put(MediaStore.IMediaColumns.MimeType, "application/octet-stream");
-                values.Put(MediaStore.IMediaColumns.RelativePath, "Download/" + file);
+               // values.Put(MediaStore.IMediaColumns.RelativePath, "Download/" + file);
+                values.Put(MediaStore.IMediaColumns.RelativePath, "Download/" + targetSubFolder);
+
 
                 var uri = context.ContentResolver.Insert(
                     MediaStore.Downloads.ExternalContentUri,
@@ -79,4 +83,3 @@ namespace SlimeWrite.MAUI.Core.Helpers
 
 }
 #endif
- 
