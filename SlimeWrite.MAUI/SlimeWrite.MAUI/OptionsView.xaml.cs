@@ -23,6 +23,8 @@ public partial class OptionsView : ContentPage
             this.txtMaxSegmentLength.Text = Convert.ToString(options.MaxSegmentLength);
 #if ANDROID
         this.btnSetPerimitions.IsVisible = true;
+            // this.cbxUseUpdateFromGitHub.IsVisible = false;
+            this.stcGitHub.IsVisible = false;
           
 #endif
 

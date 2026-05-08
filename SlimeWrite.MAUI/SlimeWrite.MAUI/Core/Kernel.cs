@@ -35,14 +35,26 @@ namespace SlimeWrite.MAUI.Core
                     }
                 }
                 else
-                {
-                    options = new Options
+                {  if (isDesktopMode())
                     {
-                        UseTextChangedEvent = true,
-                        UseEnterPressed = false,
-                        WebViewOrientation = 1,
-                        AutoUpdateUsingGithub = true
-                    };
+                        options = new Options
+                        {
+                            UseTextChangedEvent = true,
+                            UseEnterPressed = false,
+                            WebViewOrientation = 1,
+                            AutoUpdateUsingGithub = true
+                        };
+                    }
+                else
+                    {
+                        options = new Options
+                        {
+                            UseTextChangedEvent = true,
+                            UseEnterPressed = false,
+                            WebViewOrientation = 1,
+                            AutoUpdateUsingGithub = false
+                        };
+                    }
                 }
                 this.SaveOptions(options);
                 return options;
