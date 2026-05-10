@@ -1,0 +1,95 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="SlimeWrite.MainPage" SizeChanged="ContentPage_SizeChanged"
+             Loaded="ContentPage_Loaded" Unloaded="ContentPage_Unloaded" 
+             Appearing="ContentPage_Appearing" 
+              >
+    <VerticalStackLayout Spacing="0">
+        <!-- TOOLBAR -->
+        <ScrollView Orientation="Vertical">
+            <FlexLayout 
+        Wrap="Wrap"
+        Direction="Row"
+        JustifyContent="Start"
+        AlignItems="Start"
+        Padding="5">
+
+                <!-- File -->
+                <ImageButton Source="newfile.png" WidthRequest="40" HeightRequest="40" Clicked="New_Clicked"/>
+                <ImageButton Source="openfile.png" WidthRequest="40" HeightRequest="40" Clicked="Open_Clicked"/>
+                <ImageButton Source="savefile.png" WidthRequest="40" HeightRequest="40" Clicked="Save_Clicked"/>
+                <ImageButton Source="closefile.png" WidthRequest="40" HeightRequest="40" Clicked="Close_Clicked"/>
+
+                <!-- Headings -->
+                <ImageButton Source="h1.png" WidthRequest="40" HeightRequest="40" Clicked="H1_Clicked"/>
+                <ImageButton Source="h2.png" WidthRequest="40" HeightRequest="40" Clicked="H2_Clicked"/>
+
+                <!-- Formatting -->
+                <ImageButton Source="bold.png" WidthRequest="40" HeightRequest="40" Clicked="Bold_Clicked"/>
+                <ImageButton Source="italic.png" WidthRequest="40" HeightRequest="40" Clicked="Italic_Clicked"/>
+
+                <!-- Insert -->
+                <ImageButton Source="link.png" WidthRequest="40" HeightRequest="40" Clicked="Link_Clicked"/>
+                <ImageButton Source="image.png" WidthRequest="40" HeightRequest="40" Clicked="Image_Clicked"/>
+                <ImageButton Source="list.png" WidthRequest="40" HeightRequest="40" Clicked="List_Clicked"/>
+                <ImageButton Source="table.png" WidthRequest="40" HeightRequest="40" Clicked="Table_Clicked"/>
+                <ImageButton Source="blockquote.png" WidthRequest="40" HeightRequest="40" Clicked="Quote_Clicked"/>
+
+                <!-- Extras -->
+                <ImageButton Source="fileproperties.png" WidthRequest="40" HeightRequest="40" Clicked="InserFilepropps_Click"/>
+
+                <Button Text="Options" Clicked="AppOptions_Click"/>
+                <Button Text="About" Clicked="About_Click"/>
+
+            </FlexLayout>
+        </ScrollView>
+
+
+
+
+
+        <!-- Single Content child: a Grid that hosts the editor and preview sections -->
+        <Grid x:Name="MainGrid"    VerticalOptions="Fill"
+          >
+            <Grid.RowDefinitions>
+                <RowDefinition x:Name="TopRow" Height="*" />
+                <RowDefinition Height="10" />
+                <RowDefinition x:Name="BottomRow" Height="*" />
+            </Grid.RowDefinitions>
+            <!-- Editor section (top) -->
+            <ScrollView Grid.Row="0" HorizontalScrollBarVisibility="Always"
+                    VerticalScrollBarVisibility="Always" 
+                    x:Name="scrollview"
+                     >
+                <!--<StackLayout Grid.Row="0" >-->
+                <Editor x:Name="editor" Margin="4"  
+                    VerticalOptions="Fill"
+                HorizontalOptions="Fill" IsSpellCheckEnabled="True"
+                        IsTextPredictionEnabled="True"   
+                        />
+                <!-- </StackLayout>-->
+            </ScrollView>
+            <!-- Splitter -->
+            <BoxView Grid.Row="1" BackgroundColor="DarkGray"
+                 HorizontalOptions="Fill"
+                 VerticalOptions="Fill" x:Name="spliter"
+                >
+                <BoxView.GestureRecognizers>
+                    <PanGestureRecognizer PanUpdated="OnPanUpdated"/>
+
+                </BoxView.GestureRecognizers>
+
+            </BoxView>
+
+            <!-- Preview section (bottom) -->
+            <ScrollView Grid.Row="2">
+                <StackLayout>
+                    <WebView x:Name="preview" Margin="4"   MinimumHeightRequest="300" 
+                         WidthRequest="500" VerticalOptions="Fill"
+                HorizontalOptions="Fill" />
+                </StackLayout>
+            </ScrollView>
+        </Grid>
+    </VerticalStackLayout>
+</ContentPage>

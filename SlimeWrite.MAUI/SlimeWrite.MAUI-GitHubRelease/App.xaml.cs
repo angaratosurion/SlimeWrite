@@ -1,1 +1,0 @@
-D:/CloudFolder/NextCloud/MyPrograms/dotNet/OpenSource/SlimeWrite/SlimeWrite.MAUI/SlimeWrite.MAUI/App.xaml.cs
