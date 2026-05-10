@@ -80,6 +80,7 @@ namespace SlimeWrite.Core
 
             try
             {
+#if WINDOWS
                 if (Directory.Exists(document.ParentDirectory) && stream != null)
                 {
                     string destinationPath = Path.Combine(
@@ -106,19 +107,24 @@ namespace SlimeWrite.Core
                             }
                         }
                     }
-                    else
+                    document.FullPath = destinationFile;
+                    document.ParentDirectory = destinationPath;
+                    document.Name = Path.GetFileName(destinationFile);
+
+                }
+#endif
+                   // else
                     {
 #if ANDROID
                         FileCopier.CopyFolderToDownloads(document.ParentDirectory,
                           Path.GetFileNameWithoutExtension(savePath));
 #endif
-                    }
+                   // }
 
-                    document.FullPath = destinationFile;
-                    document.ParentDirectory = destinationPath;
-                    document.Name = Path.GetFileName(destinationFile);
+                    
                 }
             }
+
             catch (Exception ex)
             {
                 MainPage.core.ErrorLog(ex);
