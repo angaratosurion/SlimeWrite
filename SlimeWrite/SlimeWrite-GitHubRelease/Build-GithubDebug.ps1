@@ -23,8 +23,8 @@ $targets = @(
     "net10.0",
     "net10.0-android",
     "net10.0-ios",
-    "net10.0-maccatalyst",
-    "net10.0-windows10.0.19041.0"
+    "net10.0-maccatalyst"#,
+    #"net10.0-windows10.0.19041.0"
 )
 
 # Build για κάθε target
