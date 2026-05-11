@@ -299,7 +299,8 @@ Environment.SetEnvironmentVariable("WEBVIEW2_USER_DATA_FOLDER", userDataFolder);
 
                 //#if WINDOWS
                 PickOptions pickOptions = new PickOptions();
-                pickOptions.FileTypes = new FilePickerFileType(new Dictionary<DevicePlatform, IEnumerable<string>>
+                pickOptions.FileTypes = new FilePickerFileType(new Dictionary<DevicePlatform, 
+                    IEnumerable<string>>
             {
                 { DevicePlatform.WinUI, new[] { ".md", ".markdown", ".smark" } },
                 { DevicePlatform.Android, new[] { "text/markdown", "text/plain" } },

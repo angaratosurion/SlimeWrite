@@ -2,6 +2,8 @@
 using Android.Content;
 using Android.OS;
 using Android.Provider;
+using SlimeWrite.Core.Models;
+
 #endif
 using System.IO;
 #if ANDROID
@@ -10,7 +12,8 @@ namespace SlimeWrite.Core.Helpers
   
     public static class FileCopier
     {
-        public static void CopyFolderToDownloads(string sourceFolder, string targetSubFolder)
+        public static void CopyFolderToDownloads(string sourceFolder, string targetSubFolder, 
+            DocumentInfo document)
         {
 
 
@@ -28,7 +31,10 @@ namespace SlimeWrite.Core.Helpers
 
                     values.Put(MediaStore.IMediaColumns.DisplayName, fileName);
                     values.Put(MediaStore.IMediaColumns.MimeType, "application/octet-stream");
-                    values.Put(MediaStore.IMediaColumns.RelativePath, "Download/" + targetSubFolder);
+                    values.Put(MediaStore.IMediaColumns.RelativePath, "Download/" + 
+                        MainPage.core.GetAppInfo().AppName +
+                    "/Docs/"
+                    + targetSubFolder);
 
                     var uri = context.ContentResolver.Insert(
                         MediaStore.Downloads.ExternalContentUri,
@@ -36,7 +42,7 @@ namespace SlimeWrite.Core.Helpers
 
                     if (uri == null)
                         continue;
-
+                    
                     using var stream = context.ContentResolver.OpenOutputStream(uri);
                     stream!.Write(data, 0, data.Length);
                 }
@@ -63,7 +69,9 @@ namespace SlimeWrite.Core.Helpers
                 values.Put(MediaStore.IMediaColumns.DisplayName, fileName);
                 values.Put(MediaStore.IMediaColumns.MimeType, "application/octet-stream");
                // values.Put(MediaStore.IMediaColumns.RelativePath, "Download/" + file);
-                values.Put(MediaStore.IMediaColumns.RelativePath, "Download/" + targetSubFolder);
+                values.Put(MediaStore.IMediaColumns.RelativePath, "Download/"+MainPage.core.GetAppInfo().AppName + 
+                    "/Docs/" 
+                    + targetSubFolder);
 
 
                 var uri = context.ContentResolver.Insert(

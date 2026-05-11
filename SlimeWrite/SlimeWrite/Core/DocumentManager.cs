@@ -1,5 +1,6 @@
 ﻿using SlimeWrite.Core.Helpers;
 using SlimeWrite.Core.Models;
+using System.Text;
 
 namespace SlimeWrite.Core
 {
@@ -116,8 +117,13 @@ namespace SlimeWrite.Core
                    // else
                     {
 #if ANDROID
-                        FileCopier.CopyFolderToDownloads(document.ParentDirectory,
-                          Path.GetFileNameWithoutExtension(savePath));
+
+                      StreamReader streamReader = new StreamReader(stream);
+                     File.WriteAllText(document.FullPath, streamReader.ReadToEnd(),Encoding.UTF8);
+                    streamReader.Close();
+                    FileCopier.CopyFolderToDownloads(document.ParentDirectory,
+                          Path.GetFileNameWithoutExtension(savePath),document);
+                    File.Delete(savePath);
 #endif
                    // }
 
