@@ -1,3 +1,5 @@
+
+dotnet nuget locals all --clear
 # File: Build-MAUI.ps1
 
 # Correct path of the .csproj

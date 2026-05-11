@@ -1,3 +1,4 @@
+dotnet nuget locals all --clear
 # Αρχείο: Build-MAUI.ps1
 
 # Σωστό path του .csproj
