@@ -42,7 +42,10 @@ namespace SlimeWrite.Core
                             UseTextChangedEvent = true,
                             UseEnterPressed = false,
                             WebViewOrientation = 1,
-                            AutoUpdateUsingGithub = true
+                            AutoUpdateUsingGithub = true,
+                            SegmentedLoading = false,
+                          
+
                         };
                     }
                 else

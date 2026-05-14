@@ -91,6 +91,12 @@
     <MauiXaml Update="CreateNewPopUp.xaml">
       <Generator>MSBuild:Compile</Generator>
     </MauiXaml>
+    <MauiXaml Update="EditAndPreview.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </MauiXaml>
+    <MauiXaml Update="EditorPreview.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </MauiXaml>
   </ItemGroup>
 
 </Project>

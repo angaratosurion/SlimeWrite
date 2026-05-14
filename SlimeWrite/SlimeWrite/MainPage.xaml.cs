@@ -20,16 +20,19 @@ namespace SlimeWrite
     public partial class MainPage : ContentPage
     {
         // string _markdown = "#Καλημέρα";
-        private readonly MarkupParser _parser;
-        private readonly HtmlRenderer _renderer;
+       
         AppInfo appInfo;
         DocumentManager documentManager = new DocumentManager();
-        DocumentInfo documentInfo;
+        
+        public static DocumentInfo ActivedocumentInfo;
 
         public static Kernel core = new Kernel();
-        double startHeight, startWidth;
+        //public MarkupParser Parser { get { return _parser; } }
+        //public HtmlRenderer Renderer { get { return _renderer; } }
 
-        static Options options = new Options
+        Editor editor;
+        WebView preview;
+      public   static Options options = new Options
         {
             //UseTextChangedEvent = true,
             //UseEnterPressed = false
@@ -51,10 +54,7 @@ namespace SlimeWrite
 
 
 
-                _parser = core.InitializeParser();
-
-                _renderer = new HtmlRenderer();
-
+               
 
                 //editor.Text = _markdown;
                 //Updatepreview(_markdown);
@@ -80,6 +80,9 @@ namespace SlimeWrite
 var userDataFolder = core.GetAppdataPath();
 Environment.SetEnvironmentVariable("WEBVIEW2_USER_DATA_FOLDER", userDataFolder);
 #endif
+                 editor =((MainPage) MainGrid.SelectedItem).Editor;
+                preview = ((MainPage)MainGrid.SelectedItem).Preview;
+                  
 
             }
             catch (Exception ex)
@@ -91,21 +94,7 @@ Environment.SetEnvironmentVariable("WEBVIEW2_USER_DATA_FOLDER", userDataFolder);
 
 
         }
-        private void editor_TextChanged(object? sender, EventArgs e)
-        {
-            try
-            {
-                //_markdown = editor.Text;//?? "";
-                editor.Text = editor.Text.Replace("\r", "\n");
-                Updatepreview(editor.Text);
-            }
-            catch (Exception ex)
-            {
-                MainPage.core.ErrorLog(ex);
-
-
-            }
-        }
+       
 
         private void ChangeWindowsTitle(string filename)
         {
@@ -127,55 +116,7 @@ Environment.SetEnvironmentVariable("WEBVIEW2_USER_DATA_FOLDER", userDataFolder);
             }
 
         }
-        async void initilizeOriantation()
-        {
-            try
-            {
-                //this.MainGrid.HeightRequest = this.Height;
-
-                switch (options.WebViewOrientation)
-                {
-
-                    case 0:
-                        {
-                            this.MainGrid.RowDefinitions.Clear();
-                            this.MainGrid.ColumnDefinitions.Add(new ColumnDefinition(GridLength.Star));
-
-
-                            this.MainGrid.ColumnDefinitions.
-                                Add(new ColumnDefinition());
-                            this.MainGrid.ColumnDefinitions.Add(new ColumnDefinition(GridLength.Star));
-                            this.MainGrid.ColumnDefinitions[1].Width = new GridLength(10);
-                            this.MainGrid.Children.Clear();
-
-                            MainGrid.SetColumn(scrollview, 0);
-                            MainGrid.SetColumn(editor, 0);
-                            MainGrid.SetColumn(preview, 2);
-                            MainGrid.SetColumn(this.spliter, 1);
-
-
-                            //this.ContentPage_SizeChanged(null, null);
-                            // this.SetGridContentSizes();
-                            break;
-
-
-                        }
-                    case 1:
-                        {
-
-                            break;
-                        }
-
-                }
-            }
-            catch (Exception ex)
-            {
-                MainPage.core.ErrorLog(ex);
-
-
-            }
-
-        }
+       
 
         // ---------------- Toolbar buttons ---------------- //
         public async void OpenFile(string filename)
@@ -264,14 +205,14 @@ Environment.SetEnvironmentVariable("WEBVIEW2_USER_DATA_FOLDER", userDataFolder);
                         var file = core.OpenFile(filename);
                         editor.Text = file;
                     }
-                    Loadeditor();
+                     
 
 
                     ChangeWindowsTitle(filename);
-                    this.documentInfo = new DocumentInfo();
-                    documentInfo.FullPath = filename;
-                    documentInfo.ParentDirectory = Path.GetDirectoryName(filename);
-                    documentInfo.Name = Path.GetFileName(filename);
+                     ActivedocumentInfo = new DocumentInfo();
+                    ActivedocumentInfo.FullPath = filename;
+                    ActivedocumentInfo.ParentDirectory = Path.GetDirectoryName(filename);
+                    ActivedocumentInfo.Name = Path.GetFileName(filename);
                     //Updatepreview(editor.Text);
                     //editor.TextChanged += editor_TextChanged;
 
@@ -307,18 +248,18 @@ Environment.SetEnvironmentVariable("WEBVIEW2_USER_DATA_FOLDER", userDataFolder);
                 { DevicePlatform.iOS, new[] { "public.plain-text", "net.daringfireball.markdown" } },
                 { DevicePlatform.MacCatalyst, new[] { "public.plain-text", "net.daringfireball.markdown" } }
             });
-                var res = await FileSaver.Default.SaveAsync(documentInfo.FullPath, stream);
+                var res = await FileSaver.Default.SaveAsync(ActivedocumentInfo.FullPath, stream);
                 // var res = await FilePicker.Default.PickAsync(pickOptions);
                 if (res != null)
                 {
                     // core.SaveFile(res.FileName, editor.Text);
-                    documentManager.SaveDocument(documentInfo, res.FilePath, stream);
+                    documentManager.SaveDocument(ActivedocumentInfo, res.FilePath, stream);
                     //documentInfo.FullPath = res.FullPath;
                     //documentInfo.ParentDirectory = Path.GetDirectoryName(res.FullPath);
                     //documentInfo.Name = Path.GetFileName(res.FullPath);
 
                     ChangeWindowsTitle(res.FilePath);
-                    var doc = documentInfo;
+                    var doc = ActivedocumentInfo;
 
                 }
                 streamWriter.Close();
@@ -351,7 +292,7 @@ Environment.SetEnvironmentVariable("WEBVIEW2_USER_DATA_FOLDER", userDataFolder);
         {
             try
             {
-
+                MainGrid.Children.Add(new MainPage());
                 editor.Text = "";
                 var popup = new CreateNewDocumentPopUp();
 
@@ -365,8 +306,8 @@ Environment.SetEnvironmentVariable("WEBVIEW2_USER_DATA_FOLDER", userDataFolder);
 
 
 
-                    documentInfo = documentManager.CreateNewDocument(folderName);
-                    ChangeWindowsTitle(documentInfo.Name);
+                    ActivedocumentInfo = documentManager.CreateNewDocument(folderName);
+                    ChangeWindowsTitle(ActivedocumentInfo.Name);
 
                 }
             }
@@ -435,8 +376,8 @@ Environment.SetEnvironmentVariable("WEBVIEW2_USER_DATA_FOLDER", userDataFolder);
 
                 editor.Text = "";
                 ChangeWindowsTitle(null);
-                documentManager.CloseDocument(documentInfo);
-                documentInfo = null;
+                documentManager.CloseDocument(ActivedocumentInfo);
+                ActivedocumentInfo = null;
             }
             catch (Exception ex)
             {
@@ -600,7 +541,7 @@ Environment.SetEnvironmentVariable("WEBVIEW2_USER_DATA_FOLDER", userDataFolder);
 
 
                 }
-                editor.Text += core.Image_Marked(null, imagename, documentInfo);
+                editor.Text += core.Image_Marked(null, imagename, ActivedocumentInfo);
             }
             catch (Exception ex)
             {
@@ -716,209 +657,14 @@ Environment.SetEnvironmentVariable("WEBVIEW2_USER_DATA_FOLDER", userDataFolder);
 
             }
         }
-        private void Loadeditor()
-        {
-            try
-            {
-
-
-
-                // Syntax highlighting for C#
-                //editor.ConfigurationManager.Language = "cs";\
-                //editor.Font = new System.Drawing.Font("Consolas", 16);
-
-                // Faster for large files
-                ///this.editor.HeightRequest = this.Height - preview.Height;
-                //this.editor.AutoSize = EditorAutoSizeOption.TextChanges;
-
-
-                if (options.UseTextChangedEvent)
-                {
-                    editor.TextChanged += editor_TextChanged;
-                }
-                if (options.UseEnterPressed)
-                {
-
-                    //editor.KeyDown += editor_KeyDown;
-                }
-            }
-            catch (Exception ex)
-            {
-                MainPage.core.ErrorLog(ex);
-
-
-            }
-        }
-
-
-
-        private void editor_KeyDown(object? sender, TextChangedEventArgs e)
-        {
-            try
-            {
-                //if (e == Key.Enter)
-                {
-                    //_markdown = editor.Text;//?? "";
-                    Updatepreview(editor.Text);
-                }
-            }
-            catch (Exception ex)
-            {
-                MainPage.core.ErrorLog(ex);
-
-
-            }
-        }
-
-        private async void Updatepreview(string markdown)
-        {
-            try
-            {
-                var md = _parser.Parse(markdown);
-                if (md != null && markdown != "")
-                {
-
-
-                    var html = "<html>\r\n<head>\r\n <meta charset=\"UTF-8\" /></head><style>\r\n                        " +
-                        "body {\r\n    color:black; }  </style>" +
-                        " <body>" +
-                        _renderer.Render(md) + "</body>\r\n</html>";
-
-
-
-                    // await preview.EnsureCoreWebView2Async(env);
-
-                    //  preview.NavigateToString(html);
-                    NavigateToStringFile(html);
-                }
-            }
-            catch (Exception ex)
-            {
-                MainPage.core.ErrorLog(ex);
-
-
-            }
-
-        }
-
-        async void NavigateToStringFile(string html)
-        {
-            try
-            {
-                string appname = appInfo.AppName;
-                string file = "";
-                if (documentInfo != null)
-                {
-                    file = Path.Combine(documentInfo.ParentDirectory, "output.html");
-                }
-                else
-                {
-                    file = Path.Combine(core.GetTempfolderPath(),
-                      "output.html");
-                }
-
-                File.WriteAllText(file, html);
-                if (preview != null)
-                {
-
-                    preview.Source = file;
-
-
-#if ANDROID
-                        preview.Dispatcher.Dispatch(() =>
-                            {
-
-                                try
-                                {
-                                    Android.Webkit.WebView web = preview.Handler.PlatformView as Android.Webkit.WebView;
-                                    web.Settings.AllowFileAccess = true;
-                                    web.LoadUrl($"file://{file}");
-                                }
-                                catch (Exception ex)
-                                {
-                                }
-                            });
-#endif
-
-
-                }
-
-
-            }
-            catch (Exception ex)
-            {
-                MainPage.core.ErrorLog(ex);
-
-
-
-
-            }
-
-
-
-
-
-        }
-        void SetGridContentSizes()
-        {
-            try
-            {
-                double editorandpreviewheight = this.Height / 2;
-                double editorandpreviewwidth = this.Width / 2;
-                this.MainGrid.HeightRequest = this.Height;
-                this.MainGrid.WidthRequest = this.Width;
-
-                if (options.WebViewOrientation == 1)
-                {
-                    if (editor.Height <= editorandpreviewheight)
-                    {
-                        this.preview.HeightRequest = this.Height / 2;
-
-                        this.editor.HeightRequest = this.Height / 2;
-
-                    }
-                    else
-                    {
-                        this.preview.HeightRequest = this.TopRow.Height.Value;
-
-                        this.editor.HeightRequest = this.BottomRow.Height.Value; ;
-
-                    }
-                    this.preview.WidthRequest = this.Width;
-                    this.editor.WidthRequest = this.Width; ; ;
-                }
-                else
-                {
-                    if (editor.Width <= editorandpreviewwidth)
-                    {
-                        this.preview.WidthRequest = this.MainGrid.Width / 2;
-
-                        this.editor.WidthRequest = this.MainGrid.Width / 2;
-                    }
-                    else
-                    {
-                        this.preview.WidthRequest = this.MainGrid.Width / 2;
-
-                        this.editor.WidthRequest = this.MainGrid.Width / 2;
-                    }
-                    this.preview.HeightRequest = this.Height / 2;
-                    this.editor.HeightRequest = this.Height / 2;
-
-                }
-            }
-            catch (Exception ex)
-            {
-                MainPage.core.ErrorLog(ex);
-
-
-            }
-        }
+     
+       
 
         private void ContentPage_SizeChanged(object sender, EventArgs e)
         {
             try
             {
-                this.SetGridContentSizes();
+                this.EditorPreview.SetGridContentSizes();
             }
             catch (Exception ex)
             {
@@ -963,22 +709,11 @@ Environment.SetEnvironmentVariable("WEBVIEW2_USER_DATA_FOLDER", userDataFolder);
             }
         }
 
-        private void ContentPage_Appearing(object sender, EventArgs e)
+        private void MainGrid_CurrentPageChanged(object sender, EventArgs e)
         {
-            base.OnAppearing();
-
             try
             {
-                Loadeditor();
-                initilizeOriantation();
-                string[] args = Environment.GetCommandLineArgs();
-                //if (args.Length > 1)
-                //{
-                //    OpenFile(args[1]);
-                //}
-
-                /*  if (editor != null)
-                      editor.Text = _markdown;*/
+                ActivedocumentInfo = (EditorPreview).DocumentInfo;
             }
             catch (Exception ex)
             {
@@ -986,70 +721,6 @@ Environment.SetEnvironmentVariable("WEBVIEW2_USER_DATA_FOLDER", userDataFolder);
 
 
             }
-
-        }
-
-        void OnPanUpdated(object sender, PanUpdatedEventArgs e)
-        {
-            try
-            {
-                if (options.WebViewOrientation == 1)
-                {
-
-                    switch (e.StatusType)
-                    {
-                        case GestureStatus.Started:
-
-                            startHeight = TopRow.Height.Value;
-                            break;
-
-                        case GestureStatus.Running:
-                            double newHeight = startHeight + e.TotalY;
-
-                            if (newHeight < 50) newHeight = 50;
-                            if (newHeight > MainGrid.Height - 50) newHeight = MainGrid.Height - 50;
-
-                            TopRow.Height = new GridLength(newHeight, GridUnitType.Absolute);
-                            BottomRow.Height =
-                                new GridLength(MainGrid.Height - newHeight - 5, GridUnitType.Absolute);
-                            break;
-                    }
-                    this.editor.HeightRequest = this.TopRow.Height.Value;
-                    this.preview.HeightRequest = this.BottomRow.Height.Value;
-
-                }
-                else
-                {
-
-                    switch (e.StatusType)
-                    {
-                        case GestureStatus.Started:
-                            startWidth = MainGrid.ColumnDefinitions[0].Width.Value;
-                            break;
-                        case GestureStatus.Running:
-                            double newWidth = startWidth + e.TotalX;
-                            if (newWidth < 50) newWidth = 50;
-                            if (newWidth > MainGrid.Width - 50) newWidth = MainGrid.Width - 50;
-                            MainGrid.ColumnDefinitions[0].Width =
-                                new GridLength(newWidth, GridUnitType.Absolute);
-                            MainGrid.ColumnDefinitions[2].Width =
-                                new GridLength(MainGrid.Width - newWidth - 5, GridUnitType.Absolute);
-                            break;
-                    }
-                    this.editor.WidthRequest = this.MainGrid.ColumnDefinitions[2].Width.Value;
-                    this.preview.WidthRequest = this.MainGrid.ColumnDefinitions[0].Width.Value;
-                }
-                startHeight = 0;
-                startWidth = 0;
-            }
-            catch (Exception ex)
-            {
-                MainPage.core.ErrorLog(ex);
-
-
-            }
-
-
         }
     }
 }

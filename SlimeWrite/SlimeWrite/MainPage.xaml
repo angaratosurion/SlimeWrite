@@ -1,9 +1,10 @@
 ﻿<?xml version="1.0" encoding="utf-8" ?>
 <ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
              xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:SlimeWrite"
              x:Class="SlimeWrite.MainPage" SizeChanged="ContentPage_SizeChanged"
              Loaded="ContentPage_Loaded" Unloaded="ContentPage_Unloaded" 
-             Appearing="ContentPage_Appearing" 
+             
               >
     <VerticalStackLayout Spacing="0">
         <!-- TOOLBAR -->
@@ -44,33 +45,36 @@
 
             </FlexLayout>
         </ScrollView>
-
+        <TabbedPage x:Name="MainGrid" CurrentPageChanged="MainGrid_CurrentPageChanged">
+            <local:EditorPreview x:Name="EditorPreview"/>
+            
+        </TabbedPage>
 
 
 
 
         <!-- Single Content child: a Grid that hosts the editor and preview sections -->
-        <Grid x:Name="MainGrid"    VerticalOptions="Fill"
+        <!--<Grid x:Name="MainGrid"    VerticalOptions="Fill"
           >
             <Grid.RowDefinitions>
                 <RowDefinition x:Name="TopRow" Height="*" />
                 <RowDefinition Height="10" />
                 <RowDefinition x:Name="BottomRow" Height="*" />
             </Grid.RowDefinitions>
-            <!-- Editor section (top) -->
+            --><!-- Editor section (top) --><!--
             <ScrollView Grid.Row="0" HorizontalScrollBarVisibility="Always"
                     VerticalScrollBarVisibility="Always" 
                     x:Name="scrollview"
                      >
-                <!--<StackLayout Grid.Row="0" >-->
+                --><!--<StackLayout Grid.Row="0" >--><!--
                 <Editor x:Name="editor" Margin="4"  
                     VerticalOptions="Fill"
                 HorizontalOptions="Fill" IsSpellCheckEnabled="True"
                         IsTextPredictionEnabled="True"   
                         />
-                <!-- </StackLayout>-->
+                --><!-- </StackLayout>--><!--
             </ScrollView>
-            <!-- Splitter -->
+            --><!-- Splitter --><!--
             <BoxView Grid.Row="1" BackgroundColor="DarkGray"
                  HorizontalOptions="Fill"
                  VerticalOptions="Fill" x:Name="spliter"
@@ -82,7 +86,7 @@
 
             </BoxView>
 
-            <!-- Preview section (bottom) -->
+            --><!-- Preview section (bottom) --><!--
             <ScrollView Grid.Row="2">
                 <StackLayout>
                     <WebView x:Name="preview" Margin="4"   MinimumHeightRequest="300" 
@@ -90,6 +94,6 @@
                 HorizontalOptions="Fill" />
                 </StackLayout>
             </ScrollView>
-        </Grid>
+        </Grid>-->
     </VerticalStackLayout>
 </ContentPage>
