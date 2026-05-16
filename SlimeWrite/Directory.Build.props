@@ -47,4 +47,7 @@
     <AndroidSigningKeyPass>serres1984</AndroidSigningKeyPass>
     <AndroidLinkMode>None</AndroidLinkMode>
   </PropertyGroup>
+  <PropertyGroup>
+    <TreatWarningsAsErrors>false</TreatWarningsAsErrors>
+  </PropertyGroup>
 </Project>
