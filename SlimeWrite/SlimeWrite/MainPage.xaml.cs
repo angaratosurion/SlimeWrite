@@ -953,6 +953,10 @@ Environment.SetEnvironmentVariable("WEBVIEW2_USER_DATA_FOLDER", userDataFolder);
             try
             {
                 core.ClearTempFolder();
+                if (documentInfo != null)
+                {
+                    documentManager.CloseDocument(documentInfo);
+                }
                 Microsoft.Maui.Controls.Application.Current.Quit();
             }
             catch (Exception ex)
@@ -987,6 +991,39 @@ Environment.SetEnvironmentVariable("WEBVIEW2_USER_DATA_FOLDER", userDataFolder);
 
             }
 
+        }
+
+        private async void ImportFile_Clicked(object sender, EventArgs e)
+        {
+            try
+            {
+                string importfile = "";
+                PickOptions fileoptions = new PickOptions
+                {
+                    PickerTitle = "Select An SlimeMarkdown File",
+
+                };
+                var res = await FilePicker.Default.PickAsync(fileoptions);
+
+
+                if (res != null)
+                {
+
+
+                    importfile = res.FullPath;
+                    editor.Text += core.IncludeFile_Marked(null, importfile, 
+                        documentInfo);
+
+
+                }
+
+            }
+            catch (Exception ex)
+            {
+                MainPage.core.ErrorLog(ex);
+
+
+            }
         }
 
         void OnPanUpdated(object sender, PanUpdatedEventArgs e)

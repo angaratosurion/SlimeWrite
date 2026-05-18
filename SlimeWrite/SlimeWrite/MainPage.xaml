@@ -34,7 +34,12 @@
                 <ImageButton Source="image.png" WidthRequest="40" HeightRequest="40" Clicked="Image_Clicked"/>
                 <ImageButton Source="list.png" WidthRequest="40" HeightRequest="40" Clicked="List_Clicked"/>
                 <ImageButton Source="table.png" WidthRequest="40" HeightRequest="40" Clicked="Table_Clicked"/>
-                <ImageButton Source="blockquote.png" WidthRequest="40" HeightRequest="40" Clicked="Quote_Clicked"/>
+                <ImageButton Source="blockquote.png" 
+                             WidthRequest="40" HeightRequest="40" 
+                             Clicked="Quote_Clicked"/>
+                <ImageButton Source="fileimport.png" 
+             WidthRequest="40" HeightRequest="40" 
+              Clicked="ImportFile_Clicked"/>
 
                 <!-- Extras -->
                 <ImageButton Source="fileproperties.png" WidthRequest="40" HeightRequest="40" Clicked="InserFilepropps_Click"/>
