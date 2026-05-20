@@ -97,7 +97,14 @@ Environment.SetEnvironmentVariable("WEBVIEW2_USER_DATA_FOLDER", userDataFolder);
             {
                 //_markdown = editor.Text;//?? "";
                 editor.Text = editor.Text.Replace("\r", "\n");
-                Updatepreview(editor.Text);
+                if (editor.Text.EndsWith("\n") && options.UseEnterPressed)
+                {
+                    Updatepreview(editor.Text);
+                }
+                else
+                {
+                    Updatepreview(editor.Text);
+                }
             }
             catch (Exception ex)
             {
@@ -736,11 +743,11 @@ Environment.SetEnvironmentVariable("WEBVIEW2_USER_DATA_FOLDER", userDataFolder);
                 {
                     editor.TextChanged += editor_TextChanged;
                 }
-                if (options.UseEnterPressed)
-                {
+                //if (options.UseEnterPressed)
+                //{
 
-                    //editor.KeyDown += editor_KeyDown;
-                }
+                //    //editor.KeyDown += editor_KeyDown;
+                //}
             }
             catch (Exception ex)
             {
@@ -809,7 +816,8 @@ Environment.SetEnvironmentVariable("WEBVIEW2_USER_DATA_FOLDER", userDataFolder);
                 string file = "";
                 if (documentInfo != null)
                 {
-                    file = Path.Combine(documentInfo.ParentDirectory, "output.html");
+                    file = Path.Combine(documentInfo.ParentDirectory,
+                        "output.html");
                 }
                 else
                 {
@@ -830,7 +838,9 @@ Environment.SetEnvironmentVariable("WEBVIEW2_USER_DATA_FOLDER", userDataFolder);
 
                                 try
                                 {
-                                    Android.Webkit.WebView web = preview.Handler.PlatformView as Android.Webkit.WebView;
+                                    Android.Webkit.WebView web = 
+                                    preview.Handler.PlatformView as 
+                                    Android.Webkit.WebView;
                                     web.Settings.AllowFileAccess = true;
                                     web.LoadUrl($"file://{file}");
                                 }
