@@ -39,8 +39,8 @@ namespace SlimeWrite.Core
                     {
                         options = new Options
                         {
-                            UseTextChangedEvent = true,
-                            UseEnterPressed = false,
+                            UseTextChangedEvent = false,
+                            UpdateOnLosingFocus = true,
                             WebViewOrientation = 1,
                             AutoUpdateUsingGithub = true,
                             SegmentedLoading = false,
@@ -52,8 +52,8 @@ namespace SlimeWrite.Core
                     {
                         options = new Options
                         {
-                            UseTextChangedEvent = true,
-                            UseEnterPressed = false,
+                            UseTextChangedEvent = !true,
+                            UpdateOnLosingFocus = !false,
                             WebViewOrientation = 1,
                             AutoUpdateUsingGithub = false
                         };

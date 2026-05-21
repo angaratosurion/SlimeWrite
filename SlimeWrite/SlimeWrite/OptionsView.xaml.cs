@@ -1,6 +1,7 @@
 using SlimeWrite.Core;
 using SlimeWrite.Core.Helpers;
 using SlimeWrite.Core.Models;
+using Windows.ApplicationModel.VoiceCommands;
 
 namespace SlimeWrite.Views;
 
@@ -14,8 +15,9 @@ public partial class OptionsView : ContentPage
         {
             InitializeComponent();
             options = core.GetOptions();
-            // this.cbxUseEnterPressedEvent.IsChecked = options.UseEnterPressed;
-            this.cbxUseTextChangedEvent.IsChecked = options.UseTextChangedEvent;
+            this.SetEventRefresh();
+            //this.cbxUseEnterPressedEvent.IsChecked = options.UseEnterPressed;
+            //this.cbxUseTextChangedEvent.IsChecked = options.UseTextChangedEvent;
             cmbxOrientation.SelectedIndex = options.WebViewOrientation;
             cbxUseUpdateFromGitHub.IsChecked = options.AutoUpdateUsingGithub;
             this.cmbxOrientation.WidthRequest = this.WidthRequest - 50;
@@ -87,9 +89,10 @@ public partial class OptionsView : ContentPage
             {
                 options = new Options();
             }
-
-            // options.UseEnterPressed = this.cbxUseEnterPressedEvent.IsChecked  ;
-            options.UseTextChangedEvent = this.cbxUseTextChangedEvent.IsChecked;
+            //this.getEventRefresh();
+            this.SetEventRefresh();
+            //options.UseEnterPressed = this.cbxUseEnterPressedEvent.IsChecked  ;
+            //options.UseTextChangedEvent = this.cbxUseTextChangedEvent.IsChecked;
             options.AutoUpdateUsingGithub = this.cbxUseUpdateFromGitHub.IsChecked;
             options.WebViewOrientation = cmbxOrientation.SelectedIndex;
             options.SegmentedLoading = this.cbxSegmentedLoading.IsChecked;
@@ -112,6 +115,58 @@ public partial class OptionsView : ContentPage
             MainPage.core.ErrorLog(ex);
 
             
+        }
+    }
+    public void SetEventRefresh()
+    {
+        try
+        {
+            if (this.cmbxEventChange.SelectedIndex == 0)
+            {
+                options.UseTextChangedEvent= true;
+                options.UpdateOnLosingFocus = false;
+            }
+            else 
+            {
+                options.UseTextChangedEvent = false;
+                options.UpdateOnLosingFocus = true;
+            }
+            
+        }
+        catch (Exception ex)
+        {
+            MainPage.core.ErrorLog(ex);
+
+        }
+    }
+    public void  getEventRefresh()
+    {
+        try
+        { 
+            if (options.UpdateOnLosingFocus && options.UseTextChangedEvent == false)
+            {
+                this.cmbxEventChange.SelectedIndex = 1;
+            }
+        else if (options.UpdateOnLosingFocus == false && options.UseTextChangedEvent)
+            {
+                this.cmbxEventChange.SelectedIndex = 1;
+            }
+            else if (options.UpdateOnLosingFocus && options.UseTextChangedEvent)
+            {
+                this.cmbxEventChange.SelectedIndex = 0;
+            }
+            else
+            {
+                this.cmbxEventChange.SelectedIndex = 0;
+            }
+        }
+
+        
+        catch (Exception ex)
+        {
+            MainPage.core.ErrorLog(ex);
+
+            // return null;
         }
     }
 

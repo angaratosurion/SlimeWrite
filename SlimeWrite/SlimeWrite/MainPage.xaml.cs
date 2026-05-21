@@ -91,20 +91,32 @@ Environment.SetEnvironmentVariable("WEBVIEW2_USER_DATA_FOLDER", userDataFolder);
 
 
         }
-        private void editor_TextChanged(object? sender, EventArgs e)
+        private void editor_TextChanged(object? sender, 
+            TextChangedEventArgs e)
         {
             try
             {
-                //_markdown = editor.Text;//?? "";
+
                 editor.Text = editor.Text.Replace("\r", "\n");
-                if (editor.Text.EndsWith("\n") && options.UseEnterPressed)
+                if (e.OldTextValue != null
+                    && e.NewTextValue != null)
                 {
-                    Updatepreview(editor.Text);
+                    if (e.NewTextValue.EndsWith("\n")
+                        && options.UpdateOnLosingFocus)
+                    {
+
+
+                        Updatepreview(editor.Text);
+
+                    }
+                    else if (options.UseTextChangedEvent)
+                    {
+                        Updatepreview(editor.Text);
+
+
+                    }
                 }
-                else
-                {
-                    Updatepreview(editor.Text);
-                }
+
             }
             catch (Exception ex)
             {
@@ -607,7 +619,8 @@ Environment.SetEnvironmentVariable("WEBVIEW2_USER_DATA_FOLDER", userDataFolder);
 
 
                 }
-                editor.Text += core.Image_Marked(null, imagename, documentInfo);
+                editor.Text += core.Image_Marked(null, 
+                    imagename, documentInfo);
             }
             catch (Exception ex)
             {
@@ -730,16 +743,10 @@ Environment.SetEnvironmentVariable("WEBVIEW2_USER_DATA_FOLDER", userDataFolder);
 
 
 
-                // Syntax highlighting for C#
-                //editor.ConfigurationManager.Language = "cs";\
-                //editor.Font = new System.Drawing.Font("Consolas", 16);
-
-                // Faster for large files
-                ///this.editor.HeightRequest = this.Height - preview.Height;
-                //this.editor.AutoSize = EditorAutoSizeOption.TextChanges;
+              
 
 
-                if (options.UseTextChangedEvent)
+               if (options.UseTextChangedEvent)
                 {
                     editor.TextChanged += editor_TextChanged;
                 }
@@ -797,6 +804,7 @@ Environment.SetEnvironmentVariable("WEBVIEW2_USER_DATA_FOLDER", userDataFolder);
 
                     //  preview.NavigateToString(html);
                     NavigateToStringFile(html);
+                     
                 }
             }
             catch (Exception ex)
@@ -1027,6 +1035,36 @@ Environment.SetEnvironmentVariable("WEBVIEW2_USER_DATA_FOLDER", userDataFolder);
 
                 }
 
+            }
+            catch (Exception ex)
+            {
+                MainPage.core.ErrorLog(ex);
+
+
+            }
+        }
+
+        private void editor_Completed(object sender, EventArgs e)
+        {
+            try
+            {
+                editor.Text = editor.Text.Replace("\r", "\n");
+                string text =((Editor)sender).Text;
+                    if (text.EndsWith("\n")
+                        && options.UpdateOnLosingFocus)
+                    {
+
+
+                        Updatepreview(editor.Text);
+
+                    }
+                    else if (options.UseTextChangedEvent)
+                    {
+                        Updatepreview(editor.Text);
+
+
+                    }
+                 
             }
             catch (Exception ex)
             {

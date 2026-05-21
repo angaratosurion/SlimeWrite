@@ -72,6 +72,7 @@
                     VerticalOptions="Fill"
                 HorizontalOptions="Fill" IsSpellCheckEnabled="True"
                         IsTextPredictionEnabled="True"   
+                        Completed="editor_Completed"
                         />
                 <!-- </StackLayout>-->
             </ScrollView>
