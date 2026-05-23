@@ -1,5 +1,4 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
-using System.Diagnostics;
 
 namespace SlimeWrite
 {
@@ -13,21 +12,10 @@ namespace SlimeWrite
             //}
             ////catch (Exception ex)
             ////{
-            ////    MainPage.core.ErrorLog(ex);
+            ////    StaticVariables.core.ErrorLog(ex);
 
-
+                
             ////}
-            AppDomain.CurrentDomain.UnhandledException += (sender, e) =>
-            {
-                // 🔴 Βάλε ένα BREAKPOINT σε αυτή τη γραμμή!
-                var exception = e.ExceptionObject as Exception;
-
-                // Αυτό θα εκτυπώσει το πραγματικό σφάλμα στο Output Window του Visual Studio
-                Debug.WriteLine($"==========================================");
-                Debug.WriteLine($"CRITICAL CROSS-PLATFORM CRASH: {exception?.Message}");
-                Debug.WriteLine($"STACK TRACE: {exception?.StackTrace}");
-                Debug.WriteLine($"==========================================");
-            };
         }
 
         protected override Window CreateWindow(IActivationState? activationState)
@@ -38,7 +26,7 @@ namespace SlimeWrite
             //}
             //catch (Exception ex)
             //{
-            //    MainPage.core.ErrorLog(ex);
+            //    StaticVariables.core.ErrorLog(ex);
 
             //    return null;
             //}

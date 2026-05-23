@@ -2,7 +2,7 @@
 using Android.Content;
 using Android.Net;
 using Microsoft.Maui.ApplicationModel;
- 
+using SlimeWrite.Core.Helpers;
 using System.Collections.Generic;
 using System.Text;
 using Uri = Android.Net.Uri;
@@ -36,7 +36,8 @@ namespace SlimeWrite.Platforms.Android
             }
             catch (Exception ex)
             {
-                MainPage.core.ErrorLog(ex);
+                
+                StaticVariables.core.ErrorLog(ex);
 
                 return null;
             }
@@ -60,7 +61,7 @@ namespace SlimeWrite.Platforms.Android
             }
             catch (Exception ex)
             {
-                MainPage.core.ErrorLog(ex);
+                StaticVariables.core.ErrorLog(ex);
                 return false;
 
             }
@@ -84,7 +85,7 @@ namespace SlimeWrite.Platforms.Android
             }
             catch (Exception ex)
             {
-                MainPage.core.ErrorLog(ex);
+                StaticVariables.core.ErrorLog(ex);
 
                 
             }

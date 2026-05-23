@@ -32,7 +32,7 @@ namespace SlimeWrite.Core.Helpers
                     values.Put(MediaStore.IMediaColumns.DisplayName, fileName);
                     values.Put(MediaStore.IMediaColumns.MimeType, "application/octet-stream");
                     values.Put(MediaStore.IMediaColumns.RelativePath, "Download/" + 
-                        MainPage.core.GetAppInfo().AppName +
+                        StaticVariables.core.GetAppInfo().AppName +
                     "/Docs/"
                     + targetSubFolder);
 
@@ -60,7 +60,7 @@ namespace SlimeWrite.Core.Helpers
            
                 string fileName = Path.GetFileName(file);
                 byte[] data = File.ReadAllBytes(file);
-            string appath = MainPage.core.GetAppInfo().AppName;
+            string appath = StaticVariables.core.GetAppInfo().AppName;
             string targetSubFolder = Path.Combine(appath,"Logs",fileName);
          
 
@@ -69,7 +69,8 @@ namespace SlimeWrite.Core.Helpers
                 values.Put(MediaStore.IMediaColumns.DisplayName, fileName);
                 values.Put(MediaStore.IMediaColumns.MimeType, "application/octet-stream");
                // values.Put(MediaStore.IMediaColumns.RelativePath, "Download/" + file);
-                values.Put(MediaStore.IMediaColumns.RelativePath, "Download/"+MainPage.core.GetAppInfo().AppName + 
+                values.Put(MediaStore.IMediaColumns.RelativePath, "Download/"+
+                    StaticVariables.core.GetAppInfo().AppName + 
                     "/Docs/" 
                     + targetSubFolder);
 

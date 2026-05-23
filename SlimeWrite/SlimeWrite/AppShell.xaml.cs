@@ -1,4 +1,6 @@
-﻿namespace SlimeWrite
+﻿using SlimeWrite.Core.Helpers;
+
+namespace SlimeWrite
 {
     public partial class AppShell : Shell
     {
@@ -10,7 +12,7 @@
             }
             catch (Exception ex)
             {
-                MainPage.core.ErrorLog(ex);
+                StaticVariables.core.ErrorLog(ex);
 
                  
             }

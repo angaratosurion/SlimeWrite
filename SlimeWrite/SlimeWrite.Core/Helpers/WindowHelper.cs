@@ -23,7 +23,7 @@ namespace SlimeWrite.Core.Helpers
 {
     public static class WindowHelper
     {
-       static Kernel core = new Kernel();
+        
         /// <summary>
         /// Κλείνει ένα δευτερεύον Window σε Windows και Android.
         /// Δεν κλείνει το κύριο <c>Window</c>.
@@ -56,7 +56,7 @@ namespace SlimeWrite.Core.Helpers
             }
             catch (Exception ex)
             {
-                MainPage.core.ErrorLog(ex);
+                StaticVariables.core.ErrorLog(ex);
 
                  
             }
@@ -72,7 +72,7 @@ namespace SlimeWrite.Core.Helpers
             }
             catch (Exception ex)
             {
-                MainPage.core.ErrorLog(ex);
+                StaticVariables.core.ErrorLog(ex);
 
                  
             }
@@ -87,7 +87,7 @@ namespace SlimeWrite.Core.Helpers
                 if (page == null)
                     return;
 
-                if (core.isDesktopMode())
+                if (StaticVariables.core.isDesktopMode())
                 {
                     var win = new Microsoft.Maui.Controls.Window(page);
                     win.IsMaximizable = IsMaximizable;
@@ -106,7 +106,7 @@ namespace SlimeWrite.Core.Helpers
             }
             catch (Exception ex)
             {
-                MainPage.core.ErrorLog(ex);
+                StaticVariables.core.ErrorLog(ex);
 
                 
             }

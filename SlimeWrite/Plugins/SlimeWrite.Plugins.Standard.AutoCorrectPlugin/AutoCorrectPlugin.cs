@@ -1,6 +1,6 @@
-﻿
-using SlimeWrite.Core.Models;
-using SlimeWrite.SDK.Interfaces;
+﻿using SlimeWrite.Core.Models;
+using SlimeWrite.Core.SDK.Interfaces;
+using System;
 
 namespace SlimeWrite.Plugins.Standard.AutoCorrectPlugin
 {
@@ -11,36 +11,34 @@ namespace SlimeWrite.Plugins.Standard.AutoCorrectPlugin
         public string Version => "1.0.0";
         public string Author => "Developer";
 
-        // Καλούνταν στο: editor_TextChanged
+        // Called in: editor_TextChanged
         public void OnEditorTextChanged(Editor editor, string oldText, string newText, Options options)
         {
-            if (string.IsNullOrEmpty(newText)) return;
+            if (string.IsNullOrEmpty(newText))
+                return;
 
-            // Παράδειγμα: Αν ο χρήστης γράψει (c), το μετατρέπει αυτόματα σε ©
+            // Example: if user types (c), convert it to ©
             if (newText.Contains("(c)"))
             {
-                // Το MainPage κλείνει προσωρινά το event, οπότε μπορούμε να αλλάξουμε το κείμενο με ασφάλεια
+                // MainPage temporarily disables event, so we can safely modify text
                 editor.Text = newText.Replace("(c)", "©");
             }
         }
 
-       
-
-        // Καλούνταν στο: OpenFile (είτε Segmented είτε Normal)
+        // Called in: OpenFile (Segmented or Normal)
         public void OnFileOpened(string filename, ref string fileContent)
         {
-            // Μπορείς να τροποποιήσεις το κείμενο που μόλις διαβάστηκε από το αρχείο
-            // Για παράδειγμα, αν το αρχείο είναι άδειο, βάλε έναν έτοιμο τίτλο
+            // Modify text right after file is loaded
             if (string.IsNullOrWhiteSpace(fileContent))
             {
-                fileContent = "# Νέο Έγγραφο Markdown\n\nΞεκινήστε να γράφετε εδώ...";
+                fileContent = "# New Markdown Document\n\nStart writing here...";
             }
         }
 
-        // Καλούνταν στο: SaveFile
+        // Called in: SaveFile
         public void OnFileSaving(string filename, ref string textToSave)
         {
-            // Προσθέτει ένα κρυφό σχόλιο Markdown με την ημερομηνία τελευταίας αποθήκευσης στο τέλος του αρχείου
+            // Add hidden markdown comment with last save timestamp
             if (!string.IsNullOrEmpty(textToSave))
             {
                 textToSave += $"\n\n<!-- Last saved on: {DateTime.Now} -->";

@@ -1,9 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Reflection;
-using System.Text;
-//#if WINDOWS
-namespace SlimeWrite.SDK.Interfaces
+using SlimeWrite.Core.SDK.Interfaces;
+
+// #if WINDOWS
+namespace SlimeWrite.Core.SDK
 {
     public class PluginManager
     {
@@ -20,13 +22,15 @@ namespace SlimeWrite.SDK.Interfaces
             {
                 try
                 {
-                    // Φόρτωση του Assembly
+                    // Load assembly
                     Assembly assembly = Assembly.LoadFrom(file);
-                    
-                    // Εύρεση των κλάσεων που υλοποιούν το ISlimePlugin
+
+                    // Find classes that implement ISlimePlugin
                     foreach (Type type in assembly.GetTypes())
                     {
-                        if (typeof(ISlimePlugin).IsAssignableFrom(type) && !type.IsInterface && !type.IsAbstract)
+                        if (typeof(ISlimePlugin).IsAssignableFrom(type) &&
+                            !type.IsInterface &&
+                            !type.IsAbstract)
                         {
                             if (Activator.CreateInstance(type) is ISlimePlugin plugin)
                             {
@@ -37,11 +41,12 @@ namespace SlimeWrite.SDK.Interfaces
                 }
                 catch (Exception ex)
                 {
-                    // Log το σφάλμα μέσω του core σου
-                    System.Diagnostics.Debug.WriteLine($"Failed to load plugin {file}: {ex.Message}");
+                    // Log error via your Core system
+                    System.Diagnostics.Debug.WriteLine(
+                        $"Failed to load plugin {file}: {ex.Message}");
                 }
             }
         }
     }
 }
-//#endif
+// #endif

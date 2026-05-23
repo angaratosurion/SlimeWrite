@@ -22,7 +22,7 @@ namespace SlimeWrite
 
         //    var service = MauiApplication.Current.Services.GetService<FileSaveService>();
         //    service?.OnResult(requestCode, resultCode, data!);
-        //    var options= MainPage.core.GetOptions();
+        //    var options= Core.GetOptions();
            
            
         //}

@@ -9,6 +9,7 @@ using Environment = System.Environment;
 using SlimeWrite.Core.Helpers;
 
 
+
 #if ANDROID
 
 using Android.OS;
@@ -39,21 +40,18 @@ namespace SlimeWrite.Core
                     {
                         options = new Options
                         {
-                            UseTextChangedEvent = false,
-                            UpdateOnLosingFocus = true,
+                            UseTextChangedEvent = true,
+                            UseEnterPressed = false,
                             WebViewOrientation = 1,
-                            AutoUpdateUsingGithub = true,
-                            SegmentedLoading = false,
-                          
-
+                            AutoUpdateUsingGithub = true
                         };
                     }
                 else
                     {
                         options = new Options
                         {
-                            UseTextChangedEvent = !true,
-                            UpdateOnLosingFocus = !false,
+                            UseTextChangedEvent = true,
+                            UseEnterPressed = false,
                             WebViewOrientation = 1,
                             AutoUpdateUsingGithub = false
                         };
@@ -549,37 +547,6 @@ namespace SlimeWrite.Core
                 else
                 {
                     ap = "\n<!-- include script: script.js -->\n";
-                }
-                return ap;
-            }
-            catch (Exception ex)
-            {
-                this.ErrorLog(ex);
-                return null;
-            }
-
-
-        }
-        public string IncludeFile_Marked(string selectedtext, string filename, 
-            DocumentInfo documentInfo)
-        {
-            try
-            {
-                string ap="", file = "";
-                //if (selectedtext != null)
-                //{
-                //    ap = selectedtext.Replace(selectedtext, "\n<!-- include :" + selectedtext + "-->\n");
-                //}
-                //else
-                //{
-                //    ap = "\n<!-- include  -->\n";
-                //}
-
-                if (documentInfo != null)
-                {
-                    this.documentManager.AddFileToDocumentParentDirectory(documentInfo, filename);
-                    file = Path.GetFileName(filename);
-                    ap = "\n<!-- include :" + file + "-->\n";
                 }
                 return ap;
             }

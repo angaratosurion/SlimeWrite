@@ -24,7 +24,7 @@ public partial class About : ContentPage
         }
         catch (Exception ex)
         {
-            MainPage.core.ErrorLog(ex);
+            StaticVariables.core.ErrorLog(ex);
 
              
         }
@@ -40,7 +40,7 @@ public partial class About : ContentPage
         }
         catch (Exception ex)
         {
-            MainPage.core.ErrorLog(ex);
+            StaticVariables.core.ErrorLog(ex);
 
             
         }
@@ -64,7 +64,7 @@ public partial class About : ContentPage
         }
         catch (Exception ex)
         {
-            MainPage.core.ErrorLog(ex);
+            StaticVariables.core.ErrorLog(ex);
 
              
         }

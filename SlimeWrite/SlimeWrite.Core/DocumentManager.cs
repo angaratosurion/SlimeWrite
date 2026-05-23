@@ -10,13 +10,14 @@ namespace SlimeWrite.Core
         public DocumentInfo CreateNewDocument(string name)
         {
             try
-            {
+            { 
                 DocumentInfo ap = new DocumentInfo();
                 if (Path.HasExtension(name))
                 {
                     string ext = Path.GetExtension(name);
                     ap.Name = name;
-                    string path = Path.Combine(MainPage.core.GetTempfolderPath(),
+                    string path = Path.Combine(StaticVariables.core.
+                        GetTempfolderPath(),
                         Path.GetFileNameWithoutExtension(name));
                     if (Directory.Exists(path))
                     {
@@ -30,7 +31,8 @@ namespace SlimeWrite.Core
                 else
                 {
                     ap.Name = name;
-                    string path = Path.Combine(MainPage.core.GetTempfolderPath(),
+                    string path = Path.Combine(StaticVariables.core.
+                        GetTempfolderPath(),
                     name);
                     if (Directory.Exists(path))
                     {
@@ -50,7 +52,7 @@ namespace SlimeWrite.Core
             }
             catch (Exception ex)
             { 
-                MainPage.core.ErrorLog(ex);
+                StaticVariables.core.ErrorLog(ex);
                 
                 return null;
             }
@@ -70,7 +72,7 @@ namespace SlimeWrite.Core
             }
             catch (Exception ex)
             {
-                MainPage.core.ErrorLog(ex);
+                StaticVariables.core.ErrorLog(ex);
 
                
             }
@@ -94,7 +96,7 @@ namespace SlimeWrite.Core
                     File.Move(savePath, destinationFile, true);
 
                     var files = Directory.GetFiles(document.ParentDirectory);
-                    if (MainPage.core.isDesktopMode())
+                    if (StaticVariables.core.isDesktopMode())
                     {
 
                         foreach (string file in files)
@@ -133,7 +135,7 @@ namespace SlimeWrite.Core
 
             catch (Exception ex)
             {
-                MainPage.core.ErrorLog(ex);
+                StaticVariables.core.ErrorLog(ex);
 
                  
             }
@@ -150,7 +152,7 @@ namespace SlimeWrite.Core
             }
             catch (Exception ex)
             {
-                MainPage.core.ErrorLog(ex);
+                StaticVariables.core.ErrorLog(ex);
 
                  
             }

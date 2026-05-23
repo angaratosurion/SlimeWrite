@@ -1,6 +1,8 @@
 ﻿using CommunityToolkit.Maui;
 using Microsoft.Extensions.Logging;
 using SlimeWrite.Core;
+using SlimeWrite.Core.Helpers;
+
 #if ANDROID
 using SlimeWrite.Platforms.Android;
 #endif
@@ -44,7 +46,7 @@ TaskScheduler.UnobservedTaskException += (s, e) =>
             }
             catch (Exception ex)
             {
-                MainPage.core.ErrorLog(ex);
+                StaticVariables.core.ErrorLog(ex);
 
                 return null;
             }

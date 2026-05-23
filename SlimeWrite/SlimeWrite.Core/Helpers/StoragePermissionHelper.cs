@@ -50,7 +50,7 @@ namespace SlimeWrite.Core.Helpers
             }
             catch (Exception ex)
             {
-                MainPage.core.ErrorLog(ex);
+                StaticVariables.core.ErrorLog(ex);
 
                  return false;
             }
@@ -72,8 +72,8 @@ namespace SlimeWrite.Core.Helpers
             context.StartActivity(intent);
             }
              catch (Exception ex)
-            { 
-                MainPage.core.ErrorLog(ex);
+            {  
+                StaticVariables.core.ErrorLog(ex);
                 
                  
             }

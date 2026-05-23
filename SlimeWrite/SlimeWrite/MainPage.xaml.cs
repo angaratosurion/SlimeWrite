@@ -1,124 +1,110 @@
-﻿using CommunityToolkit.Maui.Storage;
+﻿//using CommunityToolkit.Maui.Storage;
 using CommunityToolkit.Maui.Core;
 using CommunityToolkit.Maui.Extensions;
+using CommunityToolkit.Maui.Storage;
 using SlimeMarkUp.Core;
 using SlimeWrite.Core;
+using SlimeWrite.Core.Helpers;
 using SlimeWrite.Core.Models;
-#if WINDOWS
-using SlimeWrite.SDK;
-using SlimeWrite.SDK.Interfaces;
-#endif
 #if ANDROID
 using SlimeWrite.Platforms.Android;
 #endif
 using SlimeWrite.Views;
 using System.Text;
 
+//using static System.Net.Mime.MediaTypeNames;
 using AppInfo = SlimeWrite.Core.Models.AppInfo;
 using Options = SlimeWrite.Core.Models.Options;
 
 namespace SlimeWrite
 {
-    public  partial class MainPage : ContentPage
+    public partial class MainPage : ContentPage
     {
+        // string _markdown = "#Καλημέρα";
         private readonly MarkupParser _parser;
         private readonly HtmlRenderer _renderer;
         AppInfo appInfo;
         DocumentManager documentManager = new DocumentManager();
         DocumentInfo documentInfo;
 
-        public static Kernel core = new Kernel();
-
-#if WINDOWS
-        public static PluginManager PluginManager = new PluginManager();
-#endif
-
+        public static Kernel Core = new Kernel();
         double startHeight, startWidth;
 
-        static Options options = new Options();
-
-        public Editor Editor => editor;
-        public WebView Preview => preview;
-
+        static Options options = new Options
+        {
+            //UseTextChangedEvent = true,
+            //UseEnterPressed = false
+        };
+        public Editor Editor {
+            get { return editor; }
+        }
+        public WebView Preview { get { return preview; } }
         public MainPage()
         {
             try
             {
                 InitializeComponent();
-                appInfo = core.GetAppInfo();
-                options = core.GetOptions();
+                appInfo = Core.GetAppInfo();
+                options = Core.GetOptions();
 
-#if WINDOWS
-                var pluginsPath = Path.Combine(core.GetAppdataPath(), 
-                    "Plugins");
-                 if (!Directory.Exists(pluginsPath))
-                {
-                    Directory.CreateDirectory(pluginsPath);
-                }
-                PluginManager.LoadPlugins(pluginsPath);
-#endif
+                //   Loadeditor();
 
-                _parser = core.InitializeParser();
+
+
+
+                _parser = Core.InitializeParser();
+
                 _renderer = new HtmlRenderer();
 
+
+                //editor.Text = _markdown;
+                //Updatepreview(_markdown);
                 ChangeWindowsTitle(null);
 
+                //string[] args = Environment.GetCommandLineArgs();
+                //if (args.Length > 1)
+                //{
+                //    OpenFile(args[1]);
+                //}
                 if (options.AutoUpdateUsingGithub)
                 {
+
                     var updater = new Updater();
                     updater.DownloadLatestRelease();
+
                 }
+                //  initilizeOriantation();
+
+                //  this.SetGridContentSizes();
 
 #if WINDOWS
-                var userDataFolder = core.GetAppdataPath();
-                Environment.SetEnvironmentVariable("WEBVIEW2_USER_DATA_FOLDER", userDataFolder);
+var userDataFolder = Core.GetAppdataPath();
+Environment.SetEnvironmentVariable("WEBVIEW2_USER_DATA_FOLDER", userDataFolder);
 #endif
+
             }
             catch (Exception ex)
             {
-                MainPage.core.ErrorLog(ex);
-            }
-        }
+                StaticVariables.core.ErrorLog(ex);
 
-        private void editor_TextChanged(object? sender, TextChangedEventArgs e)
+
+            }
+
+
+        }
+        private void editor_TextChanged(object? sender, EventArgs e)
         {
             try
             {
-                // Απενεργοποιούμε το event για να αποφύγουμε infinite loops
-                editor.TextChanged -= editor_TextChanged;
-
-                if (editor.Text != null && editor.Text.Contains("\r"))
-                {
-                    editor.Text = editor.Text.Replace("\r", "\n");
-                }
-
-                if (e.OldTextValue != null && e.NewTextValue != null)
-                {
-                    if (e.NewTextValue.EndsWith("\n") && options.UpdateOnLosingFocus)
-                    {
-                        Updatepreview(editor.Text);
-                    }
-                    else if (options.UseTextChangedEvent)
-                    {
-                        Updatepreview(editor.Text);
-                    }
-                }
-
-#if WINDOWS
-                foreach (var plugin in PluginManager.Plugins)
-                {
-                    plugin.OnEditorTextChanged(editor, e.OldTextValue ?? "", editor.Text ?? "", options);
-                }
-#endif
+                //_markdown = editor.Text;//?? "";
+                editor.Text = editor.Text.Replace("\r", "\n");
+                Updatepreview(editor.Text);
             }
             catch (Exception ex)
             {
-                MainPage.core.ErrorLog(ex);
-            }
-            finally
-            {
-                // Επαναφορά του event listener ανεξάρτητα από τα options για να συνεχίσει να ακούει
-                editor.TextChanged += editor_TextChanged;
+                StaticVariables.core.ErrorLog(ex);
+
+
             }
         }
 
@@ -126,322 +112,555 @@ namespace SlimeWrite
         {
             try
             {
-                var AppName = appInfo?.AppName ?? "SlimeWrite";
-                var Version = appInfo?.Version ?? "1.0.0";
+                var AppName = appInfo.AppName;
+                var Version = appInfo.Version;
                 var wintile = AppName + " " + Version;
-                if (!string.IsNullOrEmpty(filename))
+                if (filename != null)
                 {
                     wintile += " - " + filename;
-                }
-
-                // Διόρθωση: Ανάθεση του τίτλου στο Window της εφαρμογής
-                if (Window != null)
-                {
-                    Window.Title = wintile;
                 }
             }
             catch (Exception ex)
             {
-                MainPage.core.ErrorLog(ex);
-            }
-        }
+                StaticVariables.core.ErrorLog(ex);
 
+
+            }
+
+        }
         async void initilizeOriantation()
         {
             try
             {
-                if (options == null || MainGrid == null) return;
+                //this.MainGrid.HeightRequest = this.Height;
 
                 switch (options.WebViewOrientation)
                 {
+
                     case 0:
                         {
-                            MainGrid.RowDefinitions.Clear();
-                            if (MainGrid.ColumnDefinitions.Count == 0)
-                            {
-                                MainGrid.ColumnDefinitions.Add(new ColumnDefinition(GridLength.Star));
-                                MainGrid.ColumnDefinitions.Add(new ColumnDefinition(GridLength.Auto));
-                                MainGrid.ColumnDefinitions.Add(new ColumnDefinition(GridLength.Star));
-                            }
+                            this.MainGrid.RowDefinitions.Clear();
+                            this.MainGrid.ColumnDefinitions.Add(new ColumnDefinition(GridLength.Star));
 
-                            if (MainGrid.ColumnDefinitions.Count > 1)
-                            {
-                                MainGrid.ColumnDefinitions[1].Width = new GridLength(10);
-                            }
 
-                            // Προστασία από κρασάρισμα αν τα controls λείπουν από το XAML
-                            if (scrollview != null) MainGrid.SetColumn(scrollview, 0);
-                            if (editor != null) MainGrid.SetColumn(editor, 0);
-                            if (preview != null) MainGrid.SetColumn(preview, 2);
-                            if (this.spliter != null) MainGrid.SetColumn(this.spliter, 1);
+                            this.MainGrid.ColumnDefinitions.
+                                Add(new ColumnDefinition());
+                            this.MainGrid.ColumnDefinitions.Add(new ColumnDefinition(GridLength.Star));
+                            this.MainGrid.ColumnDefinitions[1].Width = new GridLength(10);
+                            this.MainGrid.Children.Clear();
+
+                            MainGrid.SetColumn(scrollview, 0);
+                            MainGrid.SetColumn(editor, 0);
+                            MainGrid.SetColumn(preview, 2);
+                            MainGrid.SetColumn(this.spliter, 1);
+
+
+                            //this.ContentPage_SizeChanged(null, null);
+                            // this.SetGridContentSizes();
                             break;
+
+
                         }
                     case 1:
                         {
+
                             break;
                         }
+
                 }
             }
             catch (Exception ex)
             {
-                MainPage.core.ErrorLog(ex);
+                StaticVariables.core.ErrorLog(ex);
+
+
             }
+
         }
 
+        // ---------------- Toolbar buttons ---------------- //
         public async void OpenFile(string filename)
         {
             try
             {
-                FileResult res = null;
+                Stream stream = null;
 
+                //editor.TextChanged -= editor_TextChanged;
                 if (filename == null)
                 {
+                    //#if ANDROID
+                    //                var picker = MauiApplication.Current.Services.GetService<IFilePickerService>();
+
+                    //                var result = await picker.PickFileAsync();
+
+                    //                if (result.stream != null)
+                    //                {
+                    //                    filename = result.name;
+                    //                    stream= result.stream;
+
+                    //                }
+
+                    //#endif
+                    //#if WINDOWS
                     PickOptions fileoptions = new PickOptions
                     {
                         PickerTitle = "Open Markdown or SlimeMarkup file",
+
                     };
-                    res = await FilePicker.Default.PickAsync(fileoptions);
+                    var res = await FilePicker.Default.PickAsync(fileoptions);
+
 
                     if (res != null)
                     {
+
+
                         filename = res.FullPath;
+
+
+                    }
+                    //#endif
+
+                    editor.TextChanged += null;
+                    if (options.SegmentedLoading)
+                    {
+
+                        Thread thread = new Thread(() =>
+                        {
+                            // Core.OpenSegmentedFile(filename, ref editor)
+                            ;
+                            //string filecont = Core.OpenFile(filename);
+                            string filecont = null;
+                            char[] buffer; // 1MB buffer 
+                            if (options.MaxSegmentLength > 0)
+                            {
+                                buffer = new char[options.MaxSegmentLength * 1024];
+                            }
+                            else
+                            {
+                                buffer = new char[1024 * 1024];
+                            }
+                            var reader = new StreamReader(res.FullPath, Encoding.UTF8);
+                            int bytesRead;
+                            //ReadAllText(filename, Encoding.UTF8);//
+                            //   editor.Text = ""; // Καθαρίζει το Text πριν ξεκινήσει η ανάγνωση
+                            while ((bytesRead = reader.Read(buffer, 0, buffer.Length)) > 0)
+                            {
+                                string chunk = new string(buffer, 0, bytesRead);
+                                filecont += chunk;
+                                Task.Delay(50); // Καθυστερεί λίγο την ανανέωση του UI
+                            }
+                            MainThread.BeginInvokeOnMainThread(() =>
+                            {
+                                // string file = null;
+                                editor.Text = filecont;
+
+                            });
+
+                        });
+                        thread.Start();
+
                     }
                     else
                     {
-                        return; // Ο χρήστης ακύρωσε το pick
+                        var file = Core.OpenFile(filename);
+                        editor.Text = file;
                     }
-                }
+                    Loadeditor();
 
-                // Διόρθωση: Ξεμπλοκάρισμα του event με σωστό τρόπο (-=)
-                editor.TextChanged -= editor_TextChanged;
-                string filecont = "";
 
-                if (options.SegmentedLoading)
-                {
-                    // Χρήση Task αντί για raw Thread για καλύτερη διαχείριση στο MAUI
-                    await Task.Run(async () =>
-                    {
-                        char[] buffer = new char[options.MaxSegmentLength > 0 ? options.MaxSegmentLength * 1024 : 1024 * 1024];
-                        StringBuilder sb = new StringBuilder();
+                    ChangeWindowsTitle(filename);
+                    this.documentInfo = new DocumentInfo();
+                    documentInfo.FullPath = filename;
+                    documentInfo.ParentDirectory = Path.GetDirectoryName(filename);
+                    documentInfo.Name = Path.GetFileName(filename);
+                    //Updatepreview(editor.Text);
+                    //editor.TextChanged += editor_TextChanged;
 
-                        using (var reader = new StreamReader(filename, Encoding.UTF8))
-                        {
-                            int bytesRead;
-                            while ((bytesRead = await reader.ReadAsync(buffer, 0, buffer.Length)) > 0)
-                            {
-                                sb.Append(buffer, 0, bytesRead);
-                                await Task.Delay(50);
-                            }
-                        }
-
-                        filecont = sb.ToString();
-
-#if WINDOWS
-                        foreach (var plugin in PluginManager.Plugins)
-                        {
-                            plugin.OnFileOpened(filename, ref filecont);
-                        }
-#endif
-
-                        MainThread.BeginInvokeOnMainThread(() =>
-                        {
-                            editor.Text = filecont;
-                            FinalizeFileLoad(filename);
-                        });
-                    });
-                }
-                else
-                {
-                    filecont = core.OpenFile(filename);
-
-#if WINDOWS
-                    foreach (var plugin in PluginManager.Plugins)
-                    {
-                        plugin.OnFileOpened(filename, ref filecont);
-                    }
-#endif
-
-                    editor.Text = filecont;
-                    FinalizeFileLoad(filename);
                 }
             }
             catch (Exception ex)
             {
-                MainPage.core.ErrorLog(ex);
-                // Επαναφορά σε περίπτωση σφάλματος
-                Loadeditor();
+                StaticVariables.core.ErrorLog(ex);
+
+
             }
         }
-
-        private void FinalizeFileLoad(string filename)
+        private async Task SaveFile()
         {
-            Loadeditor();
-            ChangeWindowsTitle(filename);
 
-            this.documentInfo = new DocumentInfo
-            {
-                FullPath = filename,
-                ParentDirectory = Path.GetDirectoryName(filename),
-                Name = Path.GetFileName(filename)
-            };
-
-            Updatepreview(editor.Text);
-        }
-
-        public async Task SaveFile()
-        {
             try
             {
-                if (documentInfo == null) return;
+                MemoryStream stream = new MemoryStream();
+                StreamWriter streamWriter = new StreamWriter(stream);
+                streamWriter.Write(editor.Text);
+                streamWriter.Flush();
 
-                string textToSave = editor.Text ?? "";
 
-#if WINDOWS
-                foreach (var plugin in PluginManager.Plugins)
+
+
+                //#if WINDOWS
+                PickOptions pickOptions = new PickOptions();
+                pickOptions.FileTypes = new FilePickerFileType(new Dictionary<DevicePlatform, 
+                    IEnumerable<string>>
+            {
+                { DevicePlatform.WinUI, new[] { ".md", ".markdown", ".smark" } },
+                { DevicePlatform.Android, new[] { "text/markdown", "text/plain" } },
+                { DevicePlatform.iOS, new[] { "public.plain-text", "net.daringfireball.markdown" } },
+                { DevicePlatform.MacCatalyst, new[] { "public.plain-text", "net.daringfireball.markdown" } }
+            });
+                var res = await FileSaver.Default.SaveAsync(documentInfo.FullPath, stream);
+                // var res = await FilePicker.Default.PickAsync(pickOptions);
+                if (res != null)
                 {
-                    plugin.OnFileSaving(documentInfo.FullPath, ref textToSave);
+                    // Core.SaveFile(res.FileName, editor.Text);
+                    documentManager.SaveDocument(documentInfo, res.FilePath, stream);
+                    //documentInfo.FullPath = res.FullPath;
+                    //documentInfo.ParentDirectory = Path.GetDirectoryName(res.FullPath);
+                    //documentInfo.Name = Path.GetFileName(res.FullPath);
+
+                    ChangeWindowsTitle(res.FilePath);
+                    var doc = documentInfo;
+
                 }
-#endif
+                streamWriter.Close();
+                streamWriter.Dispose();
 
-                // Χρήση using για αυτόματη αποδέσμευση (Dispose) των Streams (αποφυγή memory leaks)
-                using (MemoryStream stream = new MemoryStream())
-                {
-                    using (StreamWriter streamWriter = new StreamWriter(stream, Encoding.UTF8, leaveOpen: true))
-                    {
-                        await streamWriter.WriteAsync(textToSave);
-                        await streamWriter.FlushAsync();
-                    }
+                stream.Close();
+                stream.Dispose();
 
-                    stream.Position = 0;
+                //#endif
+                //#if ANDROID
 
-                    var res = await FileSaver.Default.SaveAsync(documentInfo.FullPath, stream);
-                    if (res != null && res.IsSuccessful)
-                    {
-                        documentManager.SaveDocument(documentInfo, res.FilePath, stream);
-                        ChangeWindowsTitle(res.FilePath);
-                    }
-                }
+                //            var service = MauiApplication.Current.Services.GetService<FileSaveService>();
+
+                //            await service.SaveAsync(stream, "myfile.txt");
+
+
+                //#endif
+
             }
             catch (Exception ex)
             {
-                MainPage.core.ErrorLog(ex);
-            }
-        }
+                StaticVariables.core.ErrorLog(ex);
 
+
+            }
+
+
+        }
         private async void New_Clicked(object sender, EventArgs e)
         {
             try
             {
+
                 editor.Text = "";
                 var popup = new CreateNewDocumentPopUp();
 
-                if (Application.Current?.MainPage != null)
-                {
-                    IPopupResult<string> result = (IPopupResult<string>)await Application.Current.MainPage.ShowPopupAsync(popup);
 
-                    if (result != null && result.Result != null)
-                    {
-                        string folderName = result.Result;
-                        documentInfo = documentManager.CreateNewDocument(folderName);
-                        ChangeWindowsTitle(documentInfo.Name);
-                    }
+
+                IPopupResult<string> result = (IPopupResult<string>)await Application.Current.MainPage.ShowPopupAsync(popup);
+
+                if (result != null)
+                {
+                    string folderName = result.Result;
+
+
+
+                    documentInfo = documentManager.CreateNewDocument(folderName);
+                    ChangeWindowsTitle(documentInfo.Name);
+
                 }
             }
             catch (Exception ex)
             {
-                MainPage.core.ErrorLog(ex);
+                StaticVariables.core.ErrorLog(ex);
+
+
             }
+
         }
 
         private void Open_Clicked(object sender, EventArgs e)
         {
-            OpenFile(null);
-        }
 
+            try
+            {
+                OpenFile(null);
+            }
+            catch (Exception ex)
+            {
+                StaticVariables.core.ErrorLog(ex);
+
+
+            }
+
+
+        }
         private void AppOptions_Click(object sender, EventArgs e)
         {
             try
             {
-                OptionsView optionsView = new OptionsView();
-                if (core.isDesktopMode())
+                OptionsView options = new OptionsView();
+                var win = new Window(options);
+                win.IsMaximizable = false;
+                win.IsMinimizable = false;
+
+                win.Height = options.HeightRequest;
+                win.Width = options.WidthRequest;
+
+                if (Core.isDesktopMode())
                 {
-                    var win = new Window(optionsView)
-                    {
-                        IsMaximizable = false,
-                        IsMinimizable = false,
-                        Height = optionsView.HeightRequest,
-                        Width = optionsView.WidthRequest
-                    };
-                    Application.Current?.OpenWindow(win);
+
+                    Microsoft.Maui.Controls.Application.Current.OpenWindow(win);
+
                 }
                 else
                 {
-                    this.Navigation.PushAsync(optionsView);
+                    OptionsView optionsMobile = new OptionsView();
+                    this.Navigation.PushAsync(optionsMobile);
                 }
             }
             catch (Exception ex)
             {
-                MainPage.core.ErrorLog(ex);
-            }
-        }
+                StaticVariables.core.ErrorLog(ex);
 
+
+            }
+
+
+        }
         private void Close_Clicked(object sender, EventArgs e)
         {
             try
             {
+
                 editor.Text = "";
                 ChangeWindowsTitle(null);
-                if (documentInfo != null)
-                {
-                    documentManager.CloseDocument(documentInfo);
-                    documentInfo = null;
-                }
+                documentManager.CloseDocument(documentInfo);
+                documentInfo = null;
             }
             catch (Exception ex)
             {
-                MainPage.core.ErrorLog(ex);
+                StaticVariables.core.ErrorLog(ex);
+
+
             }
-        }
 
+        }
         private void Save_Clicked(object sender, EventArgs e)
-        {
-            _ = SaveFile(); // Fire and forget με ασφάλεια
-        }
-
-        private void H1_Clicked(object sender, EventArgs e) { AppendText(core.H1_Marked(null)); }
-        private void H2_Clicked(object sender, EventArgs e) { AppendText(core.H2_Marked(null)); }
-        private void Bold_Clicked(object sender, EventArgs e) { AppendText(core.Bold_Marked(null)); }
-        private void Italic_Clicked(object sender, EventArgs e) { AppendText(core.Italic_Marked(null)); }
-        private void Link_Clicked(object sender, EventArgs e) { AppendText(core.Link_Marked(null)); }
-        private void List_Clicked(object sender, EventArgs e) { AppendText(core.List_Marked(null)); }
-        private void Table_Clicked(object sender, EventArgs e) { AppendText(core.Table_Marked(null)); }
-        private void Quote_Clicked(object sender, EventArgs e) { AppendText(core.Quote_Marked(null)); }
-
-        private void AppendText(string text)
         {
             try
             {
-                editor.Text += text;
+                SaveFile();
             }
-            catch (Exception ex) { MainPage.core.ErrorLog(ex); }
+            catch (Exception ex)
+            {
+                StaticVariables.core.ErrorLog(ex);
+
+
+            }
+
+        }
+
+        private void H1_Clicked(object sender, EventArgs e)
+        {
+
+            try
+            {
+                //if (editor.SelectedText != null
+                //    && editor.SelectedText != String.Empty)
+                //{
+                //    string selectedtext = editor.SelectedText;
+                //    //editor.SelectedText.Replace(selectedtext, "#" + selectedtext + "\n");
+                //    editor.SelectedText = Core.H1_Marked(editor.SelectedText);
+                //}
+                //else
+                //{
+                editor.Text += Core.H1_Marked(null);
+                //}
+            }
+            catch (Exception ex)
+            {
+                StaticVariables.core.ErrorLog(ex);
+
+
+            }
+
+        }
+
+        private void H2_Clicked(object sender, EventArgs e)
+        {
+            try
+            {
+                //if (editor.SelectedText != null
+                //    && editor.SelectedText != String.Empty)
+                //{
+                //    string selectedtext = editor.SelectedText;
+                //    editor.SelectedText = Core.H2_Marked(editor.SelectedText);
+                //}
+                //else
+                //{
+                editor.Text += Core.H2_Marked(null);
+                //  }
+            }
+            catch (Exception ex)
+            {
+                StaticVariables.core.ErrorLog(ex);
+
+
+            }
+        }
+
+        private void Bold_Clicked(object sender, EventArgs e)
+        {
+            try
+            {
+                //if (editor.SelectedText != null
+                //    && editor.SelectedText != String.Empty)
+                //{
+                //    string selectedtext = editor.SelectedText;
+                //    editor.SelectedText = Core.Bold_Marked(editor.SelectedText);
+                //}
+                //else
+                //{
+                editor.Text += Core.Bold_Marked(null);
+                // }
+            }
+            catch (Exception ex)
+            {
+                StaticVariables.core.ErrorLog(ex);
+
+
+            }
+        }
+
+        private void Italic_Clicked(object sender, EventArgs e)
+        {
+            try
+            {
+                //if (editor.SelectedText != null
+                //    && editor.SelectedText != String.Empty)
+                //{
+                //    string selectedtext = editor.SelectedText;
+                //    editor.SelectedText = Core.Italic_Marked(editor.SelectedText);
+                //}
+                //else
+                //{
+                editor.Text += Core.Italic_Marked(null);
+                //} 
+            }
+            catch (Exception ex)
+            {
+                StaticVariables.core.ErrorLog(ex);
+
+
+            }
+        }
+
+        private void Link_Clicked(object sender, EventArgs e)
+        {
+            try
+            {
+                //if (editor.SelectedText != null
+                //    && editor.SelectedText != String.Empty)
+                //{
+                //    string selectedtext = editor.SelectedText;
+                //    editor.SelectedText = Core.Link_Marked(selectedtext);
+                //}
+                //else
+                //{
+                editor.Text += Core.Link_Marked(null);
+                //  }
+            }
+            catch (Exception ex)
+            {
+                StaticVariables.core.ErrorLog(ex);
+
+
+            }
         }
 
         private async void Image_Clicked(object sender, EventArgs e)
         {
             try
             {
-                PickOptions fileoptions = new PickOptions { PickerTitle = "Select An Image File" };
+                string imagename = "";
+                PickOptions fileoptions = new PickOptions
+                {
+                    PickerTitle = "Select An Image File",
+
+                };
                 var res = await FilePicker.Default.PickAsync(fileoptions);
+
 
                 if (res != null)
                 {
-                    editor.Text += core.Image_Marked(null, res.FullPath, documentInfo);
+
+
+                    imagename = res.FullPath;
+
+
                 }
+                editor.Text += Core.Image_Marked(null, imagename, documentInfo);
             }
             catch (Exception ex)
             {
-                MainPage.core.ErrorLog(ex);
+                StaticVariables.core.ErrorLog(ex);
+
+
             }
+            //}
+        }
+
+        private void List_Clicked(object sender, EventArgs e)
+        {
+            try
+            {
+                editor.Text += Core.List_Marked(null);
+            }
+            catch (Exception ex)
+            {
+                StaticVariables.core.ErrorLog(ex);
+
+
+            }
+        }
+
+        private void Table_Clicked(object sender, EventArgs e)
+        {
+            try
+            {
+                editor.Text += Core.Table_Marked(null);
+            }
+            catch (Exception ex)
+            {
+                StaticVariables.core.ErrorLog(ex);
+
+
+            }
+        }
+
+        private void Quote_Clicked(object sender, EventArgs e)
+        {
+            try
+            {
+                //if (editor.SelectedText != null
+                //    && editor.SelectedText != String.Empty)
+                //{
+                //    string selectedtext = editor.SelectedText;
+                //    editor.SelectedText = Core.Quote_Marked(selectedtext);
+                //}
+                //else
+                //{
+                editor.Text += Core.Quote_Marked(null);
+            }
+            catch (Exception ex)
+            {
+                StaticVariables.core.ErrorLog(ex);
+
+
+            }
+            //}
         }
 
         private void About_Click(object sender, EventArgs e)
@@ -449,154 +668,266 @@ namespace SlimeWrite
             try
             {
                 About aboutwindows = new About();
-                if (core.isDesktopMode())
+                var win = new Window(aboutwindows);
+                win.IsMaximizable = false;
+                win.IsMinimizable = false;
+                win.Height = aboutwindows.HeightRequest;
+                win.Width = aboutwindows.WidthRequest;
+                if (Core.isDesktopMode())
                 {
-                    var win = new Window(aboutwindows)
-                    {
-                        IsMaximizable = false,
-                        IsMinimizable = false,
-                        Height = aboutwindows.HeightRequest,
-                        Width = aboutwindows.WidthRequest
-                    };
-                    Application.Current?.OpenWindow(win);
+
+                    Application.Current.OpenWindow(win);
                 }
                 else
                 {
-                    this.Navigation.PushAsync(aboutwindows);
+                    About aboutMobile = new About();
+                    this.Navigation.PushAsync(aboutMobile);
+
+
                 }
             }
             catch (Exception ex)
             {
-                MainPage.core.ErrorLog(ex);
+                StaticVariables.core.ErrorLog(ex);
+
+
             }
+
         }
 
         private void InserFilepropps_Click(object sender, EventArgs e)
         {
-            string props = "---\nfilename: \" \" \ntitle:  \" \"\nauthor:  \" \"\n" +
-                           "subject: \" \" \nDescription:\" \" \nPublished: dd/mm/yyyy hh:mm:ss\n" +
-                           "keywords: \" \" \ncomments: \" \" \ncompany: \" \" \ncategory: \" \"\n" +
-                           "revisionnumber: \" \" \nlanguage:  \" \"\ncontributors:\n  - \"contributor1\"\n" +
-                           "  - \"contributor2\"\nVersionHistory: \"1.0.0\"\n---\n";
-            AppendText(props);
-        }
+            try
+            {
+                const string props = "---\r\n  filename: \" \" \r\n  " +
+                    "title:  \" \"\r\n  author:  \" \"\r\n  " +
+                    "subject: \" \" \r\n  Description:\" \" \r\n  " +
+                    "Published: dd/mm/yyyy hh:mm:ss\r\n  " +
+                    "keywords: \" \" \r\n  comments: \" \" \r\n  " +
+                    "company: \" \" \r\n  category: \" \"\r\n  " +
+                    "revisionnumber: \" \" \r\n  language:  \" \"\r\n  " +
+                    "contributors:\r\n    - \"contributor1\"\r\n    " +
+                    "- \"contributor2\"\r\n  VersionHistory: \"1.0.0\"\r\n---";
+                editor.Text += props + "\n";
+            }
+            catch (Exception ex)
+            {
+                StaticVariables.core.ErrorLog(ex);
 
+
+            }
+        }
         private void Loadeditor()
         {
             try
             {
-                editor.TextChanged -= editor_TextChanged;
-                editor.TextChanged += editor_TextChanged;
+
+
+
+                // Syntax highlighting for C#
+                //editor.ConfigurationManager.Language = "cs";\
+                //editor.Font = new System.Drawing.Font("Consolas", 16);
+
+                // Faster for large files
+                ///this.editor.HeightRequest = this.Height - preview.Height;
+                //this.editor.AutoSize = EditorAutoSizeOption.TextChanges;
+
+
+                if (options.UseTextChangedEvent)
+                {
+                    editor.TextChanged += editor_TextChanged;
+                }
+                if (options.UseEnterPressed)
+                {
+
+                    //editor.KeyDown += editor_KeyDown;
+                }
             }
             catch (Exception ex)
             {
-                MainPage.core.ErrorLog(ex);
+                StaticVariables.core.ErrorLog(ex);
+
+
             }
         }
 
-        private void editor_KeyDown(object? sender, TextChangedEventArgs e)
-        {
-            Updatepreview(editor.Text);
-        }
 
-        private void Updatepreview(string markdown)
+
+        private void editor_KeyDown(object? sender, TextChangedEventArgs e)
         {
             try
             {
-                if (string.IsNullOrEmpty(markdown)) return;
-
-                var md = _parser.Parse(markdown);
-                if (md != null)
+                //if (e == Key.Enter)
                 {
-                    var html = "<html>\r\n<head>\r\n <meta charset=\"UTF-8\" /></head><style>\r\n" +
-                               "body {\r\n color:black; } </style>" +
-                               " <body>" +
-                               _renderer.Render(md) + "</body>\r\n</html>";
+                    //_markdown = editor.Text;//?? "";
+                    Updatepreview(editor.Text);
+                }
+            }
+            catch (Exception ex)
+            {
+                StaticVariables.core.ErrorLog(ex);
 
+
+            }
+        }
+
+        private async void Updatepreview(string markdown)
+        {
+            try
+            {
+                var md = _parser.Parse(markdown);
+                if (md != null && markdown != "")
+                {
+
+
+                    var html = "<html>\r\n<head>\r\n <meta charset=\"UTF-8\" /></head><style>\r\n                        " +
+                        "body {\r\n    color:black; }  </style>" +
+                        " <body>" +
+                        _renderer.Render(md) + "</body>\r\n</html>";
+
+
+
+                    // await preview.EnsureCoreWebView2Async(env);
+
+                    //  preview.NavigateToString(html);
                     NavigateToStringFile(html);
                 }
             }
             catch (Exception ex)
             {
-                MainPage.core.ErrorLog(ex);
+                StaticVariables.core.ErrorLog(ex);
+
+
             }
+
         }
 
-        void NavigateToStringFile(string html)
+        async void NavigateToStringFile(string html)
         {
             try
             {
-                string file = documentInfo != null
-                    ? Path.Combine(documentInfo.ParentDirectory, "output.html")
-                    : Path.Combine(core.GetTempfolderPath(), "output.html");
+                string appname = appInfo.AppName;
+                string file = "";
+                if (documentInfo != null)
+                {
+                    file = Path.Combine(documentInfo.ParentDirectory, "output.html");
+                }
+                else
+                {
+                    file = Path.Combine(Core.GetTempfolderPath(),
+                      "output.html");
+                }
 
                 File.WriteAllText(file, html);
                 if (preview != null)
                 {
+
                     preview.Source = file;
 
+
 #if ANDROID
-                    preview.Dispatcher.Dispatch(() =>
-                    {
-                        try
-                        {
-                            if (preview.Handler?.PlatformView is Android.Webkit.WebView web)
+                        preview.Dispatcher.Dispatch(() =>
                             {
-                                web.Settings.AllowFileAccess = true;
-                                web.LoadUrl($"file://{file}");
-                            }
-                        }
-                        catch { }
-                    });
+
+                                try
+                                {
+                                    Android.Webkit.WebView web = preview.Handler.PlatformView as Android.Webkit.WebView;
+                                    web.Settings.AllowFileAccess = true;
+                                    web.LoadUrl($"file://{file}");
+                                }
+                                catch (Exception ex)
+                                {
+                                }
+                            });
 #endif
+
+
                 }
+
+
             }
             catch (Exception ex)
             {
-                MainPage.core.ErrorLog(ex);
-            }
-        }
+                StaticVariables.core.ErrorLog(ex);
 
+
+
+
+            }
+
+
+
+
+
+        }
         void SetGridContentSizes()
         {
             try
             {
-                if (options == null || MainGrid == null) return;
-
                 double editorandpreviewheight = this.Height / 2;
-                MainGrid.HeightRequest = this.Height;
-                MainGrid.WidthRequest = this.Width;
+                double editorandpreviewwidth = this.Width / 2;
+                this.MainGrid.HeightRequest = this.Height;
+                this.MainGrid.WidthRequest = this.Width;
 
                 if (options.WebViewOrientation == 1)
                 {
-                    if (editor != null && preview != null)
+                    if (editor.Height <= editorandpreviewheight)
                     {
-                        preview.HeightRequest = editorandpreviewheight;
-                        editor.HeightRequest = editorandpreviewheight;
-                        preview.WidthRequest = this.Width;
-                        editor.WidthRequest = this.Width;
+                        this.preview.HeightRequest = this.Height / 2;
+
+                        this.editor.HeightRequest = this.Height / 2;
+
                     }
+                    else
+                    {
+                        this.preview.HeightRequest = this.TopRow.Height.Value;
+
+                        this.editor.HeightRequest = this.BottomRow.Height.Value; ;
+
+                    }
+                    this.preview.WidthRequest = this.Width;
+                    this.editor.WidthRequest = this.Width; ; ;
                 }
                 else
                 {
-                    if (editor != null && preview != null)
+                    if (editor.Width <= editorandpreviewwidth)
                     {
-                        preview.WidthRequest = MainGrid.Width / 2;
-                        editor.WidthRequest = MainGrid.Width / 2;
-                        preview.HeightRequest = this.Height / 2;
-                        editor.HeightRequest = this.Height / 2;
+                        this.preview.WidthRequest = this.MainGrid.Width / 2;
+
+                        this.editor.WidthRequest = this.MainGrid.Width / 2;
                     }
+                    else
+                    {
+                        this.preview.WidthRequest = this.MainGrid.Width / 2;
+
+                        this.editor.WidthRequest = this.MainGrid.Width / 2;
+                    }
+                    this.preview.HeightRequest = this.Height / 2;
+                    this.editor.HeightRequest = this.Height / 2;
+
                 }
             }
             catch (Exception ex)
             {
-                MainPage.core.ErrorLog(ex);
+                StaticVariables.core.ErrorLog(ex);
+
+
             }
         }
 
         private void ContentPage_SizeChanged(object sender, EventArgs e)
         {
-            SetGridContentSizes();
+            try
+            {
+                this.SetGridContentSizes();
+            }
+            catch (Exception ex)
+            {
+                StaticVariables.core.ErrorLog(ex);
+
+
+            }
+
         }
 
         private void ContentPage_Loaded(object sender, EventArgs e)
@@ -611,7 +942,10 @@ namespace SlimeWrite
             }
             catch (Exception ex)
             {
-                MainPage.core.ErrorLog(ex);
+                StaticVariables.core.ErrorLog(ex);
+
+
+
             }
         }
 
@@ -619,96 +953,105 @@ namespace SlimeWrite
         {
             try
             {
-                core.ClearTempFolder();
-                if (documentInfo != null)
-                {
-                    documentManager.CloseDocument(documentInfo);
-                }
-                Application.Current?.Quit();
+                Core.ClearTempFolder();
+                Microsoft.Maui.Controls.Application.Current.Quit();
             }
             catch (Exception ex)
             {
-                MainPage.core.ErrorLog(ex);
+                StaticVariables.core.ErrorLog(ex);
+
+
             }
         }
 
         private void ContentPage_Appearing(object sender, EventArgs e)
         {
             base.OnAppearing();
-            Loadeditor();
-            initilizeOriantation();
-        }
 
-        private void ImportFile_Clicked(object sender, EventArgs e)
-        {
-            // Fallback για το παλιό button
-            ImportFileAction();
-        }
-
-        private async void ImportFileAction()
-        {
             try
             {
-                PickOptions fileoptions = new PickOptions { PickerTitle = "Select An SlimeMarkdown File" };
-                var res = await FilePicker.Default.PickAsync(fileoptions);
+                Loadeditor();
+                initilizeOriantation();
+                string[] args = Environment.GetCommandLineArgs();
+                //if (args.Length > 1)
+                //{
+                //    OpenFile(args[1]);
+                //}
 
-                if (res != null)
-                {
-                    editor.Text += core.IncludeFile_Marked(null, res.FullPath, documentInfo);
-                }
-            }
-            catch (Exception ex) { MainPage.core.ErrorLog(ex); }
-        }
-
-        private void editor_Completed(object sender, EventArgs e)
-        {
-            try
-            {
-                editor.Text = editor.Text?.Replace("\r", "\n") ?? "";
-                if (editor.Text.EndsWith("\n") && options.UpdateOnLosingFocus)
-                {
-                    Updatepreview(editor.Text);
-                }
-                else if (options.UseTextChangedEvent)
-                {
-                    Updatepreview(editor.Text);
-                }
+                /*  if (editor != null)
+                      editor.Text = _markdown;*/
             }
             catch (Exception ex)
             {
-                MainPage.core.ErrorLog(ex);
+                StaticVariables.core.ErrorLog(ex);
+
+
             }
+
         }
 
         void OnPanUpdated(object sender, PanUpdatedEventArgs e)
         {
             try
             {
-                if (options.WebViewOrientation == 1 && TopRow != null && BottomRow != null)
+                if (options.WebViewOrientation == 1)
                 {
+
                     switch (e.StatusType)
                     {
                         case GestureStatus.Started:
+
                             startHeight = TopRow.Height.Value;
                             break;
 
                         case GestureStatus.Running:
                             double newHeight = startHeight + e.TotalY;
+
                             if (newHeight < 50) newHeight = 50;
                             if (newHeight > MainGrid.Height - 50) newHeight = MainGrid.Height - 50;
 
                             TopRow.Height = new GridLength(newHeight, GridUnitType.Absolute);
-                            BottomRow.Height = new GridLength(MainGrid.Height - newHeight - 5, GridUnitType.Absolute);
+                            BottomRow.Height =
+                                new GridLength(MainGrid.Height - newHeight - 5, GridUnitType.Absolute);
                             break;
                     }
-                    editor.HeightRequest = TopRow.Height.Value;
-                    preview.HeightRequest = BottomRow.Height.Value;
+                    this.editor.HeightRequest = this.TopRow.Height.Value;
+                    this.preview.HeightRequest = this.BottomRow.Height.Value;
+
                 }
+                else
+                {
+
+                    switch (e.StatusType)
+                    {
+                        case GestureStatus.Started:
+                            startWidth = MainGrid.ColumnDefinitions[0].Width.Value;
+                            break;
+                        case GestureStatus.Running:
+                            double newWidth = startWidth + e.TotalX;
+                            if (newWidth < 50) newWidth = 50;
+                            if (newWidth > MainGrid.Width - 50) newWidth = MainGrid.Width - 50;
+                            MainGrid.ColumnDefinitions[0].Width =
+                                new GridLength(newWidth, GridUnitType.Absolute);
+                            MainGrid.ColumnDefinitions[2].Width =
+                                new GridLength(MainGrid.Width - newWidth - 5, GridUnitType.Absolute);
+                            break;
+                    }
+                    this.editor.WidthRequest = this.MainGrid.ColumnDefinitions[2].Width.Value;
+                    this.preview.WidthRequest = this.MainGrid.ColumnDefinitions[0].Width.Value;
+                }
+                startHeight = 0;
+                startWidth = 0;
             }
             catch (Exception ex)
             {
-                MainPage.core.ErrorLog(ex);
+                StaticVariables.core.ErrorLog(ex);
+
+
             }
+
+
         }
     }
 }
+

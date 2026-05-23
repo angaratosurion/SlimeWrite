@@ -1,4 +1,5 @@
 using CommunityToolkit.Maui.Views;
+using SlimeWrite.Core.Helpers;
 
 namespace SlimeWrite;
 
@@ -14,7 +15,7 @@ public  partial class CreateNewDocumentPopUp : Popup<string>
         }
         catch (Exception ex)
         {
-            MainPage.core.ErrorLog(ex);
+            StaticVariables.core.ErrorLog(ex);
 
             
         }
@@ -30,7 +31,7 @@ public  partial class CreateNewDocumentPopUp : Popup<string>
         }
         catch (Exception ex)
         {
-            MainPage.core.ErrorLog(ex);
+            StaticVariables.core.ErrorLog(ex);
 
              Result = null;
         }

@@ -15,29 +15,17 @@
                     AlignItems="Center"
                     JustifyContent="Start"
                      >
-            <Label x:Name="lblEventChange"
-       Text="Event Change"
-       Margin="100,0,0,0"
-       IsVisible="True"/>
 
-            <Picker x:Name="cmbxEventChange"
-        SelectedIndex="0"
-        IsVisible="True" WidthRequest="200" >
-                <Picker.Items>
-                    <x:String>Use Text Changed Event</x:String>
-                    <x:String>Update On Losing Focus</x:String>
-                </Picker.Items>
-            </Picker>
             <!-- CheckBox 1 -->
-            <!--<StackLayout Orientation="Horizontal" Spacing="5"  >
+            <StackLayout Orientation="Horizontal" Spacing="5"  >
                 <CheckBox x:Name="cbxUseTextChangedEvent"
                           SemanticProperties.Description="Use Text Changed Event"/>
                 <Label x:Name="lblUseTextChangedEvent" 
                        Text="Use Text Changed Event" />
             </StackLayout>
 
-            --><!-- CheckBox 2 (μπορεί να ξε-αποσχολιαστεί) --><!--
-            <StackLayout Orientation="Horizontal" Spacing="5"  >
+            <!-- CheckBox 2 (μπορεί να ξε-αποσχολιαστεί) -->
+            <!--<StackLayout Orientation="Horizontal" Spacing="5"  >
                 <CheckBox x:Name="cbxUseEnterPressedEvent"
                           SemanticProperties.Description="Use Enter Pressed Event"/>
                 <Label x:Name="lblUseEnterPressedEvent" Text="Use Enter Pressed Event" VerticalOptions="Center"/>

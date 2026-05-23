@@ -1,4 +1,5 @@
-﻿using SlimeWrite.Core.Models;
+﻿using SlimeWrite.Core.Helpers;
+using SlimeWrite.Core.Models;
 using System.Diagnostics;
 using System.Net.Http.Headers;
 using System.Reflection;
@@ -82,7 +83,7 @@ var asset = release.assets.FirstOrDefault(a => a.name.EndsWith(".apk"));
             }
             catch (Exception ex)
             {
-                MainPage.core.ErrorLog(ex);
+              StaticVariables.core.ErrorLog(ex);
 
                 
             }

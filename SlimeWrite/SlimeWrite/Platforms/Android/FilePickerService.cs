@@ -2,6 +2,7 @@
 using Android.App;
 using Android.Content;
 using Android.Provider;
+using SlimeWrite.Core.Helpers;
 using SlimeWrite.Platforms.Android;
 
 namespace SlimeWrite.Core
@@ -29,7 +30,7 @@ namespace SlimeWrite.Core
             }
             catch (Exception ex)
             {
-                MainPage.core.ErrorLog(ex);
+                StaticVariables.core.ErrorLog(ex);
 
                 return null;
             }
@@ -66,7 +67,7 @@ namespace SlimeWrite.Core
             }
             catch (Exception ex)
             {
-                MainPage.core.ErrorLog(ex);
+                StaticVariables.core.ErrorLog(ex);
 
                  
             }
