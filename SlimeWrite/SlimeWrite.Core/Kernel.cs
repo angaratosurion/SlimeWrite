@@ -748,7 +748,58 @@ namespace SlimeWrite.Core
 
 
         }
+        public string IncludeFile_Marked(string selectedtext, string filename,
+            DocumentInfo documentInfo)
+        {
+            try
+            {
+                string ap = "", file = "";
+                //if (selectedtext != null)
+                //{
+                //    ap = selectedtext.Replace(selectedtext, "\n<!-- include :" + selectedtext + "-->\n");
+                //}
+                //else
+                //{
+                //    ap = "\n<!-- include  -->\n";
+                //}
 
+                if (documentInfo != null)
+                {
+                    this.documentManager.AddFileToDocumentParentDirectory(documentInfo, filename);
+                    file = Path.GetFileName(filename);
+                    ap = "\n<!-- include :" + file + "-->\n";
+                }
+                return ap;
+            }
+            catch (Exception ex)
+            {
+                this.ErrorLog(ex);
+                return null;
+            }
+
+
+        }
+        public string GetPluginsPath()
+        {
+            try
+            {
+                string ap = "";
+
+                ap = Path.Combine(this.GetAppdataPath(), "Plugins");
+                if (Directory.Exists(ap)==false)
+                {
+                    Directory.CreateDirectory (ap);
+                }
+
+                return ap;
+            }
+            catch (Exception ex)
+            {
+                this.ErrorLog(ex);
+                return null;
+
+            }
+        }
     }
 }
 
