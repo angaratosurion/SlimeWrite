@@ -25,6 +25,7 @@
 
   <ItemGroup>
     <PackageReference Include="Microsoft.Maui.Controls" Version="10.0.70" />
+    <PackageReference Include="SharpCompress" Version="0.48.1" />
     <PackageReference Include="SlimeMarkUp.Core" Version="0.2.0" />
   </ItemGroup>
 
