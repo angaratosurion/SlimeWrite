@@ -27,8 +27,11 @@ namespace SlimeWrite
         DocumentInfo documentInfo;
 
         public static Kernel core = StaticVariables.core;
+        PickOptions PickfileOpenptions = new PickOptions
+        {
+            PickerTitle = "Open Markdown or SlimeMarkup file",
+        };
 
- 
         public static PluginManager PluginManager = new PluginManager();
  
 
@@ -191,11 +194,8 @@ namespace SlimeWrite
 
                 if (filename == null)
                 {
-                    PickOptions fileoptions = new PickOptions
-                    {
-                        PickerTitle = "Open Markdown or SlimeMarkup file",
-                    };
-                    res = await FilePicker.Default.PickAsync(fileoptions);
+                   
+                    res = await FilePicker.Default.PickAsync(PickfileOpenptions);
 
                     if (res != null)
                     {

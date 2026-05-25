@@ -5,7 +5,7 @@
              Title="Options">
     <!--HeightRequest="700"
              WidthRequest="950">-->
-   <!--HeightRequest="200"-->
+    <!--HeightRequest="200"-->
 
     <VerticalStackLayout Padding="10" Spacing="10">
 
@@ -15,17 +15,31 @@
                     AlignItems="Center"
                     JustifyContent="Start"
                      >
+            <Label x:Name="lblEventChange"
+       Text="Event Change"
+       Margin="100,0,0,0"
+       IsVisible="True"/>
 
+            <Picker x:Name="cmbxEventChange"
+        SelectedIndex="0"
+        IsVisible="True" WidthRequest="200" >
+                <Picker.Items>
+                    <x:String>Use Text Changed Event</x:String>
+                    <x:String>Update On Losing Focus</x:String>
+                </Picker.Items>
+            </Picker>
             <!-- CheckBox 1 -->
-            <StackLayout Orientation="Horizontal" Spacing="5"  >
+            <!--<StackLayout Orientation="Horizontal" Spacing="5"  >
                 <CheckBox x:Name="cbxUseTextChangedEvent"
                           SemanticProperties.Description="Use Text Changed Event"/>
                 <Label x:Name="lblUseTextChangedEvent" 
                        Text="Use Text Changed Event" />
             </StackLayout>
 
+            -->
             <!-- CheckBox 2 (μπορεί να ξε-αποσχολιαστεί) -->
-            <!--<StackLayout Orientation="Horizontal" Spacing="5"  >
+            <!--
+            <StackLayout Orientation="Horizontal" Spacing="5"  >
                 <CheckBox x:Name="cbxUseEnterPressedEvent"
                           SemanticProperties.Description="Use Enter Pressed Event"/>
                 <Label x:Name="lblUseEnterPressedEvent" Text="Use Enter Pressed Event" VerticalOptions="Center"/>
@@ -45,18 +59,19 @@
           />
             </StackLayout>
             <StackLayout Orientation="Horizontal" Spacing="5" >
-              
+
                 <Label x:Name="lblMaxSegmentLength" Text="Max Segment Length" 
 />
                 <Editor x:Name="txtMaxSegmentLength" Keyboard="Numeric" 
                         WidthRequest="100" Margin="10,0,0,0"/>
-                </StackLayout>
+            </StackLayout>
 
 
         </FlexLayout>
         <Button x:Name="btnSetPerimitions" Clicked="btnSetPerimitions_Clicked" 
                 Text ="Set Perissions" IsVisible="False" Margin="50,0,0,0"/>
-
+        <Button x:Name="btnInstallPlugins" Clicked="btnInstallPlugins_Clicked" 
+        Text ="Install Plugins" IsVisible="True" Margin="60,0,0,0"/>
         <!-- Orientation -->
         <Label x:Name="lblOriantation"
                Text="WebView Orientation"
