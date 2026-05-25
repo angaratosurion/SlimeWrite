@@ -11,6 +11,11 @@ namespace SlimeWrite.Plugins.Standard.AutoCorrectPlugin
         public string Version => "1.0.0";
         public string Author => "Developer";
 
+        public void OnEditorCompleted(Editor editor, Options options)
+        {
+            throw new NotImplementedException();
+        }
+
         // Called in: editor_TextChanged
         public void OnEditorTextChanged(Editor editor, string oldText, string newText, Options options)
         {

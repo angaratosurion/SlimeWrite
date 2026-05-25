@@ -669,6 +669,10 @@ namespace SlimeWrite
                 {
                     Updatepreview(editor.Text);
                 }
+                foreach (var plugin in PluginManager.Plugins)
+                {
+                    plugin.OnEditorCompleted(editor, options);
+                }
             }
             catch (Exception ex)
             {

@@ -2,6 +2,7 @@
 using SharpCompress.Archives.SevenZip;
 using SharpCompress.Common;
 using SharpCompress.Compressors.Deflate;
+using SharpCompress.Factories;
 using SharpCompress.Readers;
 using SharpCompress.Writers;
 using SlimeWrite.Core.Helpers;
@@ -49,9 +50,27 @@ public static class Slime7z
         try
         {
             using Stream stream = File.OpenRead(file);
-            await using var reader = await ReaderFactory.OpenAsyncReader(stream);
-            await reader.WriteAllToDirectoryAsync(
-                outputFolder);//,
+            ReaderOptions readerOptions = new ReaderOptions()
+            {
+                ArchiveEncoding = new ArchiveEncoding()
+                {
+                    Default = System.Text.Encoding.UTF8
+                },
+               
+            };
+             SevenZipFactory sevenZipFactory =  new SevenZipFactory();
+            
+            //  await using var reader = await ReaderFactory.OpenAsyncReader(stream);
+            await using var reader = await sevenZipFactory.
+                OpenAsyncArchive(stream,
+                readerOptions); 
+            if ( Directory.Exists(outputFolder) ==false)
+            {
+                Directory.CreateDirectory(outputFolder);
+            }
+             await reader.WriteToDirectoryAsync(outputFolder);
+            //await reader.WriteAllToDirectoryAsync(
+            //    outputFolder);//,
                               // cancellationToken: cancellationToken
                               // );
 

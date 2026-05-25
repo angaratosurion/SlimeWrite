@@ -69,7 +69,8 @@ namespace SlimeWrite.Core.SDK
                 if (!Directory.Exists(pluginsDirectory))
                     Directory.CreateDirectory(pluginsDirectory);
                 string fileName = Path.GetFileName(pluginPath);
-                string destPath = Path.Combine(pluginsDirectory, fileName);
+                string destPath = Path.Combine(pluginsDirectory, 
+                    Path.GetFileNameWithoutExtension(fileName));
                  Slime7z.Extract(pluginPath, destPath);
                 LoadPlugins(pluginsDirectory);
 

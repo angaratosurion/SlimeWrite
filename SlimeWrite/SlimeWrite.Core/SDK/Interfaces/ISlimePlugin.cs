@@ -14,6 +14,7 @@ namespace SlimeWrite.Core.SDK.Interfaces
         // Hooks for application events
         void OnEditorTextChanged(Editor editor, string oldText,
             string newText, Options options);
+        void OnEditorCompleted(Editor editor, Options options);
 
         void OnFileOpened(string filePath, ref string fileContent);
 
