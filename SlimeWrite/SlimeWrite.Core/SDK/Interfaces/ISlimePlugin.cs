@@ -10,6 +10,8 @@ namespace SlimeWrite.Core.SDK.Interfaces
     {
         string Name { get; }
         string Version { get; }
+        string Author { get; }
+        string Description { get; }
 
         // Hooks for application events
         void OnEditorTextChanged(Editor editor, string oldText,

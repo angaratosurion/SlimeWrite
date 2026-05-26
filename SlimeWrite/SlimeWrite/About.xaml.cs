@@ -1,6 +1,5 @@
 using SlimeWrite.Core;
 using SlimeWrite.Core.Helpers;
-using SlimeWrite.Core.Models;
 using System.Diagnostics;
 using AppInfo = SlimeWrite.Core.Models.AppInfo;
 
@@ -67,6 +66,36 @@ public partial class About : ContentPage
             StaticVariables.core.ErrorLog(ex);
 
              
+        }
+    }
+    private void PluginsList_Click(object sender, EventArgs e)
+    {
+        try
+        {
+            PluginsList pluginsList = new PluginsList();
+            if (StaticVariables.core.isDesktopMode())
+            {
+                var win = new Window(pluginsList)
+                {
+                    IsMaximizable = false,
+                    IsMinimizable = false,
+                    Height = pluginsList.HeightRequest,
+                    Width = pluginsList.WidthRequest
+                };
+                Application.Current?.OpenWindow(win);
+            }
+            else
+            {
+                this.Navigation.PushAsync(pluginsList);
+            }
+
+
+        }
+        catch (Exception ex)
+        {
+            StaticVariables.core.ErrorLog(ex);
+
+
         }
     }
 

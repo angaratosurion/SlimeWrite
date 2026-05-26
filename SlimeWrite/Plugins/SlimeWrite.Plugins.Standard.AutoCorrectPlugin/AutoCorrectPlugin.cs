@@ -10,6 +10,7 @@ namespace SlimeWrite.Plugins.Standard.AutoCorrectPlugin
         public string Name => "Auto-Correct and Timestamp Plugin";
         public string Version => "1.0.0";
         public string Author => "Developer";
+        public string Description => "Automatically corrects text and adds timestamps.";
 
         public void OnEditorCompleted(Editor editor, Options options)
         {
