@@ -13,7 +13,7 @@ namespace SlimeWrite.Plugins.Standard.AutoCorrectPlugin
 
         public void OnEditorCompleted(Editor editor, Options options)
         {
-            throw new NotImplementedException();
+            editor.Text = editor.Text.Replace("(c)", "©");
         }
 
         // Called in: editor_TextChanged

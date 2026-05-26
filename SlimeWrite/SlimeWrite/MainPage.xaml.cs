@@ -32,8 +32,7 @@ namespace SlimeWrite
             PickerTitle = "Open Markdown or SlimeMarkup file",
         };
 
-        public static PluginManager PluginManager = new PluginManager();
- 
+        
 
         double startHeight, startWidth;
 

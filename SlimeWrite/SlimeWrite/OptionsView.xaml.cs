@@ -188,8 +188,7 @@ namespace SlimeWrite.Views
                 if (res != null)
                 {
                     filename = res.FullPath;
-                    PluginManager pluginManager = new PluginManager();
-                    pluginManager.InstallPlugin(filename,
+                    PluginManager.InstallPlugin(filename,
                         StaticVariables.core.GetPluginsPath());
 
 

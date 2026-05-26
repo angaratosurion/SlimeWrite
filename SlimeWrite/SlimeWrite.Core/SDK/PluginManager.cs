@@ -9,13 +9,13 @@ using SlimeWrite.Core.SDK.Interfaces;
 // #if WINDOWS
 namespace SlimeWrite.Core.SDK
 {
-    public class PluginManager
+    public static class PluginManager
     {
-        public List<ISlimePlugin> Plugins { get; } =
+        public static List<ISlimePlugin> Plugins { get; } =
             new List<ISlimePlugin>();
 
 
-        public void LoadPlugins(string pluginsDirectory)
+        public static void LoadPlugins(string pluginsDirectory)
         {
             if (!Directory.Exists(pluginsDirectory))
                 Directory.CreateDirectory(pluginsDirectory);
@@ -26,7 +26,7 @@ namespace SlimeWrite.Core.SDK
             foreach (var folder in pluginFolders)
             {
                 // Βρες ΟΛΑ τα DLL μέσα στον φάκελο
-                var dllFiles = Directory.GetFiles(folder, "*.dll",
+                var dllFiles = Directory.GetFiles(folder, "*.plugin",
                     SearchOption.TopDirectoryOnly);
 
                 foreach (var dll in dllFiles)
@@ -62,7 +62,7 @@ namespace SlimeWrite.Core.SDK
             }
         }
 
-        public void InstallPlugin(string pluginPath, string pluginsDirectory)
+        public static void InstallPlugin(string pluginPath, string pluginsDirectory)
         {
             try
             {
