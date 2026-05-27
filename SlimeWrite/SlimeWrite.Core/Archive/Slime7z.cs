@@ -26,12 +26,13 @@ public static class Slime7z
                 
 
             };
-             
+               
             using Stream stream = File.OpenWrite(outputFile);
-            await using var writer = await WriterFactory.OpenAsyncWriter(stream, ArchiveType.SevenZip,
+            await using var writer = await WriterFactory.
+                OpenAsyncWriter(stream, ArchiveType.SevenZip,
                 writerOptions);
             await writer.WriteAllAsync(
-                @"D:\files",
+                folder,
                 "*",
                 SearchOption.AllDirectories
             );

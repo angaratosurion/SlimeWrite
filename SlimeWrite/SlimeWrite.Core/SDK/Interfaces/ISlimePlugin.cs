@@ -12,7 +12,7 @@ namespace SlimeWrite.Core.SDK.Interfaces
         string Version { get; }
         string Author { get; }
         string Description { get; }
-
+        void AddNewButton(FlexLayout toolbar);
         // Hooks for application events
         void OnEditorTextChanged(Editor editor, string oldText,
             string newText, Options options);

@@ -12,6 +12,22 @@ namespace SlimeWrite.Plugins.Standard.AutoCorrectPlugin
         public string Author => "Developer";
         public string Description => "Automatically corrects text and adds timestamps.";
 
+        public void AddNewButton(FlexLayout toolbar)
+        {
+            //toolbar.Add(new Button
+            //{
+            //    Text = "Auto-Correct",
+            //    Command = new Command(() =>
+            //    {
+            //        // Example action: Show a message or perform an auto-correct action
+            //        // For demonstration, we'll just show a message box (if supported)
+            //        // In a real plugin, you might trigger an auto-correct function here
+            //        Console.WriteLine("Auto-Correct button clicked!");
+            //    })
+            //});
+            //// throw new NotImplementedException();
+        }
+
         public void OnEditorCompleted(Editor editor, Options options)
         {
             editor.Text = editor.Text.Replace("(c)", "©");

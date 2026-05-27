@@ -8,7 +8,7 @@
     <VerticalStackLayout Spacing="0">
         <!-- TOOLBAR -->
         <ScrollView Orientation="Vertical">
-            <FlexLayout 
+            <FlexLayout  x:Name="Toolbar"
         Wrap="Wrap"
         Direction="Row"
         JustifyContent="Start"
@@ -16,36 +16,44 @@
         Padding="5">
 
                 <!-- File -->
-                <ImageButton Source="newfile.png" WidthRequest="40" HeightRequest="40" Clicked="New_Clicked"/>
-                <ImageButton Source="openfile.png" WidthRequest="40" HeightRequest="40" Clicked="Open_Clicked"/>
-                <ImageButton Source="savefile.png" WidthRequest="40" HeightRequest="40" Clicked="Save_Clicked"/>
-                <ImageButton Source="closefile.png" WidthRequest="40" HeightRequest="40" Clicked="Close_Clicked"/>
+                <ImageButton Source="newfile.png" WidthRequest="40" 
+                             HeightRequest="40" Clicked="New_Clicked" 
+                             x:Name="btnNewFile"/>
+                <ImageButton Source="openfile.png" 
+                             WidthRequest="40" HeightRequest="40"
+                             Clicked="Open_Clicked" x:Name="btnOpenFile"/>
+                <ImageButton Source="savefile.png" WidthRequest="40" HeightRequest="40" Clicked="Save_Clicked" x:Name="btnSaveFile"/>
+                <ImageButton Source="closefile.png" WidthRequest="40" HeightRequest="40" Clicked="Close_Clicked" x:Name="btnCloseFile"/>
 
                 <!-- Headings -->
-                <ImageButton Source="h1.png" WidthRequest="40" HeightRequest="40" Clicked="H1_Clicked"/>
-                <ImageButton Source="h2.png" WidthRequest="40" HeightRequest="40" Clicked="H2_Clicked"/>
+                <ImageButton Source="h1.png" WidthRequest="40" HeightRequest="40" Clicked="H1_Clicked" x:Name="btnH1"/>
+                <ImageButton Source="h2.png" WidthRequest="40" HeightRequest="40" Clicked="H2_Clicked" x:Name="btnH2"/>
 
                 <!-- Formatting -->
-                <ImageButton Source="bold.png" WidthRequest="40" HeightRequest="40" Clicked="Bold_Clicked"/>
-                <ImageButton Source="italic.png" WidthRequest="40" HeightRequest="40" Clicked="Italic_Clicked"/>
+                <ImageButton Source="bold.png" WidthRequest="40" HeightRequest="40" Clicked="Bold_Clicked" x:Name="btnBold"/>
+                <ImageButton Source="italic.png" WidthRequest="40" HeightRequest="40" Clicked="Italic_Clicked" x:Name="btnItalic"/>
 
                 <!-- Insert -->
-                <ImageButton Source="link.png" WidthRequest="40" HeightRequest="40" Clicked="Link_Clicked"/>
-                <ImageButton Source="image.png" WidthRequest="40" HeightRequest="40" Clicked="Image_Clicked"/>
-                <ImageButton Source="list.png" WidthRequest="40" HeightRequest="40" Clicked="List_Clicked"/>
-                <ImageButton Source="table.png" WidthRequest="40" HeightRequest="40" Clicked="Table_Clicked"/>
+                <ImageButton Source="link.png" WidthRequest="40" HeightRequest="40" Clicked="Link_Clicked" x:Name="btnLink"/>
+                <ImageButton Source="image.png" WidthRequest="40" HeightRequest="40" Clicked="Image_Clicked" x:Name="btnImage"/>
+                <ImageButton Source="list.png" WidthRequest="40" HeightRequest="40" Clicked="List_Clicked" x:Name="btnList"/>
+                <ImageButton Source="table.png" WidthRequest="40" HeightRequest="40" Clicked="Table_Clicked" x:Name="btnTable"/>
                 <ImageButton Source="blockquote.png" 
                              WidthRequest="40" HeightRequest="40" 
-                             Clicked="Quote_Clicked"/>
+                             Clicked="Quote_Clicked" x:Name="btnQuote"/>
                 <ImageButton Source="fileimport.png" 
              WidthRequest="40" HeightRequest="40" 
-              Clicked="ImportFile_Clicked"/>
+              Clicked="ImportFile_Clicked" x:Name="btnImportFile"/>
 
                 <!-- Extras -->
-                <ImageButton Source="fileproperties.png" WidthRequest="40" HeightRequest="40" Clicked="InserFilepropps_Click"/>
+                <ImageButton Source="fileproperties.png" WidthRequest="40" 
+                             HeightRequest="40" Clicked="InserFilepropps_Click"
+                             x:Name="btnFileProperties"/>
 
-                <Button Text="Options" Clicked="AppOptions_Click"/>
-                <Button Text="About" Clicked="About_Click"/>
+                <Button Text="Options" Clicked="AppOptions_Click"
+                        x:Name="btnOptions"/>
+                <Button Text="About" Clicked="About_Click" 
+                        x:Name="btnAbout"/>
 
             </FlexLayout>
         </ScrollView>
