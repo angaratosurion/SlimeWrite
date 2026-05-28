@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<svg width="128" height="128" viewBox="0 0 128 128" xmlns="http://www.w3.org/2000/svg">
+
+  <!-- Document -->
+  <path d="M36 20
+           H76
+           L100 44
+           V108
+           Q100 116 92 116
+           H36
+           Q28 116 28 108
+           V28
+           Q28 20 36 20
+           Z"
+        fill="#ffffff"
+        stroke="#444"
+        stroke-width="3"/>
+
+  <!-- Folded corner -->
+  <path d="M76 20
+           V44
+           H100"
+        fill="#eaeaea"
+        stroke="#444"
+        stroke-width="3"/>
+
+  <!-- Close X -->
+  <path d="M48 60
+           L80 92
+           M80 60
+           L48 92"
+        stroke="#d32f2f"
+        stroke-width="8"
+        stroke-linecap="round"/>
+
+</svg>

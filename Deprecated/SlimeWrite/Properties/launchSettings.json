@@ -1,0 +1,8 @@
+{
+  "profiles": {
+    "SlimeWrite": {
+      "commandName": "Project",
+      "commandLineArgs": ".\\input.txt"
+    }
+  }
+}
