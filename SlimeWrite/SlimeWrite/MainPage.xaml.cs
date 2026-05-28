@@ -295,13 +295,15 @@ namespace SlimeWrite
                 // Hook για το event OnFileSaving πριν την εγγραφή στο αρχείο
                 foreach (var plugin in PluginManager.Plugins)
                 {
-                    plugin.OnFileSaving(documentInfo.FullPath, ref textToSave);
+                    plugin.OnFileSaving(documentInfo.FullPath, 
+                        ref textToSave);
                 }
  
                 // Χρήση using για αυτόματη αποδέσμευση (Dispose) των Streams (αποφυγή memory leaks)
                 using (MemoryStream stream = new MemoryStream())
                 {
-                    using (StreamWriter streamWriter = new StreamWriter(stream, Encoding.UTF8, leaveOpen: true))
+                    using (StreamWriter streamWriter = new
+                        StreamWriter(stream, Encoding.UTF8, leaveOpen: true))
                     {
                         await streamWriter.WriteAsync(textToSave);
                         await streamWriter.FlushAsync();
@@ -309,7 +311,8 @@ namespace SlimeWrite
 
                     stream.Position = 0;
 
-                    var res = await FileSaver.Default.SaveAsync(documentInfo.FullPath, stream);
+                    var res = await FileSaver.
+                        Default.SaveAsync(documentInfo.FullPath, stream);
                     if (res != null && res.IsSuccessful)
                     {
                         documentManager.SaveDocument(documentInfo, res.FilePath, stream);

@@ -7,7 +7,7 @@ using SharpCompress.Readers;
 using SharpCompress.Writers;
 using SlimeWrite.Core.Helpers;
 
-namespace SlimeWrite.Archive;
+namespace SlimeWrite.Core.Archive;
 
 public static class Slime7z
 {
@@ -31,6 +31,12 @@ public static class Slime7z
             await using var writer = await WriterFactory.
                 OpenAsyncWriter(stream, ArchiveType.SevenZip,
                 writerOptions);
+             var outputFilehtml = Path.Combine(folder, "output.html");
+             if ( File.Exists(outputFilehtml) == false)
+            {
+                File.Delete(outputFilehtml);
+            }
+
             await writer.WriteAllAsync(
                 folder,
                 "*",
@@ -60,6 +66,7 @@ public static class Slime7z
                
             };
              SevenZipFactory sevenZipFactory =  new SevenZipFactory();
+            
             
             //  await using var reader = await ReaderFactory.OpenAsyncReader(stream);
             await using var reader = await sevenZipFactory.

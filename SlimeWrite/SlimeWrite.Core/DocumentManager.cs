@@ -1,7 +1,7 @@
 ﻿using SlimeWrite.Core.Helpers;
 using SlimeWrite.Core.Models;
 using System.Text;
-
+using SlimeWrite.Core.Archive;
 namespace SlimeWrite.Core
 {
     public class DocumentManager
@@ -78,13 +78,15 @@ namespace SlimeWrite.Core
             }
 
         }
-        public void SaveDocument(DocumentInfo document, string savePath,Stream stream)
+        public void SaveDocument(DocumentInfo document, 
+            string savePath,Stream stream)
         {
 
             try
             {
 #if WINDOWS
-                if (Directory.Exists(document.ParentDirectory) && stream != null)
+                if (Directory.Exists(document.ParentDirectory) 
+                && stream != null)
                 {
                     string destinationPath = Path.Combine(
                         Path.GetDirectoryName(savePath),
@@ -92,7 +94,8 @@ namespace SlimeWrite.Core
 
                     Directory.CreateDirectory(destinationPath);
 
-                    string destinationFile = Path.Combine(destinationPath, Path.GetFileName(savePath));
+                    string destinationFile = Path.Combine(destinationPath,
+                    Path.GetFileName(savePath));
                     File.Move(savePath, destinationFile, true);
 
                     var files = Directory.GetFiles(document.ParentDirectory);
@@ -112,24 +115,54 @@ namespace SlimeWrite.Core
                     }
                     document.FullPath = destinationFile;
                     document.ParentDirectory = destinationPath;
-                    document.Name = Path.GetFileName(destinationFile);
+                    document.Name = Path.GetFileName(destinationFile); 
+                    if (Path.GetExtension(savePath).ToLower() == ".zsmd")
+                    {
+                     Slime7z.Create(document.ParentDirectory,Path.Combine(document.ParentDirectory,
+                     Path.
+                     GetFileNameWithoutExtension(savePath)
+                     ,".zsmd"));
+                      foreach (string file in Directory.GetFiles(document.
+                      ParentDirectory))
+                        { 
+                        if ( Path.GetExtension(file).ToLower() != ".zsmd")
+                        {
+                                   File.Delete(file);
+                             }
+                     }
+                    }   
 
                 }
 #endif
-                   // else
-                    {
+                // else
+                {
 #if ANDROID
 
-                      StreamReader streamReader = new StreamReader(stream);
+                    StreamReader streamReader = new StreamReader(stream);
                      File.WriteAllText(document.FullPath, streamReader.ReadToEnd(),Encoding.UTF8);
                     streamReader.Close();
                     FileCopier.CopyFolderToDownloads(document.ParentDirectory,
                           Path.GetFileNameWithoutExtension(savePath),document);
                     File.Delete(savePath);
+                    if (Path.GetExtension(savePath).ToLower() == ".zsmd")
+                    {
+                        Slime7z.Create(document.ParentDirectory, Path.Combine(document.ParentDirectory,
+                        Path.
+                        GetFileNameWithoutExtension(savePath)
+                        , ".zsmd"));
+                        foreach (string file in Directory.GetFiles(document.
+                        ParentDirectory))
+                        {
+                            if (Path.GetExtension(file).ToLower() != ".zsmd")
+                            {
+                                File.Delete(file);
+                            }
+                        }
+                    }
 #endif
-                   // }
+                    // }
 
-                    
+
                 }
             }
 
