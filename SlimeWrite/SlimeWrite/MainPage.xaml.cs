@@ -4,7 +4,7 @@ using CommunityToolkit.Maui.Extensions;
 using SlimeMarkUp.Core;
 using SlimeWrite.Core;
 using SlimeWrite.Core.Models;
- 
+
 #if ANDROID
 using SlimeWrite.Platforms.Android;
 #endif
@@ -15,6 +15,7 @@ using AppInfo = SlimeWrite.Core.Models.AppInfo;
 using Options = SlimeWrite.Core.Models.Options;
 using SlimeWrite.Core.SDK;
 using SlimeWrite.Core.Helpers;
+using SlimeWrite.Core.Archive;
 
 namespace SlimeWrite
 {
@@ -193,72 +194,90 @@ namespace SlimeWrite
 
                 if (filename == null)
                 {
-                   
+
                     res = await FilePicker.Default.
                         PickAsync(PickfileOpenptions);
 
                     if (res != null)
                     {
                         filename = res.FullPath;
+                        if (Path.GetExtension(filename).ToLower() == ".zsmd")
+                        {
+                            Slime7z.Extract(filename,
+                                Path.Combine(core.GetTempfolderPath(),
+                                Path.GetFileNameWithoutExtension(filename)));
+                            var files = Directory.GetFiles(Path.Combine(core.GetTempfolderPath(),
+                                Path.GetFileNameWithoutExtension(filename)));
+                            foreach (var file in files)
+                            {
+                                bool plain = FileHelper.IsPlainTextOnly(file);
+                                if (plain)
+                                {
+                                    filename = file;
+                                    break;
+                                }
+                            }
+                        }
+                        else
+                        {
+                            return; // Ο χρήστης ακύρωσε το pick
+                        }
+                    }
+
+                    // Διόρθωση: Ξεμπλοκάρισμα του event με σωστό τρόπο (-=)
+                    editor.TextChanged -= editor_TextChanged;
+                    string filecont = "";
+
+                    if (options.SegmentedLoading)
+                    {
+                        // Χρήση Task αντί για raw Thread για καλύτερη διαχείριση στο MAUI
+                        await Task.Run(async () =>
+                        {
+                            char[] buffer = new char[options.MaxSegmentLength > 0 ? options.MaxSegmentLength * 1024 : 1024 * 1024];
+                            StringBuilder sb = new StringBuilder();
+
+                            using (var reader = new StreamReader(filename, Encoding.UTF8))
+                            {
+                                int bytesRead;
+                                while ((bytesRead = await reader.
+                                ReadAsync(buffer, 0, buffer.Length)) > 0)
+                                {
+                                    sb.Append(buffer, 0, bytesRead);
+                                    await Task.Delay(50);
+                                }
+                            }
+
+                            filecont = sb.ToString();
+
+                            // Hook για το event OnFileOpened κατά το Segmented Loading
+                            foreach (var plugin in PluginManager.Plugins)
+                            {
+                                plugin.OnFileOpened(filename, ref filecont);
+                            }
+
+
+                            MainThread.BeginInvokeOnMainThread(() =>
+                            {
+                                editor.Text = filecont;
+                                FinalizeFileLoad(filename);
+                            });
+                        });
                     }
                     else
                     {
-                        return; // Ο χρήστης ακύρωσε το pick
-                    }
-                }
+                        filecont = core.OpenFile(filename);
 
-                // Διόρθωση: Ξεμπλοκάρισμα του event με σωστό τρόπο (-=)
-                editor.TextChanged -= editor_TextChanged;
-                string filecont = "";
 
-                if (options.SegmentedLoading)
-                {
-                    // Χρήση Task αντί για raw Thread για καλύτερη διαχείριση στο MAUI
-                    await Task.Run(async () =>
-                    {
-                        char[] buffer = new char[options.MaxSegmentLength > 0 ? options.MaxSegmentLength * 1024 : 1024 * 1024];
-                        StringBuilder sb = new StringBuilder();
-
-                        using (var reader = new StreamReader(filename, Encoding.UTF8))
-                        {
-                            int bytesRead;
-                            while ((bytesRead = await reader.ReadAsync(buffer, 0, buffer.Length)) > 0)
-                            {
-                                sb.Append(buffer, 0, bytesRead);
-                                await Task.Delay(50);
-                            }
-                        }
-
-                        filecont = sb.ToString();
- 
-                        // Hook για το event OnFileOpened κατά το Segmented Loading
+                        // Hook για το event OnFileOpened κατά το κανονικό Loading
                         foreach (var plugin in PluginManager.Plugins)
                         {
                             plugin.OnFileOpened(filename, ref filecont);
                         }
- 
 
-                        MainThread.BeginInvokeOnMainThread(() =>
-                        {
-                            editor.Text = filecont;
-                            FinalizeFileLoad(filename);
-                        });
-                    });
-                }
-                else
-                {
-                    filecont = core.OpenFile(filename);
 
- 
-                    // Hook για το event OnFileOpened κατά το κανονικό Loading
-                    foreach (var plugin in PluginManager.Plugins)
-                    {
-                        plugin.OnFileOpened(filename, ref filecont);
+                        editor.Text = filecont;
+                        FinalizeFileLoad(filename);
                     }
- 
-
-                    editor.Text = filecont;
-                    FinalizeFileLoad(filename);
                 }
             }
             catch (Exception ex)
