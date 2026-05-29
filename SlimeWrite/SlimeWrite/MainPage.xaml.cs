@@ -16,13 +16,17 @@ using Options = SlimeWrite.Core.Models.Options;
 using SlimeWrite.Core.SDK;
 using SlimeWrite.Core.Helpers;
 using SlimeWrite.Core.Archive;
+using SlimeWrite.Core.IO;
 
 namespace SlimeWrite
 {
     public  partial class MainPage : ContentPage
     {
-        private readonly MarkupParser _parser;
+        
+
+        public static MarkupParser _parser;
         private readonly HtmlRenderer _renderer;
+        private readonly ISaveFileDialog _saveFileDialog;
         AppInfo appInfo;
         DocumentManager documentManager = new DocumentManager();
         DocumentInfo documentInfo;
@@ -31,6 +35,14 @@ namespace SlimeWrite
         PickOptions PickfileOpenptions = new PickOptions
         {
             PickerTitle = "Open Markdown or SlimeMarkup file",
+            FileTypes = new FilePickerFileType(new Dictionary<DevicePlatform, IEnumerable<string>>
+            {
+                { DevicePlatform.WinUI, new[] { ".md", ".markdown", ".zsmd" } },
+                { DevicePlatform.Android, new[] { "text/markdown", "application/octet-stream" } },
+                { DevicePlatform.iOS, new[] { "public.markdown", "com.pkware.zip-archive" } },
+                { DevicePlatform.MacCatalyst, new[] { "public.markdown", "com.pkware.zip-archive" } }
+            })
+
         };
 
         
@@ -42,16 +54,20 @@ namespace SlimeWrite
         public Editor Editor => editor;
         public WebView Preview => preview;
 
-        public MainPage()
+        public PickOptions PickfileOpenptions1 { get => PickfileOpenptions; set => PickfileOpenptions = value; }
+
+        public MainPage(ISaveFileDialog saveFileDialog)
         {
             try
             {
+                _saveFileDialog = saveFileDialog;
+
                 InitializeComponent();
                 appInfo = core.GetAppInfo();
                 options = core.GetOptions();
 
- 
-                
+
+              
                 PluginManager.LoadPlugins(core.GetPluginsPath());
  
 
@@ -171,7 +187,8 @@ namespace SlimeWrite
                             if (scrollview != null) MainGrid.SetColumn(scrollview, 0);
                             if (editor != null) MainGrid.SetColumn(editor, 0);
                             if (preview != null) MainGrid.SetColumn(preview, 2);
-                            if (this.spliter != null) MainGrid.SetColumn(this.spliter, 1);
+                            if (this.spliter != null) MainGrid.
+                                    SetColumn(this.spliter, 1);
                             break;
                         }
                     case 1:
@@ -196,7 +213,7 @@ namespace SlimeWrite
                 {
 
                     res = await FilePicker.Default.
-                        PickAsync(PickfileOpenptions);
+                        PickAsync(PickfileOpenptions1);
 
                     if (res != null)
                     {
@@ -206,7 +223,8 @@ namespace SlimeWrite
                             Slime7z.Extract(filename,
                                 Path.Combine(core.GetTempfolderPath(),
                                 Path.GetFileNameWithoutExtension(filename)));
-                            var files = Directory.GetFiles(Path.Combine(core.GetTempfolderPath(),
+                            var files = Directory.GetFiles(Path.Combine(
+                                core.GetTempfolderPath(),
                                 Path.GetFileNameWithoutExtension(filename)));
                             foreach (var file in files)
                             {
@@ -318,26 +336,46 @@ namespace SlimeWrite
                     plugin.OnFileSaving(documentInfo.FullPath, 
                         ref textToSave);
                 }
- 
+
                 // Χρήση using για αυτόματη αποδέσμευση (Dispose) των Streams (αποφυγή memory leaks)
                 using (MemoryStream stream = new MemoryStream())
                 {
                     using (StreamWriter streamWriter = new
-                        StreamWriter(stream, Encoding.UTF8, leaveOpen: true))
+                        StreamWriter(stream, Encoding.UTF8, 
+                        leaveOpen: true))
                     {
                         await streamWriter.WriteAsync(textToSave);
                         await streamWriter.FlushAsync();
                     }
 
                     stream.Position = 0;
-
-                    var res = await FileSaver.
-                        Default.SaveAsync(documentInfo.FullPath, stream);
-                    if (res != null && res.IsSuccessful)
+                      // if (core.isDesktopMode() == false)
                     {
-                        documentManager.SaveDocument(documentInfo, res.FilePath, stream);
-                        ChangeWindowsTitle(res.FilePath);
+
+                        //var res = await FileSaver.
+                        //    Default.SaveAsync(documentInfo.FullPath, stream);
+
+                        //if (res != null && res.IsSuccessful)
+                        //{
+                        var path = await _saveFileDialog.
+                            PickSaveFileAsync("test.txt", 
+                            new[] { ".txt" ,".md",".smd",".zsmd"});
+
+                        if (path is not null)
+                        {
+                            documentManager.SaveDocument(documentInfo,
+                                path, stream);
+                            ChangeWindowsTitle(documentInfo.FullPath);
+                        }
                     }
+                    //else
+                    //{
+                        
+                    //    documentManager.SaveDocument(documentInfo,
+                    //        documentInfo.FullPath, stream);
+
+                    //    ChangeWindowsTitle(documentInfo.FullPath);
+                    //}
                 }
             }
             catch (Exception ex)

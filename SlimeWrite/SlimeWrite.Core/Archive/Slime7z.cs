@@ -17,7 +17,7 @@ public static class Slime7z
         try
         {
             WriterOptions writerOptions = new 
-                WriterOptions(CompressionType.LZMA2,22)
+                WriterOptions(CompressionType.LZMA2,9)
             {
                 ArchiveEncoding = new ArchiveEncoding()
                 {

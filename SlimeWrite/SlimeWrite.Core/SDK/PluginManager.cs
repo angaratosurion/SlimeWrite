@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Reflection;
-using SlimeWrite.Archive;
+﻿using System.Reflection;
+using SlimeWrite.Core.Archive;
 using SlimeWrite.Core.Helpers;
 using SlimeWrite.Core.SDK.Interfaces;
 

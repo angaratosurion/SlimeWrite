@@ -2,6 +2,7 @@
 using Microsoft.Extensions.Logging;
 using SlimeWrite.Core;
 using SlimeWrite.Core.Helpers;
+using SlimeWrite.Core.IO;
 
 #if ANDROID
 using SlimeWrite.Platforms.Android;
@@ -42,7 +43,27 @@ TaskScheduler.UnobservedTaskException += (s, e) =>
                 builder.Logging.AddDebug();
 #endif
 
-                return builder.Build();
+               
+
+                    builder.Services.AddSingleton<ISaveFileDialog>(provider =>
+                    {
+#if WINDOWS
+                        return new SlimeWrite.Platforms.Windows.
+                        WindowsSaveFileDialog();
+#elif MACCATALYST
+    return new SlimeWrite.Platforms.MacCatalyst.MacSaveFileDialog();
+#elif IOS
+    return new SlimeWrite.Platforms.iOS.iOSSaveFileDialog();
+#elif ANDROID
+    return new SlimeWrite.Platforms.Android.AndroidSaveFileDialog();
+#else
+    return null!;
+#endif
+                    });
+
+
+
+                    return builder.Build();
             }
             catch (Exception ex)
             {
