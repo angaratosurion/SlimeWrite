@@ -194,7 +194,8 @@ namespace SlimeWrite
                 if (filename == null)
                 {
                    
-                    res = await FilePicker.Default.PickAsync(PickfileOpenptions);
+                    res = await FilePicker.Default.
+                        PickAsync(PickfileOpenptions);
 
                     if (res != null)
                     {
