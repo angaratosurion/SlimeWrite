@@ -17,7 +17,7 @@ public static class Slime7z
         try
         {
             WriterOptions writerOptions = new 
-                WriterOptions(CompressionType.LZMA2,9)
+                WriterOptions(CompressionType.LZMA2,0)
             {
                 ArchiveEncoding = new ArchiveEncoding()
                 {
@@ -77,6 +77,8 @@ public static class Slime7z
                 Directory.CreateDirectory(outputFolder);
             }
              await reader.WriteToDirectoryAsync(outputFolder);
+
+             
             //await reader.WriteAllToDirectoryAsync(
             //    outputFolder);//,
                               // cancellationToken: cancellationToken

@@ -12,6 +12,10 @@ namespace SlimeWrite.Core
             try
             { 
                 DocumentInfo ap = new DocumentInfo();
+                if ( String.IsNullOrEmpty(name) )
+                {
+                    name = "NewDocument";
+                }
                 if (Path.HasExtension(name))
                 {
                     string ext = Path.GetExtension(name);
@@ -97,8 +101,7 @@ namespace SlimeWrite.Core
 
                     string destinationFile = Path.Combine(destinationPath,
                     Path.GetFileName(savePath));
-                    File.Move(savePath, destinationFile, true);
-
+                    
                     var files = Directory.
                     GetFiles(document.ParentDirectory);
                     StreamReader streamReader = new StreamReader(stream);
@@ -129,11 +132,12 @@ namespace SlimeWrite.Core
                     document.Name = Path.GetFileName(destinationFile); 
                     if (Path.GetExtension(savePath).ToLower() == ".zsmd")
                     {
-                     Slime7z.Create(document.ParentDirectory,
-                         Path.Combine(document.ParentDirectory,
+                        var zippedfile = Path.Combine(document.ParentDirectory,
                      Path.
                      GetFileNameWithoutExtension(savePath)
-                     ,".zsmd"));
+                     , ".zsmd");
+                     Slime7z.Create(document.ParentDirectory,
+                       savePath);
                       foreach (string file in Directory.GetFiles(document.
                       ParentDirectory))
                         { 
@@ -193,7 +197,8 @@ namespace SlimeWrite.Core
             {
                 if (Directory.Exists(document.ParentDirectory))
                 {
-                    Directory.Delete(Path.Combine(document.ParentDirectory, "output.html"), true);
+                    Directory.Delete(Path.Combine(document.ParentDirectory, 
+                        "output.html"), true);
                 }
                 document = null;
             }
