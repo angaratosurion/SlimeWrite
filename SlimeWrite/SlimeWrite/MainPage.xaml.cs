@@ -35,7 +35,8 @@ namespace SlimeWrite
         PickOptions PickfileOpenptions = new PickOptions
         {
             PickerTitle = "Open Markdown or SlimeMarkup file",
-            FileTypes = new FilePickerFileType(new Dictionary<DevicePlatform, IEnumerable<string>>
+            FileTypes = new FilePickerFileType(new Dictionary<DevicePlatform, 
+                IEnumerable<string>>
             {
                 { DevicePlatform.WinUI, new[] { ".md", ".markdown", ".zsmd" } },
                 { DevicePlatform.Android, new[] { "text/markdown", "application/octet-stream" } },
@@ -254,7 +255,8 @@ namespace SlimeWrite
                             char[] buffer = new char[options.MaxSegmentLength > 0 ? options.MaxSegmentLength * 1024 : 1024 * 1024];
                             StringBuilder sb = new StringBuilder();
 
-                            using (var reader = new StreamReader(filename, Encoding.UTF8))
+                            using (var reader = new StreamReader(filename,
+                                Encoding.UTF8))
                             {
                                 int bytesRead;
                                 while ((bytesRead = await reader.

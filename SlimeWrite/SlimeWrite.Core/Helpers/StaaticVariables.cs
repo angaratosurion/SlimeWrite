@@ -5,8 +5,8 @@ using System.Text;
 namespace SlimeWrite.Core.Helpers
 {
 public static class StaticVariables
-{
-
-public static Kernel core=new Kernel();
+{  public static Kernel core=new Kernel();
+public static string 7zippedSlimeMarkDown=".zsmd";
+ 
 }
 }
