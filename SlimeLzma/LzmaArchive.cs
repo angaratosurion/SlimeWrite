@@ -35,24 +35,37 @@ internal static class LzmaArchive
         var files = Directory.GetFiles(folder, "*", SearchOption.AllDirectories);
         bw.Write(files.Length);
 
+        var encoder = new SevenZip.Compression.LZMA.Encoder();
+        LzmaOptions.ApplyMaxCompression(encoder);
+
         foreach (var file in files)
         {
             string relative = Path.GetRelativePath(folder, file);
             byte[] nameBytes = Encoding.UTF8.GetBytes(relative);
             byte[] data = File.ReadAllBytes(file);
 
+            // ---------------- FIX: compress cleanly ----------------
+            using var compressedStream = new MemoryStream();
+
+            using (var ms = new MemoryStream(data))
+            {
+                encoder.Code(ms, compressedStream, data.Length, -1, null);
+            }
+
+            byte[] compressed = compressedStream.ToArray();
+
+            // ---------------- VALIDATION ----------------
+            if (compressed.Length <= 0)
+                throw new Exception("Compression failed");
+
+            // ---------------- WRITE ----------------
             bw.Write(nameBytes.Length);
             bw.Write(nameBytes);
 
             bw.Write(data.Length);
+            bw.Write(compressed.Length);
 
-            var encoder = new Encoder();
-            LzmaOptions.ApplyMaxCompression(encoder);
-
-            encoder.WriteCoderProperties(output);
-
-            using var ms = new MemoryStream(data);
-            encoder.Code(ms, output, data.Length, -1, null);
+            bw.Write(compressed);
         }
     }
 
@@ -71,12 +84,27 @@ internal static class LzmaArchive
         for (int i = 0; i < fileCount; i++)
         {
             int nameLen = br.ReadInt32();
+            if (nameLen <= 0 || nameLen > 10000)
+                throw new InvalidDataException("Corrupted nameLen");
+
             string name = Encoding.UTF8.GetString(br.ReadBytes(nameLen));
 
-            int size = br.ReadInt32();
-            byte[] props = br.ReadBytes(5);
+            int originalSize = br.ReadInt32();
+            int compressedSize = br.ReadInt32();
+
+            if (compressedSize <= 0 || compressedSize > 1_000_000_000)
+                throw new InvalidDataException($"Corrupted compressedSize: {compressedSize}");
+
+            byte[] compressedData = br.ReadBytes(compressedSize);
+
+            using var inStream = new MemoryStream(compressedData);
 
             var decoder = new SevenZip.Compression.LZMA.Decoder();
+
+            // IMPORTANT: LZMA expects properties BEFORE data
+            byte[] props = new byte[5];
+            inStream.Read(props, 0, 5);
+
             decoder.SetDecoderProperties(props);
 
             string outPath = Path.Combine(outputFolder, name);
@@ -84,7 +112,12 @@ internal static class LzmaArchive
 
             using var outStream = File.Create(outPath);
 
-            decoder.Code(input, outStream, input.Length, size, null);
+            decoder.Code(
+                inStream,
+                outStream,
+                compressedData.Length,
+                originalSize,
+                null);
         }
     }
 }

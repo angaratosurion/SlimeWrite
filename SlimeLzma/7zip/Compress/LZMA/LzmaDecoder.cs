@@ -1,11 +1,10 @@
 // LzmaDecoder.cs
 
 using System;
-using RangeCoder;
 
 namespace SevenZip.Compression.LZMA
 {
-	
+	using RangeCoder;
 
 	public class Decoder : ICoder, ISetDecoderProperties // ,System.IO.Stream
 	{

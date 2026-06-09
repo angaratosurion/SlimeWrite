@@ -17,6 +17,7 @@ using SlimeWrite.Core.SDK;
 using SlimeWrite.Core.Helpers;
 using SlimeWrite.Core.Archive;
 using SlimeWrite.Core.IO;
+using SlimeLzma;
 
 namespace SlimeWrite
 {
@@ -38,7 +39,8 @@ namespace SlimeWrite
             FileTypes = new FilePickerFileType(new Dictionary<DevicePlatform, 
                 IEnumerable<string>>
             {
-                { DevicePlatform.WinUI, new[] { ".md", ".markdown", ".zsmd" } },
+                { DevicePlatform.WinUI, new[] { ".md", ".markdown", StaticVariables.SevenZippedSlimeMarkDown ,
+                    StaticVariables.SlimeLZAZippedSlimeMarkDown} },
                 { DevicePlatform.Android, new[] { "text/markdown", "application/octet-stream" } },
                 { DevicePlatform.iOS, new[] { "public.markdown", "com.pkware.zip-archive" } },
                 { DevicePlatform.MacCatalyst, new[] { "public.markdown", "com.pkware.zip-archive" } }
@@ -219,7 +221,8 @@ namespace SlimeWrite
                     if (res != null)
                     {
                         filename = res.FullPath;
-                        if (Path.GetExtension(filename).ToLower() == ".zsmd")
+                        if (Path.GetExtension(filename).ToLower() == 
+                            StaticVariables.SevenZippedSlimeMarkDown)
                         {
                             Slime7z.Extract(filename,
                                 Path.Combine(core.GetTempfolderPath(),
@@ -227,6 +230,33 @@ namespace SlimeWrite
                             var files = Directory.GetFiles(Path.Combine(
                                 core.GetTempfolderPath(),
                                 Path.GetFileNameWithoutExtension(filename)));
+                             if (files.Length == 0)
+                            {
+                                return;
+                            }
+                            foreach (var file in files)
+                            {
+                                bool plain = FileHelper.IsPlainTextOnly(file);
+                                if (plain)
+                                {
+                                    filename = file;
+                                    break;
+                                }
+                            }
+                        } 
+                        else if(Path.GetExtension(filename).ToLower() ==
+                            StaticVariables.SlimeLZAZippedSlimeMarkDown)
+                        {
+                            LzmaCompressor.Extract(filename,
+                                Path.Combine(core.GetTempfolderPath(),
+                                Path.GetFileNameWithoutExtension(filename)));
+                            var files = Directory.GetFiles(Path.Combine(
+                              core.GetTempfolderPath(),
+                              Path.GetFileNameWithoutExtension(filename)));
+                            if (files.Length == 0)
+                            {
+                                return;
+                            }
                             foreach (var file in files)
                             {
                                 bool plain = FileHelper.IsPlainTextOnly(file);
@@ -252,7 +282,8 @@ namespace SlimeWrite
                         // Χρήση Task αντί για raw Thread για καλύτερη διαχείριση στο MAUI
                         await Task.Run(async () =>
                         {
-                            char[] buffer = new char[options.MaxSegmentLength > 0 ? options.MaxSegmentLength * 1024 : 1024 * 1024];
+                            char[] buffer = new char[options.MaxSegmentLength > 0 
+                            ? options.MaxSegmentLength * 1024 : 1024 * 1024];
                             StringBuilder sb = new StringBuilder();
 
                             using (var reader = new StreamReader(filename,
@@ -361,7 +392,9 @@ namespace SlimeWrite
                         //{
                         var path = await _saveFileDialog.
                             PickSaveFileAsync("test.txt", 
-                            new[] { ".txt" ,".md",".smd",".zsmd"});
+                            new[] { ".txt" ,".md",".smd",
+                                StaticVariables.SevenZippedSlimeMarkDown,
+                                StaticVariables.SlimeLZAZippedSlimeMarkDown});
 
                         if (path is not null)
                         {

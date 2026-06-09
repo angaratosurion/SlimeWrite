@@ -1,7 +1,8 @@
-﻿using SlimeWrite.Core.Helpers;
+﻿using SlimeLzma;
+using SlimeWrite.Core.Archive;
+using SlimeWrite.Core.Helpers;
 using SlimeWrite.Core.Models;
 using System.Text;
-using SlimeWrite.Core.Archive;
 namespace SlimeWrite.Core
 {
     public class DocumentManager
@@ -90,7 +91,7 @@ namespace SlimeWrite.Core
             try
             {
 #if WINDOWS
-                if (Directory.Exists(document.ParentDirectory) 
+                if (Directory.Exists(document.ParentDirectory)
                 && stream != null)
                 {
                     string destinationPath = Path.Combine(
@@ -101,13 +102,13 @@ namespace SlimeWrite.Core
 
                     string destinationFile = Path.Combine(destinationPath,
                     Path.GetFileName(savePath));
-                    
+
                     var files = Directory.
                     GetFiles(document.ParentDirectory);
                     StreamReader streamReader = new StreamReader(stream);
                     var filecont = streamReader.ReadToEnd();
-                    File.WriteAllText(Path.Combine(destinationPath, 
-                        Path.GetFileNameWithoutExtension(savePath) +".smd"),
+                    File.WriteAllText(Path.Combine(destinationPath,
+                        Path.GetFileNameWithoutExtension(savePath) + ".smd"),
                         filecont
                         , Encoding.UTF8);
                     streamReader.Close();
@@ -121,7 +122,7 @@ namespace SlimeWrite.Core
                             if (Path.GetExtension(file).ToLower() != ".html")
                             {
                                 string destFile = Path.
-                                Combine(destinationPath, 
+                                Combine(destinationPath,
                                 fileName);
                                 File.Move(file, destFile, true); // ή Copy αν θες αντίγραφα
                             }
@@ -129,29 +130,50 @@ namespace SlimeWrite.Core
                     }
                     document.FullPath = destinationFile;
                     document.ParentDirectory = destinationPath;
-                    document.Name = Path.GetFileName(destinationFile); 
-                    if (Path.GetExtension(savePath).ToLower() == ".zsmd")
+                    document.Name = Path.GetFileName(destinationFile);
+                    if (Path.GetExtension(savePath).ToLower()
+                        == StaticVariables.SevenZippedSlimeMarkDown)
                     {
                         var zippedfile = Path.Combine(document.ParentDirectory,
                      Path.
                      GetFileNameWithoutExtension(savePath)
-                     , ".zsmd");
-                     Slime7z.Create(document.ParentDirectory,
-                       savePath);
-                      foreach (string file in Directory.GetFiles(document.
-                      ParentDirectory))
-                        { 
-                        if ( Path.GetExtension(file).ToLower() != ".zsmd")
+                     , StaticVariables.SevenZippedSlimeMarkDown);
+                        Slime7z.Create(document.ParentDirectory,
+                          savePath);
+                        foreach (string file in Directory.GetFiles(document.
+                        ParentDirectory))
                         {
-                                   File.Delete(file);
-                             }
-                     }
-                    }   
+                            if (Path.GetExtension(file).ToLower() != StaticVariables.SevenZippedSlimeMarkDown)
+                            {
+                                File.Delete(file);
+                            }
+                        }
+                    }
+                    else if (Path.GetExtension(savePath).ToLower()
+                        == StaticVariables.SlimeLZAZippedSlimeMarkDown)
+                    {
+                        var zippedfile = Path.Combine(document.ParentDirectory,
+                     Path.
+                     GetFileNameWithoutExtension(savePath)
+                     , StaticVariables.SlimeLZAZippedSlimeMarkDown);
+                        LzmaCompressor.CompressDirectory(document.ParentDirectory,
+                            savePath);
 
+                        foreach (string file in Directory.GetFiles(document.
+                        ParentDirectory))
+                        {
+                            if (Path.GetExtension(file).ToLower()
+                                != StaticVariables.SlimeLZAZippedSlimeMarkDown)
+                            {
+                                File.Delete(file);
+                            }
+                        }
+
+                    }
                 }
 #endif
-                // else
-                {
+                    // else
+                    {
 #if ANDROID
 
                     StreamReader streamReader = new StreamReader(stream);
@@ -161,34 +183,37 @@ namespace SlimeWrite.Core
                     FileCopier.CopyFolderToDownloads(document.ParentDirectory,
                           Path.GetFileNameWithoutExtension(savePath),document);
                     File.Delete(savePath);
-                    if (Path.GetExtension(savePath).ToLower() == ".zsmd")
+                    if (Path.GetExtension(savePath).ToLower() == StaticVariables.SevenZippedSlimeMarkDown)
                     {
                         Slime7z.Create(document.ParentDirectory,
                             Path.Combine(document.ParentDirectory,
                         Path.
                         GetFileNameWithoutExtension(savePath)
-                        , ".zsmd"));
+                        , StaticVariables.SevenZippedSlimeMarkDown));
                         foreach (string file in Directory.GetFiles(document.
                         ParentDirectory))
                         {
-                            if (Path.GetExtension(file).ToLower() != ".zsmd")
+                            if (Path.GetExtension(file).ToLower() != StaticVariables.SevenZippedSlimeMarkDown)
                             {
                                 File.Delete(file);
                             }
                         }
                     }
 #endif
-                    // }
+                        // }
 
 
-                }
+                    }
+               
             }
+
+
 
             catch (Exception ex)
             {
                 StaticVariables.core.ErrorLog(ex);
 
-                 
+
             }
         }
         public void CloseDocument(DocumentInfo document)

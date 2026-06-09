@@ -7,10 +7,9 @@ internal static class LzmaOptions
 {
     public static void ApplyMaxCompression(Encoder encoder)
     {
-        // Dictionary size (VERY important)
-        encoder.SetCoderProperties(new[]
-        {
-            new CoderPropID[] {
+        encoder.SetCoderProperties(
+            new CoderPropID[]
+            {
                 CoderPropID.DictionarySize,
                 CoderPropID.PosStateBits,
                 CoderPropID.LitContextBits,
@@ -22,15 +21,14 @@ internal static class LzmaOptions
             },
             new object[]
             {
-                1 << 26,   // 64MB dictionary (ή 1<<27 = 128MB αν θες πιο βαριά συμπίεση)
+                1 << 26,   // 64 MB dictionary
                 2,
                 3,
                 0,
                 2,
-                273,      // MAX
-                "BT4",    // καλύτερο compression
+                273,
+                "BT4",
                 false
-            }
-        });
+            });
     }
 }

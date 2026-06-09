@@ -29,7 +29,7 @@ public static class Slime7z
                
             using Stream stream = File.OpenWrite(outputFile);
             await using var writer = await WriterFactory.
-                OpenAsyncWriter(stream, ArchiveType.SevenZip,
+                OpenAsyncWriter(stream,ArchiveType.SevenZip,
                 writerOptions);
              var outputFilehtml = Path.Combine(folder, "output.html");
              if ( File.Exists(outputFilehtml) == false)
@@ -51,7 +51,7 @@ public static class Slime7z
     }
 
     // ================= EXTRACT =================
-    public static async void Extract(string file, string outputFolder)
+    public static   void Extract(string file, string outputFolder)
     {
 
         try
@@ -63,26 +63,36 @@ public static class Slime7z
                 {
                     Default = System.Text.Encoding.UTF8
                 },
-               
+
             };
-             SevenZipFactory sevenZipFactory =  new SevenZipFactory();
-            
-            
-            //  await using var reader = await ReaderFactory.OpenAsyncReader(stream);
-            await using var reader = await sevenZipFactory.
-                OpenAsyncArchive(stream,
-                readerOptions); 
-            if ( Directory.Exists(outputFolder) ==false)
+            SevenZipFactory sevenZipFactory = new SevenZipFactory();
+
+
+            // await using var reader = await ReaderFactory.OpenAsyncReader(stream);
+            var reader = sevenZipFactory.
+             OpenArchive(stream,
+             readerOptions);
+            if (Directory.Exists(outputFolder) == false)
             {
                 Directory.CreateDirectory(outputFolder);
             }
-             await reader.WriteToDirectoryAsync(outputFolder);
+            ExtractionOptions extractionOptions = new ExtractionOptions()
+            {
+                ExtractFullPath = true,
+                Overwrite = true
+            };
 
-             
+
+            reader.WriteToDirectory(
+               outputFolder, extractionOptions, null);
+        
+
+            
+
             //await reader.WriteAllToDirectoryAsync(
-            //    outputFolder);//,
-                              // cancellationToken: cancellationToken
-                              // );
+             //   outputFolder);//,
+        //cancellationToken: cancellationToken
+        //                       );
 
         }
         catch (Exception ex)

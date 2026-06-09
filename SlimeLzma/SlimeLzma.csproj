@@ -26,6 +26,18 @@
 	</PropertyGroup>
 
 	<ItemGroup>
+	  <AndroidJavaSource Remove="7zip\Compress\LzmaAlone\**" />
+	  <AndroidLibrary Remove="7zip\Compress\LzmaAlone\**" />
+	  <AndroidNativeLibrary Remove="7zip\Compress\LzmaAlone\**" />
+	  <Compile Remove="7zip\Compress\LzmaAlone\**" />
+	  <EmbeddedResource Remove="7zip\Compress\LzmaAlone\**" />
+	  <JavaSourceJar Remove="7zip\Compress\LzmaAlone\**" />
+	  <None Remove="7zip\Compress\LzmaAlone\**" />
+	  <ProguardConfiguration Remove="7zip\Compress\LzmaAlone\**" />
+	  <TransformFile Remove="7zip\Compress\LzmaAlone\**" />
+	</ItemGroup>
+
+	<ItemGroup>
 		<PackageReference Include="Microsoft.Maui.Controls" Version="$(MauiVersion)" />
 	</ItemGroup>
 
