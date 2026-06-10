@@ -4,13 +4,13 @@ namespace SlimeLzma;
 
 public static class LzmaCompressor
 {
-    public static void CompressFile(string inputFile, string outputFile)
-    {
-        using var input = File.OpenRead(inputFile);
-        using var output = File.Create(outputFile);
+    //public static void CompressFile(string inputFile, string outputFile)
+    //{
+    //    using var input = File.OpenRead(inputFile);
+    //    using var output = File.Create(outputFile);
 
-        LzmaArchive.WriteFile(input, output);
-    }
+    //    LzmaArchive.WriteFile(input, output);
+    //}
 
     public static void CompressDirectory(string folder, string outputFile)
     {
