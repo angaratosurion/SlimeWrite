@@ -52,7 +52,7 @@
                 <Label x:Name="lblUseUpdateFromGitHub" Text="Update Using GitHub" 
                       />
             </StackLayout>
-            <StackLayout Orientation="Horizontal" Spacing="5" >
+            <!--<StackLayout Orientation="Horizontal" Spacing="5" >
                 <CheckBox x:Name="cbxSegmentedLoading"
               SemanticProperties.Description="Segmented Loading"/>
                 <Label x:Name="lblSegmentedLoading" Text="Segmented Loading" 
@@ -64,7 +64,7 @@
 />
                 <Editor x:Name="txtMaxSegmentLength" Keyboard="Numeric" 
                         WidthRequest="100" Margin="10,0,0,0"/>
-            </StackLayout>
+            </StackLayout>-->
 
 
         </FlexLayout>

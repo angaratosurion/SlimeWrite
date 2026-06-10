@@ -1,5 +1,4 @@
-﻿using CommunityToolkit.Maui.Storage;
-using CommunityToolkit.Maui.Core;
+﻿using CommunityToolkit.Maui.Core;
 using CommunityToolkit.Maui.Extensions;
 using SlimeMarkUp.Core;
 using SlimeWrite.Core;
@@ -17,7 +16,6 @@ using SlimeWrite.Core.SDK;
 using SlimeWrite.Core.Helpers;
 using SlimeWrite.Core.Archive;
 using SlimeWrite.Core.IO;
-using SlimeLzma;
 
 namespace SlimeWrite
 {
@@ -39,8 +37,7 @@ namespace SlimeWrite
             FileTypes = new FilePickerFileType(new Dictionary<DevicePlatform, 
                 IEnumerable<string>>
             {
-                { DevicePlatform.WinUI, new[] { ".md", ".markdown", StaticVariables.SevenZippedSlimeMarkDown ,
-                    StaticVariables.SlimeLZAZippedSlimeMarkDown} },
+                { DevicePlatform.WinUI, new[] { ".md", ".markdown", StaticVariables.SevenZippedSlimeMarkDown} },
                 { DevicePlatform.Android, new[] { "text/markdown", "application/octet-stream" } },
                 { DevicePlatform.iOS, new[] { "public.markdown", "com.pkware.zip-archive" } },
                 { DevicePlatform.MacCatalyst, new[] { "public.markdown", "com.pkware.zip-archive" } }
@@ -244,29 +241,7 @@ namespace SlimeWrite
                                 }
                             }
                         } 
-                        else if(Path.GetExtension(filename).ToLower() ==
-                            StaticVariables.SlimeLZAZippedSlimeMarkDown)
-                        {
-                            LzmaCompressor.Extract(filename,
-                                Path.Combine(core.GetTempfolderPath(),
-                                Path.GetFileNameWithoutExtension(filename)));
-                            var files = Directory.GetFiles(Path.Combine(
-                              core.GetTempfolderPath(),
-                              Path.GetFileNameWithoutExtension(filename)));
-                            if (files.Length == 0)
-                            {
-                                return;
-                            }
-                            foreach (var file in files)
-                            {
-                                bool plain = FileHelper.IsPlainTextOnly(file);
-                                if (plain)
-                                {
-                                    filename = file;
-                                    break;
-                                }
-                            }
-                        }
+                        
                         else
                         {
                             return; // Ο χρήστης ακύρωσε το pick
@@ -277,45 +252,7 @@ namespace SlimeWrite
                     editor.TextChanged -= editor_TextChanged;
                     string filecont = "";
 
-                    if (options.SegmentedLoading)
-                    {
-                        // Χρήση Task αντί για raw Thread για καλύτερη διαχείριση στο MAUI
-                        await Task.Run(async () =>
-                        {
-                            char[] buffer = new char[options.MaxSegmentLength > 0 
-                            ? options.MaxSegmentLength * 1024 : 1024 * 1024];
-                            StringBuilder sb = new StringBuilder();
-
-                            using (var reader = new StreamReader(filename,
-                                Encoding.UTF8))
-                            {
-                                int bytesRead;
-                                while ((bytesRead = await reader.
-                                ReadAsync(buffer, 0, buffer.Length)) > 0)
-                                {
-                                    sb.Append(buffer, 0, bytesRead);
-                                    await Task.Delay(50);
-                                }
-                            }
-
-                            filecont = sb.ToString();
-
-                            // Hook για το event OnFileOpened κατά το Segmented Loading
-                            foreach (var plugin in PluginManager.Plugins)
-                            {
-                                plugin.OnFileOpened(filename, ref filecont);
-                            }
-
-
-                            MainThread.BeginInvokeOnMainThread(() =>
-                            {
-                                editor.Text = filecont;
-                                FinalizeFileLoad(filename);
-                            });
-                        });
-                    }
-                    else
-                    {
+                   
                         filecont = core.OpenFile(filename);
 
 
@@ -328,7 +265,7 @@ namespace SlimeWrite
 
                         editor.Text = filecont;
                         FinalizeFileLoad(filename);
-                    }
+                    
                 }
             }
             catch (Exception ex)
@@ -393,8 +330,7 @@ namespace SlimeWrite
                         var path = await _saveFileDialog.
                             PickSaveFileAsync("test.txt", 
                             new[] { ".txt" ,".md",".smd",
-                                StaticVariables.SevenZippedSlimeMarkDown,
-                                StaticVariables.SlimeLZAZippedSlimeMarkDown});
+                                StaticVariables.SevenZippedSlimeMarkDown});
 
                         if (path is not null)
                         {

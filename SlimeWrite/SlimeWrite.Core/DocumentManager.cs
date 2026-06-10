@@ -1,5 +1,4 @@
-﻿using SlimeLzma;
-using SlimeWrite.Core.Archive;
+﻿using SlimeWrite.Core.Archive;
 using SlimeWrite.Core.Helpers;
 using SlimeWrite.Core.Models;
 using System.Text;
@@ -149,27 +148,7 @@ namespace SlimeWrite.Core
                             }
                         }
                     }
-                    else if (Path.GetExtension(savePath).ToLower()
-                        == StaticVariables.SlimeLZAZippedSlimeMarkDown)
-                    {
-                        var zippedfile = Path.Combine(document.ParentDirectory,
-                     Path.
-                     GetFileNameWithoutExtension(savePath)
-                     , StaticVariables.SlimeLZAZippedSlimeMarkDown);
-                        LzmaCompressor.CompressDirectory(document.ParentDirectory,
-                            savePath);
-
-                        foreach (string file in Directory.GetFiles(document.
-                        ParentDirectory))
-                        {
-                            if (Path.GetExtension(file).ToLower()
-                                != StaticVariables.SlimeLZAZippedSlimeMarkDown)
-                            {
-                                File.Delete(file);
-                            }
-                        }
-
-                    }
+                    
                 }
 #endif
                     // else

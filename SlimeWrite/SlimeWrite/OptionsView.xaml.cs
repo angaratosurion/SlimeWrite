@@ -22,8 +22,8 @@ namespace SlimeWrite.Views
                 cmbxOrientation.SelectedIndex = options.WebViewOrientation;
                 cbxUseUpdateFromGitHub.IsChecked = options.AutoUpdateUsingGithub;
                 this.cmbxOrientation.WidthRequest = this.WidthRequest - 50;
-                this.cbxSegmentedLoading.IsChecked = options.SegmentedLoading;
-                this.txtMaxSegmentLength.Text = Convert.ToString(options.MaxSegmentLength);
+                //this.cbxSegmentedLoading.IsChecked = options.SegmentedLoading;
+                //this.txtMaxSegmentLength.Text = Convert.ToString(options.MaxSegmentLength);
 #if ANDROID
                 this.btnSetPerimitions.IsVisible = true;
                 // this.cbxUseUpdateFromGitHub.IsVisible = false;
@@ -96,8 +96,8 @@ namespace SlimeWrite.Views
                 //options.UseTextChangedEvent = this.cbxUseTextChangedEvent.IsChecked;
                 options.AutoUpdateUsingGithub = this.cbxUseUpdateFromGitHub.IsChecked;
                 options.WebViewOrientation = cmbxOrientation.SelectedIndex;
-                options.SegmentedLoading = this.cbxSegmentedLoading.IsChecked;
-                options.MaxSegmentLength = int.Parse(this.txtMaxSegmentLength.Text);
+                //options.SegmentedLoading = this.cbxSegmentedLoading.IsChecked;
+                //options.MaxSegmentLength = int.Parse(this.txtMaxSegmentLength.Text);
                 core.SaveOptions(options);
                 //  WindowHelper.CloseWindow(this.Window);
                 Kernel kernel = new Kernel();
