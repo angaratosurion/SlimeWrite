@@ -15,6 +15,24 @@ namespace CompressImages
         public string Author => "Your Name";
 
         public string Description => "Compresses images in the editor";
+
+        public void AddFileToDocumentParentDirectory(DocumentInfo document, 
+            string filePath)
+        {
+            var files = Directory.GetFiles(filePath);
+            foreach (var file in files)
+            {
+                if (FileHelper.IsImage(file))
+                {
+                    var image = new MagickImage(file);
+                    // Perform compression logic here
+                    image.Quality = 80; // Adjust quality as needed
+                    image.WriteAsync(file);
+
+                }
+            }
+        }
+
         public void AddNewButton(FlexLayout toolbar)
         {
             
@@ -37,18 +55,7 @@ namespace CompressImages
 
          public void OnFileSaving(string filePath, ref string fileContent)
         {
-            var files = Directory.GetFiles(filePath);
-            foreach (var file in files)
-            {
-                if (FileHelper.IsImageFile(file))
-                {
-                    var image = new MagickImage(file);
-                    // Perform compression logic here
-                    image.Quality = 75; // Adjust quality as needed
-                    image.WriteAsync(file);
-
-                }
-            }
+            
         }
     }
 }

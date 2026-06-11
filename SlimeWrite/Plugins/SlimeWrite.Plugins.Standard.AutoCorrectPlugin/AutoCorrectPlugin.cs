@@ -12,6 +12,11 @@ namespace SlimeWrite.Plugins.Standard.AutoCorrectPlugin
         public string Author => "Developer";
         public string Description => "Automatically corrects text and adds timestamps.";
 
+        public void AddFileToDocumentParentDirectory(DocumentInfo document, string filePath)
+        {
+             
+        }
+
         public void AddNewButton(FlexLayout toolbar)
         {
             //toolbar.Add(new Button

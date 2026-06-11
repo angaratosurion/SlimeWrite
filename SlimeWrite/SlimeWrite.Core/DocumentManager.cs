@@ -1,6 +1,7 @@
 ﻿using SlimeWrite.Core.Archive;
 using SlimeWrite.Core.Helpers;
 using SlimeWrite.Core.Models;
+using SlimeWrite.Core.SDK;
 using System.Text;
 namespace SlimeWrite.Core
 {
@@ -72,8 +73,14 @@ namespace SlimeWrite.Core
             {
 
                 string fileName = Path.GetFileName(filePath);
-                string destinationPath = Path.Combine(document.ParentDirectory, fileName);
+                string destinationPath = Path.Combine(document.ParentDirectory, 
+                    fileName);
                 File.Copy(filePath, destinationPath, true);
+                foreach(var plugin in PluginManager.Plugins)
+                {
+                    plugin.AddFileToDocumentParentDirectory(document,
+                        destinationPath);
+                }
             }
             catch (Exception ex)
             {
