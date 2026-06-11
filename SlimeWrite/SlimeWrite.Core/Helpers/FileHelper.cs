@@ -1,11 +1,67 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Text;
-
+using SixLabors.ImageSharp;
+using Image = SixLabors.ImageSharp.Image;
 namespace SlimeWrite.Core.Helpers
 {
     public static class FileHelper
     {
+        public static bool IsImage(string path)
+        {
+            if (!File.Exists(path))
+                return false;
+
+            Span<byte> header = stackalloc byte[8];
+
+            using var fs = File.OpenRead(path);
+            int read = fs.Read(header);
+
+            if (read < 4)
+                return false;
+
+            // JPEG
+            if (header[0] == 0xFF && header[1] == 0xD8)
+                return true;
+
+            // PNG
+            if (header[0] == 0x89 &&
+                header[1] == 0x50 &&
+                header[2] == 0x4E &&
+                header[3] == 0x47)
+                return true;
+
+            // GIF (GIF87a / GIF89a)
+            if (header[0] == 0x47 &&
+                header[1] == 0x49 &&
+                header[2] == 0x46)
+                return true;
+
+            // BMP
+            if (header[0] == 0x42 &&
+                header[1] == 0x4D)
+                return true;
+
+            // WebP ("RIFF....WEBP")
+            if (read >= 12 &&
+                header[0] == 0x52 &&
+                header[1] == 0x49 &&
+                header[2] == 0x46 &&
+                header[3] == 0x46)
+            {
+                fs.Position = 8;
+                Span<byte> webp = stackalloc byte[4];
+                fs.Read(webp);
+
+                if (webp[0] == 0x57 &&
+                    webp[1] == 0x45 &&
+                    webp[2] == 0x42 &&
+                    webp[3] == 0x50)
+                    return true;
+            }
+
+            return false;
+        }
         public static bool IsPlainTextOnly(string filePath)
         {
             if (!File.Exists(filePath))
