@@ -8,34 +8,35 @@ using UIKit;
 using UniformTypeIdentifiers;
 namespace SlimeWrite.Platforms.MacCatalyst
 {
-        public class MacSaveFileDialog : ISaveFileDialog
+    public class MacSaveFileDialog : ISaveFileDialog
+    {
+        private TaskCompletionSource<string?> _tcs;
+
+        public Task<string?> PickSaveFileAsync(string suggestedName, string[] allowedExtensions)
         {
-            private TaskCompletionSource<string?> _tcs;
+            _tcs = new();
 
-            public Task<string?> PickSaveFileAsync(string suggestedName, string[] allowedExtensions)
+            var picker = new UIDocumentPickerViewController(
+                new string[] { UTTypes.Content.Identifier },
+                UIDocumentPickerMode.ExportToService
+            );
+
+            picker.DidPickDocument += (s, e) =>
             {
-                _tcs = new();
+                var url = e.Url?.Path;
+                _tcs.TrySetResult(url);
+            };
 
-                var picker = new UIDocumentPickerViewController(
-                    new string[] { UTTypes.Content.Identifier },
-                    UIDocumentPickerMode.ExportToService
-                );
+            picker.WasCancelled += (s, e) =>
+            {
+                _tcs.TrySetResult(null);
+            };
 
-                picker.DidPickDocument += (s, e) =>
-                {
-                    var url = e.Url?.Path;
-                    _tcs.TrySetResult(url);
-                };
+            var root = UIApplication.SharedApplication.KeyWindow.RootViewController;
+            root.PresentViewController(picker, true, null);
 
-                picker.WasCancelled += (s, e) =>
-                {
-                    _tcs.TrySetResult(null);
-                };
-
-                var root = UIApplication.SharedApplication.KeyWindow.RootViewController;
-                root.PresentViewController(picker, true, null);
-
-                return _tcs.Task;
-            }
+            return _tcs.Task;
         }
+    }
+}
 #endif

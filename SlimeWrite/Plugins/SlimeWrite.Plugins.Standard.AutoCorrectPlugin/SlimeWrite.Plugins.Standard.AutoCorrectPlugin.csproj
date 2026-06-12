@@ -30,5 +30,8 @@
   <ItemGroup>
     <ProjectReference Include="..\..\SlimeWrite.Core\SlimeWrite.Core.csproj" />
   </ItemGroup>
+  <PropertyGroup>
+    <TargetExt>.plugin</TargetExt>
+  </PropertyGroup>
 
 </Project>

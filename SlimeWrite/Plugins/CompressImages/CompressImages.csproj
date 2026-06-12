@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
 		<TargetFrameworks>net10.0-android</TargetFrameworks>
@@ -31,7 +31,13 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <ProjectReference Include="..\SlimeWrite.Core\SlimeWrite.Core.csproj" />
+	  <ProjectReference Include="..\..\SlimeWrite.Core\SlimeWrite.Core.csproj" />
 	</ItemGroup>
+  <PropertyGroup>
+    <TargetExt>.plugin</TargetExt>
+  </PropertyGroup>
+
+
+
 
 </Project>
