@@ -28,7 +28,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\..\..\..\..\..\..\..\Cloud Folder\NextCloud\My Programs\dotNet\OpenSource\SlimeWrite\SlimeWrite\SlimeWrite.Core\SlimeWrite.Core.csproj" />
+    <ProjectReference Include="..\..\SlimeWrite.Core\SlimeWrite.Core.csproj" />
   </ItemGroup>
 
 </Project>

@@ -236,7 +236,9 @@ namespace SlimeWrite
                                 bool plain = FileHelper.IsPlainTextOnly(file);
                                 if (plain)
                                 {
-                                    filename = file;
+                                    if (Path.GetFileNameWithoutExtension(file).ToLower() 
+                                        == Path.GetFileNameWithoutExtension(filename).ToLower())
+                                        filename = file;
                                     break;
                                 }
                             }
