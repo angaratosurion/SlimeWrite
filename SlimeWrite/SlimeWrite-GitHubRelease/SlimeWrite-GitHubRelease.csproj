@@ -64,8 +64,7 @@
       <Link>About.xaml</Link>
     </Page>
   </ItemGroup>
-  <ItemGroup>
-    <ProjectReference Include="..\..\SlimeLzma\SlimeLzma.csproj" />
+  <ItemGroup>    
     <ProjectReference Include="..\SlimeWrite.Core\SlimeWrite.Core.csproj" />
   </ItemGroup>
 

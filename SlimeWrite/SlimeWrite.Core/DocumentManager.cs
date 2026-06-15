@@ -169,7 +169,8 @@ namespace SlimeWrite.Core
                     FileCopier.CopyFolderToDownloads(document.ParentDirectory,
                           Path.GetFileNameWithoutExtension(savePath),document);
                     File.Delete(savePath);
-                    if (Path.GetExtension(savePath).ToLower() == StaticVariables.SevenZippedSlimeMarkDown)
+                    if (Path.GetExtension(savePath).ToLower() ==
+                        StaticVariables.SevenZippedSlimeMarkDown)
                     {
                         Slime7z.Create(document.ParentDirectory,
                             Path.Combine(document.ParentDirectory,
@@ -179,7 +180,8 @@ namespace SlimeWrite.Core
                         foreach (string file in Directory.GetFiles(document.
                         ParentDirectory))
                         {
-                            if (Path.GetExtension(file).ToLower() != StaticVariables.SevenZippedSlimeMarkDown)
+                            if (Path.GetExtension(file).ToLower() != 
+                                StaticVariables.SevenZippedSlimeMarkDown)
                             {
                                 File.Delete(file);
                             }
