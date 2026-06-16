@@ -10,10 +10,11 @@ namespace SlimeWrite.Platforms.Android
     public class AndroidSaveFileDialog : ISaveFileDialog
     {
         private TaskCompletionSource<string?> _tcs;
-
         public Task<string?> PickSaveFileAsync(string suggestedName, string[] allowedExtensions)
         {
-            _tcs = new();
+            _tcs = new TaskCompletionSource<string?>();
+
+            AndroidSaveFileDialogHandler.SetTask(_tcs);
 
             var intent = new Intent(Intent.ActionCreateDocument);
             intent.AddCategory(Intent.CategoryOpenable);
@@ -24,11 +25,7 @@ namespace SlimeWrite.Platforms.Android
 
             return _tcs.Task;
         }
-
-        public void OnActivityResult(string? uri)
-        {
-            _tcs.TrySetResult(uri);
-        }
+      
     }
 
 }

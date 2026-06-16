@@ -23,8 +23,24 @@ namespace SlimeWrite
         //    var service = MauiApplication.Current.Services.GetService<FileSaveService>();
         //    service?.OnResult(requestCode, resultCode, data!);
         //    var options= Core.GetOptions();
-           
-           
+
+
         //}
+        protected override void OnActivityResult(int requestCode, 
+            Result resultCode, Intent data)
+        {
+            base.OnActivityResult(requestCode, resultCode, data);
+
+            if (requestCode == 999 && resultCode == Result.Ok)
+            {
+                var uri = data?.Data?.ToString();
+
+                // 🔥 ΚΛΕΙΔΙ: μετατροπή σε fake path
+                var fakePath = "android://" + uri;
+                var uri2 = new Uri(fakePath);
+                AndroidSaveFileDialogHandler.HandleResult(uri2);
+
+            }
+        }
     }
 }

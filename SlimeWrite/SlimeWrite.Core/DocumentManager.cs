@@ -160,39 +160,35 @@ namespace SlimeWrite.Core
 #endif
                     // else
                     {
-#if ANDROID
 
-                    StreamReader streamReader = new StreamReader(stream);
-                     File.WriteAllText(document.FullPath,
-                         streamReader.ReadToEnd(),Encoding.UTF8);
-                    streamReader.Close();
-                    FileCopier.CopyFolderToDownloads(document.ParentDirectory,
-                          Path.GetFileNameWithoutExtension(savePath),document);
-                    File.Delete(savePath);
-                    if (Path.GetExtension(savePath).ToLower() ==
-                        StaticVariables.SevenZippedSlimeMarkDown)
+#if ANDROID
+                    // 1. Επαναφορά του κέρσορα στην αρχή του stream
+                    if (stream != null && stream.CanSeek)
                     {
-                        Slime7z.Create(document.ParentDirectory,
-                            Path.Combine(document.ParentDirectory,
-                        Path.
-                        GetFileNameWithoutExtension(savePath)
-                        , StaticVariables.SevenZippedSlimeMarkDown));
-                        foreach (string file in Directory.GetFiles(document.
-                        ParentDirectory))
+                        stream.Position = 0;
+                    }
+
+                    using (StreamReader streamReader = new StreamReader(stream, Encoding.UTF8, true, leaveOpen: true))
+                    {
+                        string content = streamReader.ReadToEnd();
+
+                        // Έλεγχος αν όντως διαβάσαμε δεδομένα
+                        if (!string.IsNullOrEmpty(content))
                         {
-                            if (Path.GetExtension(file).ToLower() != 
-                                StaticVariables.SevenZippedSlimeMarkDown)
-                            {
-                                File.Delete(file);
-                            }
+                            File.WriteAllText(document.FullPath, content, Encoding.UTF8);
                         }
                     }
+
+                    FileCopier.CopyFolderToDownloads(document.ParentDirectory,
+                          Path.GetFileNameWithoutExtension(savePath), document);
+
+                    // ... υπόλοιπος κώδικας 7z ...
 #endif
-                        // }
+                    // }
 
 
-                    }
-               
+                }
+
             }
 
 

@@ -330,10 +330,10 @@ namespace SlimeWrite
                         //if (res != null && res.IsSuccessful)
                         //{
                         var path = await _saveFileDialog.
-                            PickSaveFileAsync("test.txt", 
+                            PickSaveFileAsync("test.txt",
                             new[] { ".txt" ,".md",".smd",
                                 StaticVariables.SevenZippedSlimeMarkDown});
-
+                     
                         if (path is not null)
                         {
                             documentManager.SaveDocument(documentInfo,
