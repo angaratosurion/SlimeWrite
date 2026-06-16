@@ -162,29 +162,68 @@ namespace SlimeWrite.Core
                     {
 
 #if ANDROID
-                    // 1. Επαναφορά του κέρσορα στην αρχή του stream
-                    if (stream != null && stream.CanSeek)
+                    // 1. Δημιουργούμε έναν προσωρινό φάκελο στην Cache της εφαρμογής όπου το System.IO δουλεύει 100%
+                    string tempCacheFolder = 
+                        Path.Combine(Android.App.Application.Context.CacheDir
+                        .AbsolutePath, "SaveTemp");
+                    if (Directory.Exists(tempCacheFolder))
+                        Directory.Delete(tempCacheFolder, true);
+                    Directory.CreateDirectory(tempCacheFolder);
+
+                    // 2. Διαβάζουμε το stream και γράφουμε το αρχικό αρχείο κειμένου τοπικά στην Cache
+                    string tempTxtFile = Path.Combine(tempCacheFolder, "document.txt");
+                    stream.Position = 0;
+                    using (StreamReader streamReader = new StreamReader(stream))
                     {
-                        stream.Position = 0;
+                        File.WriteAllText(tempTxtFile, streamReader.ReadToEnd(),
+                            Encoding.UTF8);
                     }
 
-                    using (StreamReader streamReader = new StreamReader(stream, Encoding.UTF8, true, leaveOpen: true))
+                    // 3. Αν είναι 7z, φτιάχνουμε το zip μέσα στην Cache
+                    string finalLocalFile = tempTxtFile;
+                    if (Path.GetExtension(savePath).ToLower() 
+                        == StaticVariables.SevenZippedSlimeMarkDown)
                     {
-                        string content = streamReader.ReadToEnd();
+                        string tempZipFile = Path.Combine(tempCacheFolder,
+                            "archive" + StaticVariables.SevenZippedSlimeMarkDown);
 
-                        // Έλεγχος αν όντως διαβάσαμε δεδομένα
-                        if (!string.IsNullOrEmpty(content))
+                        // Καλούμε το Slime7z χρησιμοποιώντας ΜΟΝΟ τοπικά, έγκυρα paths της Cache
+                        Slime7z.Create(tempCacheFolder, tempZipFile);
+                        finalLocalFile = tempZipFile;
+                    }
+
+                    // 4. Τώρα που έχουμε το τελικό έτοιμο αρχείο τοπικά, χρησιμοποιούμε τον ContentResolver 
+                    //    του Android για να το γράψουμε στη διαδρομή (URI) που επέλεξε ο χρήστης.
+                    try
+                    {
+                        var context = Android.App.Application.Context;
+                        var androidUri = Android.Net.Uri.Parse(savePath); // Το savePath είναι το content:// URI
+
+                        using (var outputStream = context.ContentResolver.
+                            OpenOutputStream(androidUri))
+                        using (var localFileStream = File.OpenRead(finalLocalFile))
                         {
-                            File.WriteAllText(document.FullPath, content, Encoding.UTF8);
+                            if (outputStream != null)
+                            {
+                                localFileStream.CopyTo(outputStream); // Αντιγραφή των bytes στο Android Storage
+                            }
                         }
+
+                        // Ενημερώνουμε το document info
+                        document.FullPath = savePath;
+                        document.Name = Path.GetFileName(savePath);
                     }
-
-                    FileCopier.CopyFolderToDownloads(document.ParentDirectory,
-                          Path.GetFileNameWithoutExtension(savePath), document);
-
-                    // ... υπόλοιπος κώδικας 7z ...
+                    catch (Exception ex)
+                    {
+                        StaticVariables.core.ErrorLog(new Exception("Android ContentResolver Error: " + ex.Message));
+                    }
+                    finally
+                    {
+                        // Καθαρίζουμε τον προσωρινό φάκελο Cache
+                        if (Directory.Exists(tempCacheFolder))
+                            Directory.Delete(tempCacheFolder, true);
+                    }
 #endif
-                    // }
 
 
                 }
