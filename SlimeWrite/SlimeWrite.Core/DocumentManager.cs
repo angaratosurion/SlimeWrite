@@ -187,7 +187,7 @@ namespace SlimeWrite.Core
                         string tempZipFile = Path.Combine(tempCacheFolder,
                             "archive" + StaticVariables.SevenZippedSlimeMarkDown);
 
-                        // Καλούμε το Slime7z χρησιμοποιώντας ΜΟΝΟ τοπικά, έγκυρα paths της Cache
+                        // Καλούμε το Slime7z χρησιμοποιώντας `ΜΟΝΟ τοπικά, έγκυρα paths της Cache
                         Slime7z.Create(tempCacheFolder, tempZipFile);
                         finalLocalFile = tempZipFile;
                     }
