@@ -61,7 +61,7 @@ namespace SlimeWrite.Core.Helpers
                 string fileName = Path.GetFileName(file);
                 byte[] data = File.ReadAllBytes(file);
             string appath = StaticVariables.core.GetAppInfo().AppName;
-            string targetSubFolder = Path.Combine(appath,"Logs",fileName);
+            string targetSubFolder = Path.Combine(appath,fileName);
          
 
             ContentValues values = new ContentValues();
@@ -84,10 +84,47 @@ namespace SlimeWrite.Core.Helpers
                 using var stream = context.ContentResolver.OpenOutputStream(uri);
                 stream!.Write(data, 0, data.Length);
             }
+        public static void CopyFileLogToDownloads(string sourceFolder, string file)
+        {
 
 
+            var context = Android.App.Application.Context;
+
+
+
+            string fileName = Path.GetFileName(file);
+            byte[] data = File.ReadAllBytes(file);
+            string appath = StaticVariables.core.GetAppInfo().AppName;
+            string targetSubFolder = Path.Combine( "Logs", fileName);
+
+
+            ContentValues values = new ContentValues();
+
+            values.Put(MediaStore.IMediaColumns.DisplayName, fileName);
+            values.Put(MediaStore.IMediaColumns.MimeType, "application/octet-stream");
+            // values.Put(MediaStore.IMediaColumns.RelativePath, "Download/" + file);
+            values.Put(MediaStore.IMediaColumns.RelativePath, "Download/" +
+                StaticVariables.core.GetAppInfo().AppName +
+                "/Docs/"
+                + targetSubFolder);
+
+
+            var uri = context.ContentResolver.Insert(
+                MediaStore.Downloads.ExternalContentUri,
+                values);
+
+             if (File.Exists(targetSubFolder))
+            {
+                File.Delete(targetSubFolder);
+            }
+
+            using var stream = context.ContentResolver.OpenOutputStream(uri);
+            stream!.Write(data, 0, data.Length);
         }
-    
+
+
+    }
+
 
 
 }

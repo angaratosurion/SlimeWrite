@@ -97,6 +97,15 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Compile Update="SaveFilePopUp.xaml.cs">
+      <DependentUpon>SaveFilePopUp.xaml</DependentUpon>
+    </Compile>
+  </ItemGroup>
+
+  <ItemGroup>
+    <MauiXaml Update="SaveFilePopUp.xaml">
+      <Generator>MSBuild:Compile</Generator>
+    </MauiXaml>
     <MauiXaml Update="CreateNewPopUp.xaml">
       <Generator>MSBuild:Compile</Generator>
     </MauiXaml>

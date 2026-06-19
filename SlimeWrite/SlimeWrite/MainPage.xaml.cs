@@ -329,11 +329,33 @@ namespace SlimeWrite
 
                         //if (res != null && res.IsSuccessful)
                         //{
-                        var path = await _saveFileDialog.
+                        string path;
+#if WINDOWS
+                          path = await _saveFileDialog.
                             PickSaveFileAsync("test.txt",
                             new[] { ".txt" ,".md",".smd",
                                 StaticVariables.SevenZippedSlimeMarkDown});
-                     
+#endif
+#if ANDROID
+
+                        var popup = new SaveFilePopUp();
+
+                        if (Application.Current?.MainPage != null)
+                        {
+                            IPopupResult<string> result = 
+                                (IPopupResult<string>)await 
+                                Application.Current.MainPage.ShowPopupAsync(popup);
+
+                            if (result != null && result.Result != null)
+                            {
+                                string folderName = result.Result;
+                                path = folderName;
+                               
+                            }
+                        }
+
+#endif
+
                         if (path is not null)
                         {
                             documentManager.SaveDocument(documentInfo,

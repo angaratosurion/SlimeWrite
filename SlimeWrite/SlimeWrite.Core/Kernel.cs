@@ -734,7 +734,7 @@ namespace SlimeWrite.Core
                 //     {
                 //        Directory.CreateDirectory(relogdir);
                 //     }
-    FileCopier.CopyFileToDownloads(logsFolderPath, logFilePath);
+    FileCopier.CopyFileLogToDownloads(logsFolderPath, logFilePath);
 
 #endif
             }
