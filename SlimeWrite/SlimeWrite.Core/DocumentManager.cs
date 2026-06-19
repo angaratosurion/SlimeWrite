@@ -147,7 +147,8 @@ namespace SlimeWrite.Core
 
                 // 3. Αν είναι 7z, φτιάχνουμε το zip μέσα στην Cache
                 string finalLocalFile = tempTxtFile;
-                if (Path.GetExtension(savePath).ToLower() == StaticVariables.SevenZippedSlimeMarkDown)
+                if (Path.GetExtension(savePath).ToLower()
+                    == StaticVariables.SevenZippedSlimeMarkDown)
                 {
                     string tempZipFile = Path.Combine(tempCacheFolder,
                         Path.GetFileNameWithoutExtension(savePath) +

@@ -329,7 +329,7 @@ namespace SlimeWrite
 
                         //if (res != null && res.IsSuccessful)
                         //{
-                        string path;
+                        string path="";
 #if WINDOWS
                           path = await _saveFileDialog.
                             PickSaveFileAsync("test.txt",
