@@ -154,8 +154,17 @@ namespace SlimeWrite.Core
                         Path.GetFileNameWithoutExtension(savePath) +
                         StaticVariables.SevenZippedSlimeMarkDown);
 
-                    // Καλούμε το Slime7z χρησιμοποιώντας ΜΟΝΟ τοπικά, έγκυρα paths της Cache
-                    Slime7z.Create(tempCacheFolder, tempZipFile);
+                    try
+                    {
+                        Slime7z.Create(tempCacheFolder, tempZipFile);
+                    }
+                    catch (Exception ex)
+                    {
+                        // This will print the actual error message and the file path if available
+                        Console.WriteLine($"Archiving failed: {ex.Message}");
+                        Console.WriteLine(ex.ToString());
+                        StaticVariables.core.ErrorLog(ex);
+                    }
                     finalLocalFile = tempZipFile;
                     FileCopier.CopyFileToDownloads(tempZipFile,
                         Path.GetFileName(tempZipFile));
