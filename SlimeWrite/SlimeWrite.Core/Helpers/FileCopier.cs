@@ -84,6 +84,7 @@ namespace SlimeWrite.Core.Helpers
                 using var stream = context.ContentResolver.OpenOutputStream(uri);
                 stream!.Write(data, 0, data.Length);
             }
+
         public static void CopyFileLogToDownloads(string sourceFolder, string file)
         {
 
@@ -104,8 +105,7 @@ namespace SlimeWrite.Core.Helpers
             values.Put(MediaStore.IMediaColumns.MimeType, "application/octet-stream");
             // values.Put(MediaStore.IMediaColumns.RelativePath, "Download/" + file);
             values.Put(MediaStore.IMediaColumns.RelativePath, "Download/" +
-                StaticVariables.core.GetAppInfo().AppName +
-                "/Docs/"
+                StaticVariables.core.GetAppInfo().AppName+"/"
                 + targetSubFolder);
 
 

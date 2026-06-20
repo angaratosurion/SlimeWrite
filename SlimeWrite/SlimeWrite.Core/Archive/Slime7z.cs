@@ -26,17 +26,18 @@ public static class Slime7z
                 
 
             };
-               
+             
             using Stream stream = File.OpenWrite(outputFile);
             await using var writer = await WriterFactory.
                 OpenAsyncWriter(stream,ArchiveType.SevenZip,
                 writerOptions);
              var outputFilehtml = Path.Combine(folder, "output.html");
-             if ( File.Exists(outputFilehtml) == false)
+             if ( File.Exists(outputFilehtml) != false)
             {
                 File.Delete(outputFilehtml);
             }
 
+            
             await writer.WriteAllAsync(
                 folder,
                 "*",

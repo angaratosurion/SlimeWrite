@@ -160,30 +160,13 @@ namespace SlimeWrite.Core
                     FileCopier.CopyFileToDownloads(tempZipFile,
                         Path.GetFileName(tempZipFile));
                 }
+                else
+                {
+                    FileCopier.CopyFolderToDownloads(tempCacheFolder, 
+                        Path.GetFileNameWithoutExtension(savePath), document);
+                }
 
-                // 4. Τώρα που έχουμε το τελικό έτοιμο αρχείο τοπικά, χρησιμοποιούμε τον ContentResolver 
-                //    του Android για να το γράψουμε στη διαδρομή (URI) που επέλεξε ο χρήστης.
-                //try
-                //{
-                //    var context = Android.App.Application.Context;
-                //    var androidUri = Android.Net.Uri.Parse(savePath); // Το savePath είναι το content:// URI
-
-                //    using (var outputStream = context.ContentResolver.OpenOutputStream(androidUri))
-                //    using (var localFileStream = File.OpenRead(finalLocalFile))
-                //    {
-                //        if (outputStream != null)
-                //        {
-                //            localFileStream.CopyTo(outputStream); // Αντιγραφή των bytes στο Android Storage
-                //        }
-                //    }
-                //}
-                //catch (Exception ex)
-                //{
-                //    StaticVariables.core.ErrorLog(new Exception("Android ContentResolver Error: " + ex.Message));
-                //}
-            //}
-
-                // Ενημερώνουμε το document info
+                
                 document.FullPath = savePath;
                 document.Name = Path.GetFileName(savePath);
 #endif

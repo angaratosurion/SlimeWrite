@@ -720,8 +720,8 @@ namespace SlimeWrite.Core
         public void ErrorLog(Exception ex)
         {
             string logsFolderPath = this.GetLogsFolderPath();
-            string logFilePath = Path.Combine(logsFolderPath, $"log_{DateTime.Now:dd-MM-yyyy}.txt");
-            string logEntry = $"[{DateTime.Now:ddd/MM/yyyy HH:mm:ss}] {ex.ToString()}\n";
+            string logFilePath = Path.Combine(logsFolderPath, $"log_{DateTime.Now:dd-MM-yyyy HH_mm_ss}.txt");
+            string logEntry = $"[{DateTime.Now:dd/MM/yyyy HH:mm:ss}] {ex.ToString()}\n";
             try
             {
                
