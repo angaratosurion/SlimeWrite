@@ -1,4 +1,5 @@
-﻿using SlimeWrite.Core.Archive;
+﻿using SharpCompress.Common;
+using SlimeWrite.Core.Archive;
 using SlimeWrite.Core.Helpers;
 using SlimeWrite.Core.Models;
 using SlimeWrite.Core.SDK;
@@ -80,6 +81,15 @@ namespace SlimeWrite.Core
         {
             try
             {
+                ProgressReport progressReport;
+                Progress<ProgressReport> progress = new Progress<ProgressReport>(report =>
+                {
+
+                    progressReport = report;
+                    Console.WriteLine($"Extracting {report.EntryPath}: {report.PercentComplete}%");
+                     
+                });
+
 #if WINDOWS
                 if (Directory.Exists(document.ParentDirectory) && stream != null)
                 {
@@ -116,7 +126,7 @@ namespace SlimeWrite.Core
                     if (Path.GetExtension(savePath).ToLower() == StaticVariables.SevenZippedSlimeMarkDown)
                     {
                         var zippedfile = Path.Combine(document.ParentDirectory, Path.GetFileNameWithoutExtension(savePath), StaticVariables.SevenZippedSlimeMarkDown);
-                        Slime7z.Create(document.ParentDirectory, savePath);
+                       await  Slime7z.Create(document.ParentDirectory, savePath,progress);
                         foreach (string file in Directory.GetFiles(document.ParentDirectory))
                         {
                             if (Path.GetExtension(file).ToLower() != StaticVariables.SevenZippedSlimeMarkDown)
@@ -158,7 +168,8 @@ namespace SlimeWrite.Core
 
                     try
                     {
-                        await Slime7z.Create(document.ParentDirectory, tempZipFile);
+                        await Slime7z.Create(document.ParentDirectory, tempZipFile
+                            ,progress);
                     }
                     catch (Exception ex)
                     {
@@ -168,6 +179,8 @@ namespace SlimeWrite.Core
                         StaticVariables.core.ErrorLog(ex);
                     }
                     finalLocalFile = tempZipFile;
+                    
+                    
                     FileCopier.CopyFileToDownloads(tempZipFile,
                         tempZipFile);
                 }

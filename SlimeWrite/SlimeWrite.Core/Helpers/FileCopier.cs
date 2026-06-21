@@ -50,7 +50,8 @@ namespace SlimeWrite.Core.Helpers
 
 
         }
-        public static void CopyFileToDownloads(string sourceFilePath, string targetFileName)
+        public static void CopyFileToDownloads(string sourceFilePath, 
+            string targetFileName)
         {
             var context = Android.App.Application.Context;
 

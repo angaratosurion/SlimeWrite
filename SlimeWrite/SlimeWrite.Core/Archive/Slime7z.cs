@@ -12,10 +12,13 @@ namespace SlimeWrite.Core.Archive;
 public static class Slime7z
 {
     // ================= CREATE =================
-    public static async Task   Create(string folder, string outputFile)
+    public static async Task   Create(string folder, string outputFile, 
+        Progress<ProgressReport> progress)
     {
         try
         {
+            
+
             WriterOptions writerOptions = new 
                 WriterOptions(CompressionType.LZMA,0)
             {
@@ -23,7 +26,10 @@ public static class Slime7z
                 {
                     Default = System.Text.Encoding.UTF8
                 }, 
+                Progress=progress
                 
+
+
 
             };
              
