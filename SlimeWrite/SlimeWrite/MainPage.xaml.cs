@@ -313,8 +313,8 @@ namespace SlimeWrite
                 using (MemoryStream stream = new MemoryStream())
                 {
                     using (StreamWriter streamWriter = new
-                        StreamWriter(stream, Encoding.UTF8, 
-                        leaveOpen: true))
+                        StreamWriter(stream, Encoding.UTF8, 1024, leaveOpen: true
+                         ))
                     {
                         await streamWriter.WriteAsync(textToSave);
                         await streamWriter.FlushAsync();
@@ -655,10 +655,14 @@ namespace SlimeWrite
             try
             {
                 string[] args = Environment.GetCommandLineArgs();
+#if ANDROID
+                core.ClearTempFolder();
+#endif
                 if (args.Length > 1)
                 {
                     OpenFile(args[1]);
                 }
+                 
             }
             catch (Exception ex)
             {

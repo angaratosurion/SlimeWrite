@@ -50,41 +50,40 @@ namespace SlimeWrite.Core.Helpers
 
 
         }
-        public static void CopyFileToDownloads(string sourceFolder, string file)
+        public static void CopyFileToDownloads(string sourceFilePath, string targetFileName)
         {
-
-
             var context = Android.App.Application.Context;
 
-            
-           
-                string fileName = Path.GetFileName(file);
-                byte[] data = File.ReadAllBytes(file);
-            string appath = StaticVariables.core.GetAppInfo().AppName;
-            string targetSubFolder = Path.Combine(appath,fileName);
-         
+            // 1. Διαβάζουμε τα bytes από το sourceFilePath (π.χ. το temp αρχείο στην cache)
+            byte[] data = File.ReadAllBytes(sourceFilePath);
+
+            // 2. Απομονώνουμε μόνο το καθαρό όνομα αρχείου (π.χ. "test.7zsmd")
+            string fileName = Path.GetFileName(targetFileName);
+            string appName = StaticVariables.core.GetAppInfo().AppName;
 
             ContentValues values = new ContentValues();
+            values.Put(MediaStore.IMediaColumns.DisplayName, fileName);
+            values.Put(MediaStore.IMediaColumns.MimeType, "application/octet-stream");
 
-                values.Put(MediaStore.IMediaColumns.DisplayName, fileName);
-                values.Put(MediaStore.IMediaColumns.MimeType, "application/octet-stream");
-               // values.Put(MediaStore.IMediaColumns.RelativePath, "Download/" + file);
-                values.Put(MediaStore.IMediaColumns.RelativePath, "Download/"+
-                    StaticVariables.core.GetAppInfo().AppName + 
-                    "/Docs/" 
-                    + targetSubFolder);
+            // Ορίζουμε τη διαδρομή μέσα στα Downloads του Android
+            values.Put(MediaStore.IMediaColumns.RelativePath, $"Download/{appName}/Docs");
 
+            var uri = context.ContentResolver.Insert(
+                MediaStore.Downloads.ExternalContentUri,
+                values);
 
-                var uri = context.ContentResolver.Insert(
-                    MediaStore.Downloads.ExternalContentUri,
-                    values);
-
-                
-
-                using var stream = context.ContentResolver.OpenOutputStream(uri);
-                stream!.Write(data, 0, data.Length);
+            if (uri != null)
+            {
+                using (var stream = context.ContentResolver.OpenOutputStream(uri))
+                {
+                    if (stream != null)
+                    {
+                        stream.Write(data, 0, data.Length);
+                        stream.Flush(); // Εξασφαλίζουμε ότι γράφτηκαν όλα τα δεδομένα
+                    }
+                }
             }
-
+        }
         public static void CopyFileLogToDownloads(string sourceFolder, string file)
         {
 

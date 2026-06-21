@@ -12,7 +12,7 @@ namespace SlimeWrite.Core.Archive;
 public static class Slime7z
 {
     // ================= CREATE =================
-    public static async void Create(string folder, string outputFile)
+    public static async Task   Create(string folder, string outputFile)
     {
         try
         {
@@ -22,27 +22,38 @@ public static class Slime7z
                 ArchiveEncoding = new ArchiveEncoding()
                 {
                     Default = System.Text.Encoding.UTF8
-                },
+                }, 
                 
 
             };
              
-            using Stream stream = File.OpenWrite(outputFile);
+            //using Stream stream = File.OpenWrite(outputFile);
             await using var writer = await WriterFactory.
-                OpenAsyncWriter(stream,ArchiveType.SevenZip,
+                OpenAsyncWriter(outputFile, ArchiveType.SevenZip,
                 writerOptions);
-             var outputFilehtml = Path.Combine(folder, "output.html");
+            //await using var writer = await WriterFactory.
+            //    OpenAsyncWriter(stream,ArchiveType.SevenZip,
+            //    writerOptions);
+            var outputFilehtml = Path.Combine(folder, "output.html");
              if ( File.Exists(outputFilehtml) != false)
             {
                 File.Delete(outputFilehtml);
             }
 
-            
+           
             await writer.WriteAllAsync(
-                folder,
-                "*",
-                SearchOption.AllDirectories
-            );
+                directory: folder,
+                searchPattern: "*",
+                fileSearchFunc: file =>
+                    {
+        // Skip the file if it matches your target output file path
+                    return !string.Equals(file, outputFile, 
+                        StringComparison.OrdinalIgnoreCase);
+                       
+                },
+    option: SearchOption.AllDirectories
+);
+          //  stream.Close();
         }
         catch (Exception ex)
         {

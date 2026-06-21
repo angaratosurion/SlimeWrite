@@ -76,7 +76,7 @@ namespace SlimeWrite.Core
             }
         }
 
-        public void SaveDocument(DocumentInfo document, string savePath, Stream stream)
+        public async void SaveDocument(DocumentInfo document, string savePath, Stream stream)
         {
             try
             {
@@ -137,12 +137,14 @@ namespace SlimeWrite.Core
                 Directory.CreateDirectory(tempCacheFolder);
 
                 // 2. Διαβάζουμε το stream και γράφουμε το αρχικό αρχείο κειμένου τοπικά στην Cache
-                string tempTxtFile = Path.Combine(tempCacheFolder, savePath);
+                string tempTxtFile = document.FullPath;
                 stream.Position = 0;
                 using (StreamReader androidStreamReader = new StreamReader(stream)) // Αλλαγή ονόματος εδώ
                 {
                     File.WriteAllText(tempTxtFile, androidStreamReader.ReadToEnd(),
                         Encoding.UTF8);
+                    androidStreamReader.Close();
+                    stream.Close();
                 }
 
                 // 3. Αν είναι 7z, φτιάχνουμε το zip μέσα στην Cache
@@ -156,7 +158,7 @@ namespace SlimeWrite.Core
 
                     try
                     {
-                        Slime7z.Create(tempCacheFolder, tempZipFile);
+                        await Slime7z.Create(document.ParentDirectory, tempZipFile);
                     }
                     catch (Exception ex)
                     {
@@ -167,10 +169,17 @@ namespace SlimeWrite.Core
                     }
                     finalLocalFile = tempZipFile;
                     FileCopier.CopyFileToDownloads(tempZipFile,
-                        Path.GetFileName(tempZipFile));
+                        tempZipFile);
                 }
                 else
                 {
+                    using (StreamReader androidStreamReader = new StreamReader(stream)) // Αλλαγή ονόματος εδώ
+                    {
+                        File.WriteAllText(tempTxtFile, androidStreamReader.ReadToEnd(),
+                            Encoding.UTF8);
+                        androidStreamReader.Close();
+                        stream.Close();
+                    }
                     FileCopier.CopyFolderToDownloads(tempCacheFolder, 
                         Path.GetFileNameWithoutExtension(savePath), document);
                 }
