@@ -403,3 +403,4 @@ FodyWeavers.xsd
 /SetupOutput
 
 *.keystore
+/Deprecated/SetupOutput
