@@ -11,7 +11,7 @@ jobs:
     runs-on: windows-latest
 
     env:
-      Solution_Name: SlimeWrite.sln
+      Solution_Name:SlimeWrite\SlimeWrite.sln
       Configuration: Release
 
     steps:
