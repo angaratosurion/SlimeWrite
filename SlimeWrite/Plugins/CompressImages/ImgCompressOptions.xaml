@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="CompressImages.ImgCompressOptions"
+             Title="ImgCompressOptions">
+    <VerticalStackLayout>
+        <HorizontalStackLayout>
+            <Label 
+            Text="Quality"
+            VerticalOptions="Center" 
+            HorizontalOptions="Center" />
+            <Slider x:Name="sldQuality" Minimum="0" Maximum="100" MinimumWidthRequest="100"
+                  VerticalOptions="CenterAndExpand" />
+            <Label x:DataType="Slider"
+               Text="{Binding Source={x:Reference sldQuality},
+                              Path=Value,
+                              StringFormat='{0:F1}'}"
+               
+               HorizontalOptions="Center"
+               VerticalOptions="CenterAndExpand" />
+
+        </HorizontalStackLayout>
+        <HorizontalStackLayout>
+            <Button x:Name="brnCancel" Text="Cancel" Clicked="brnCancel_Clicked"/>
+            <Button x:Name="btnSave" Text="Save" Clicked="btnSave_Clicked"/>
+
+        </HorizontalStackLayout>
+    </VerticalStackLayout>
+        
+</ContentPage>

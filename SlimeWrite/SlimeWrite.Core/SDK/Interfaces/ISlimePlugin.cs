@@ -23,6 +23,7 @@ namespace SlimeWrite.Core.SDK.Interfaces
         void OnFileSaving(string filePath, ref string fileContent);
         void AddFileToDocumentParentDirectory(DocumentInfo document,
              string filePath);
+        void OpenPluginSettings(ContentPage MainView);
     }
 }
 // #endif

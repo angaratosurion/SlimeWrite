@@ -77,6 +77,13 @@ namespace SlimeWrite.Core.SDK
                StaticVariables.core.ErrorLog(ex);
             }
         }
+    
+        public static string GetPluginPath(string pluginName, string pluginsDirectory)
+        {
+            string pluginFolder = Path.Combine(pluginsDirectory, pluginName);
+            
+            return pluginFolder; 
+        }
     }
 }
 // #endif

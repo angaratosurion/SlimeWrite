@@ -13,7 +13,12 @@
                             <Label Text="{Binding Name}" FontAttributes="Bold" FontSize="Medium"/>
                             <Label Text="{Binding Version}" FontSize="Small"/>
                             <Label Text="{Binding Author}" FontSize="Small" Opacity="0.8"/>
-                            <Label Text="{Binding Description}" FontSize="Small" Opacity="0.8"/>
+                            <Label Text="{Binding Description}" FontSize="Small" 
+                                   Opacity="0.8"/>
+                            <Button  
+                            Text="Options"
+                            VerticalOptions="Center"
+                            Clicked="OnSettingsClicked" />
 
                         </VerticalStackLayout>
                     </Frame>

@@ -8,6 +8,11 @@ namespace CompressImages
     // All the code in this file is included in all platforms.
     public class ImgCompress : ISlimePlugin
     {
+         public ImgCompress() {
+            var optmnger = new OptionManaer();
+            CompressOptions = optmnger.GetOptions();
+        }
+         CompressOptions CompressOptions { get; set; }
         public string Name => "Compress Images";
 
         public string Version => "1.0.0";
@@ -26,7 +31,7 @@ namespace CompressImages
                 {
                     var image = new MagickImage(file);
                     // Perform compression logic here
-                    image.Quality = 80; // Adjust quality as needed
+                    image.Quality = (uint)this.CompressOptions.Quality; // Adjust quality as needed
                     image.WriteAsync(file);
 
                 }
@@ -56,6 +61,37 @@ namespace CompressImages
          public void OnFileSaving(string filePath, ref string fileContent)
         {
             
+        }
+        public void OpenPluginSettings(ContentPage MainView)
+        {
+            try
+            {
+                ImgCompressOptions imgCompressOptions = new ImgCompressOptions();
+                if (StaticVariables.core.isDesktopMode())
+                {
+                    var win = new Window(imgCompressOptions)
+                    {
+                        IsMaximizable = false,
+                        IsMinimizable = false,
+                        Height = imgCompressOptions.HeightRequest,
+                        Width = imgCompressOptions.WidthRequest
+                    };
+                    Application.Current?.OpenWindow(win);
+                }
+                else
+                {
+                     
+                    MainView.Navigation.PushAsync(imgCompressOptions);
+                }
+
+
+            }
+            catch (Exception ex)
+            {
+                StaticVariables.core.ErrorLog(ex);
+
+
+            }
         }
     }
 }

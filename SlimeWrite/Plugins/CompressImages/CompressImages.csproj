@@ -26,12 +26,25 @@
 	</PropertyGroup>
 
 	<ItemGroup>
-		<PackageReference Include="Magick.NET-Q8-AnyCPU" Version="14.14.0" />
+		<PackageReference Include="CommunityToolkit.Maui" Version="14.2.0" />
+		<PackageReference Include="Magick.NET-Q8-AnyCpu" Version="14.14.0" />
 		<PackageReference Include="Microsoft.Maui.Controls" Version="10.0.71" />
 	</ItemGroup>
 
 	<ItemGroup>
 	  <ProjectReference Include="..\..\SlimeWrite.Core\SlimeWrite.Core.csproj" />
+	</ItemGroup>
+
+	<ItemGroup>
+	  <MauiXaml Update="ImgCompressOptions.xaml">
+	    <Generator>MSBuild:Compile</Generator>
+	  </MauiXaml>
+	</ItemGroup>
+
+	<ItemGroup>
+	  <None Update="appsettings.json">
+	    <CopyToOutputDirectory>Always</CopyToOutputDirectory>
+	  </None>
 	</ItemGroup>
   <PropertyGroup>
     <TargetExt>.plugin</TargetExt>

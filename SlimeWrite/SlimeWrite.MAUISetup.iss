@@ -2,15 +2,17 @@
 ; Non-commercial use only
 
 #define MyAppName "SlimeWrite"
-#define MyAppVersion "0.1.9.0"
+#define MyAppVersion "0.2.0.0"
 #define MyAppPublisher "Angarato Surion"
 #define MyAppURL "https://github.com/angaratosurion/SlimeWrite"
 #define MyAppExeName "SlimeWrite.exe"
 #define MyAppAssocName MyAppName + " File"
 #define MyAppAssocExt ".smd"
 #define MyAppAssocExt2 ".md"
+#define MyAppAssocExt3 ".7zsmd"
 #define MyAppAssocKey StringChange(MyAppAssocName, " ", "") + MyAppAssocExt
 #define MyAppAssocKey2 StringChange(MyAppAssocName, " ", "") + MyAppAssocExt2
+#define MyAppAssocKey3 StringChange(MyAppAssocName, " ", "") + MyAppAssocExt3
 
 [Setup]
 AppId={{608349C4-9EB0-4C53-A324-E1522B767447}}
@@ -55,8 +57,12 @@ Root: HKCR; Subkey: "{#MyAppAssocKey}\shell\open\command"; ValueType: string; Va
 
 Root: HKCR; Subkey: "{#MyAppAssocExt2}\OpenWithProgids"; ValueType: string; ValueName: "{#MyAppAssocKey2}"; ValueData: ""; Flags: uninsdeletevalue
 Root: HKCR; Subkey: "{#MyAppAssocKey2}"; ValueType: string; ValueName: ""; ValueData: "{#MyAppAssocName}"; Flags: uninsdeletekey
-Root: HKCR; Subkey: "{#MyAppAssocKey2}\DefaultIcon"; ValueType: string; ValueName: ""; ValueData: "{app}\{#MyAppExeName},0"
-Root: HKCR; Subkey: "{#MyAppAssocKey2}\shell\open\command"; ValueType: string; ValueName: ""; ValueData: """{app}\{#MyAppExeName}"" ""%1"""
+Root: HKCR; Subkey: "{#MyAppAssocKey3}\DefaultIcon"; ValueType: string; ValueName: ""; ValueData: "{app}\{#MyAppExeName},0"
+Root: HKCR; Subkey: "{#MyAppAssocKey3}\shell\open\command"; ValueType: string; ValueName: ""; ValueData: """{app}\{#MyAppExeName}"" ""%1"""
+Root: HKCR; Subkey: "{#MyAppAssocExt3}\OpenWithProgids"; ValueType: string; ValueName: "{#MyAppAssocKey2}"; ValueData: ""; Flags: uninsdeletevalue
+Root: HKCR; Subkey: "{#MyAppAssocKey3}"; ValueType: string; ValueName: ""; ValueData: "{#MyAppAssocName}"; Flags: uninsdeletekey
+Root: HKCR; Subkey: "{#MyAppAssocKey3}\DefaultIcon"; ValueType: string; ValueName: ""; ValueData: "{app}\{#MyAppExeName},0"
+Root: HKCR; Subkey: "{#MyAppAssocKey3}\shell\open\command"; ValueType: string; ValueName: ""; ValueData: """{app}\{#MyAppExeName}"" ""%1"""
 
 [Icons]
 Name: "{group}\{#MyAppName}"; Filename: "{app}\{#MyAppExeName}"
