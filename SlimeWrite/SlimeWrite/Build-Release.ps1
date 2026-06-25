@@ -2,7 +2,7 @@ dotnet nuget locals all --clear
 # Αρχείο: Build-MAUI.ps1
 
 # Σωστό path του .csproj
-$projectPath = "D:\Cloud Folder\NextCloud\My Programs\dotNet\Open Source\SlimeWrite\SlimeWrite\SlimeWrite\SlimeWrite.csproj"
+$projectPath = ".\SlimeWrite.csproj"
 
 if (-Not (Test-Path $projectPath)) {
     Write-Host "Το project file δεν βρέθηκε:" $projectPath -ForegroundColor Red
