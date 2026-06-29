@@ -49,6 +49,15 @@
                 <ImageButton Source="fileproperties.png" WidthRequest="40" 
                              HeightRequest="40" Clicked="InserFilepropps_Click"
                              x:Name="btnFileProperties"/>
+                <VerticalStackLayout>
+                    <Switch x:Name="cbxEditingMode"  
+                              Toggled="cbxEditingMode_Toggled" IsToggled="True" 
+                             />
+                    <Label Text="Editing Mode" FontSize="10" 
+                           HorizontalOptions="Center"/>
+                </VerticalStackLayout>
+
+
 
                 <Button Text="Options" Clicked="AppOptions_Click"
                         x:Name="btnOptions"/>

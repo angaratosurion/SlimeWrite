@@ -22,7 +22,7 @@ namespace SlimeWrite
     public  partial class MainPage : ContentPage
     {
         
-
+        bool EditingMode=true;
         public static MarkupParser _parser;
         private readonly HtmlRenderer _renderer;
         private readonly ISaveFileDialog _saveFileDialog;
@@ -55,7 +55,7 @@ namespace SlimeWrite
         public WebView Preview => preview;
 
         public PickOptions PickfileOpenptions1 { get => PickfileOpenptions; set => PickfileOpenptions = value; }
-
+         
         public MainPage(ISaveFileDialog saveFileDialog)
         {
             try
@@ -86,6 +86,7 @@ namespace SlimeWrite
                 var userDataFolder = core.GetAppdataPath();
                 Environment.SetEnvironmentVariable("WEBVIEW2_USER_DATA_FOLDER", userDataFolder);
 #endif
+                this.cbxEditingMode.IsToggled = EditingMode;
             }
             catch (Exception ex)
             {
@@ -613,30 +614,52 @@ namespace SlimeWrite
             try
             {
                 if (options == null || MainGrid == null) return;
-
-                double editorandpreviewheight = this.Height / 2;
-                MainGrid.HeightRequest = this.Height;
-                MainGrid.WidthRequest = this.Width;
-
-                if (options.WebViewOrientation == 1)
+                if (EditingMode == true)
                 {
-                    if (editor != null && preview != null)
+
+                    double editorandpreviewheight = this.Height / 2;
+                    MainGrid.HeightRequest = this.Height;
+                    MainGrid.WidthRequest = this.Width;
+
+                    if (options.WebViewOrientation == 1)
                     {
-                        preview.HeightRequest = editorandpreviewheight;
-                        editor.HeightRequest = editorandpreviewheight;
-                        preview.WidthRequest = this.Width;
-                        editor.WidthRequest = this.Width;
+                        if (editor != null && preview != null)
+                        {
+                            preview.HeightRequest = editorandpreviewheight;
+                            editor.HeightRequest = editorandpreviewheight;
+                            preview.WidthRequest = this.Width;
+                            editor.WidthRequest = this.Width;
+                        }
+                    }
+                    else
+                    {
+                        if (editor != null && preview != null)
+                        {
+                            preview.WidthRequest = MainGrid.Width / 2;
+                            editor.WidthRequest = MainGrid.Width / 2;
+                            preview.HeightRequest = this.Height / 2;
+                            editor.HeightRequest = this.Height / 2;
+                        }
                     }
                 }
                 else
                 {
-                    if (editor != null && preview != null)
+                    MainGrid.HeightRequest = this.Height;
+                    MainGrid.WidthRequest = this.Width;
+
+                    if (options.WebViewOrientation == 1)
                     {
-                        preview.WidthRequest = MainGrid.Width / 2;
-                        editor.WidthRequest = MainGrid.Width / 2;
-                        preview.HeightRequest = this.Height / 2;
-                        editor.HeightRequest = this.Height / 2;
+                        if (editor != null && preview != null)
+                        {
+
+                            TopRow.Height = 0;
+                            BottomRow.Height = new GridLength(MainGrid.Height,
+                                GridUnitType.Star);
+                            editor.HeightRequest = TopRow.Height.Value;
+                            preview.HeightRequest = BottomRow.Height.Value;
+                        }
                     }
+                    
                 }
             }
             catch (Exception ex)
@@ -739,30 +762,58 @@ namespace SlimeWrite
             }
         }
 
+     
+
+        private void cbxEditingMode_Toggled(object sender, ToggledEventArgs e)
+        {  
+             
+                EditingMode = e.Value;
+                SetGridContentSizes();
+            
+           
+        }
+
         void OnPanUpdated(object sender, PanUpdatedEventArgs e)
         {
             try
-            {
-                if (options.WebViewOrientation == 1 && TopRow != null && BottomRow != null)
+            { if (EditingMode != false)
                 {
-                    switch (e.StatusType)
+                    if (options.WebViewOrientation == 1 && TopRow != null 
+                        && BottomRow != null)
                     {
-                        case GestureStatus.Started:
-                            startHeight = TopRow.Height.Value;
-                            break;
+                        switch (e.StatusType)
+                        {
+                            case GestureStatus.Started:
+                                startHeight = TopRow.Height.Value;
+                                break;
 
-                        case GestureStatus.Running:
-                            double newHeight = startHeight + e.TotalY;
-                            if (newHeight < 50) newHeight = 50;
-                            if (newHeight > MainGrid.Height - 50) newHeight = MainGrid.Height - 50;
+                            case GestureStatus.Running:
+                                double newHeight = startHeight + e.TotalY;
+                                if (newHeight < 50) newHeight = 50;
+                                if (newHeight > MainGrid.Height - 50) newHeight = MainGrid.Height - 50;
 
-                            TopRow.Height = new GridLength(newHeight, GridUnitType.Absolute);
-                            BottomRow.Height = new GridLength(MainGrid.Height - newHeight - 5, GridUnitType.Absolute);
-                            break;
+                                TopRow.Height = new GridLength(newHeight, GridUnitType.Absolute);
+                                BottomRow.Height = new GridLength(MainGrid.Height - newHeight - 5, GridUnitType.Absolute);
+                                break;
+                        }
+                        editor.HeightRequest = TopRow.Height.Value;
+                        preview.HeightRequest = BottomRow.Height.Value;
                     }
-                    editor.HeightRequest = TopRow.Height.Value;
-                    preview.HeightRequest = BottomRow.Height.Value;
                 }
+            else
+                {
+                    if (options.WebViewOrientation == 1 && TopRow != null
+                        && BottomRow != null)
+                    {
+                        TopRow.Height = 0;
+                        BottomRow.Height = new GridLength(MainGrid.Height, 
+                            GridUnitType.Star);
+                        editor.HeightRequest = TopRow.Height.Value;
+                        preview.HeightRequest = BottomRow.Height.Value;
+
+                    }
+
+                    }
             }
             catch (Exception ex)
             {
